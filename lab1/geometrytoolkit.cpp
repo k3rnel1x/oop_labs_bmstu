@@ -45,7 +45,7 @@ int GeometryToolKit::exec()
             break;    
         }   
 
-        if(actionRes > SUCCESS)
+        if(actionRes != SUCCESS && actionRes != LOOP_EXIT)
             this->showError(actionRes);
 
     } while(actionRes != LOOP_EXIT);
