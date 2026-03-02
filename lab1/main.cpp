@@ -1,6 +1,8 @@
-#include <iostream>
+#include "geometrytoolkit.hpp";
 
 int main()
 {
-    return EXIT_SUCCESS;
+    GeometryToolKit app;
+    int result = app.exec();
+    return result;
 }

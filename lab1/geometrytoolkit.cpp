@@ -11,11 +11,11 @@ GeometryToolKit::~GeometryToolKit()
 
 int GeometryToolKit::exec()
 {
-    unsigned menuChoice = 0;
+    int menuChoice = 0;
     ACTION_RES actionRes = SUCCESS;
 
     do {
-        menuChoice = this->getNumMenu(ADD_GEOMETRY, DEL_GEOMETRY_P);
+        menuChoice = this->getMenuChoice(MAIN_MENU_PROMPT, ADD_GEOMETRY, DEL_GEOMETRY_P);
 
         // run action
         switch (menuChoice)
