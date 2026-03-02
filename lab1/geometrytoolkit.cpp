@@ -1,5 +1,4 @@
 #include "geometrytoolkit.hpp"
-
 GeometryToolKit::GeometryToolKit()
 {
     data = new AppData;
