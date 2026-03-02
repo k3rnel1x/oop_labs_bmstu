@@ -5,6 +5,9 @@
 #include <memory>
 
 using std::vector;
+using std::string;
+
+#define MAIN_MENU_PROMPT "Select:"
 
 typedef enum action_res {
     LOOP_EXIT=-1, // loop exit
@@ -23,7 +26,7 @@ typedef enum menu_actions {
 } MENU_ACTIONS;
 
 typedef struct AppData {
-    vector<std::unique_ptr<Geometry*>> geos  
+    vector<std::unique_ptr<Geometry*>> geos,
 } AppData;
 
 class GeometryToolKit
@@ -34,8 +37,18 @@ private:
     /* Сonstants */
     // static const int minMenu = 1;
     // static const int maxMenu = 7;
+    
+    /* IO */
+    // TODO implement IO
+    void clearConsole();
+    void showMainMenu();
+    
+    void getStrMenu    (const string prompt);
+    void getRealNumMenu(const string prompt);
+    int  getMenuChoice (const string prompt, MENU_ACTIONS first, MENU_ACTIONS last);
 
     /* Menu Actions */
+    // TODO implement Menu Actions
     ACTION_RES addGeo();
     ACTION_RES showGeoParametrs();
     ACTION_RES showGeoPerimeters();
@@ -45,7 +58,7 @@ private:
     ACTION_RES delGeoByBiggerPerimeter();
 
     /* Utils */
-    unsigned getNumMenu(MENU_ACTIONS first, MENU_ACTIONS last);
+    // TODO implement showError
     void showError(ACTION_RES err);
 
 public:
