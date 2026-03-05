@@ -1,33 +1,6 @@
 #pragma once
-#include <stdlib.h>
-#include <iostream>
-#include <vector>
-#include <memory>
+#include "config.hpp"
 
-using std::vector;
-using std::string;
-
-#define MAIN_MENU_PROMPT "Select:"
-
-typedef enum action_res {
-    LOOP_EXIT=-1, // loop exit
-    SUCCESS=0,
-    ERROR=1,
-} ACTION_RES;
-
-typedef enum menu_actions {
-    ADD_GEOMETRY=1,
-    SHOW_GEOMETRY_PARAM,
-    SHOW_GEOMETRY_P,
-    SHOW_SUM_P,
-    SORT_BY_P,
-    DEL_GEOMETRY,
-    DEL_GEOMETRY_P
-} MENU_ACTIONS;
-
-typedef struct AppData {
-    vector<std::unique_ptr<Geometry*>> geos
-} AppData;
 
 class GeometryToolKit
 {
@@ -43,9 +16,9 @@ private:
     void clearConsole();
     void showMainMenu();
     
-    void getStrMenu    (const string prompt);
-    void getRealNumMenu(const string prompt);
-    int  getMenuChoice (const string prompt, MENU_ACTIONS first, MENU_ACTIONS last);
+    void getStrMenu         (const string prompt);
+    void getRealNumMenu     (const string prompt);
+    int  getValidMenuChoice ();
 
     /* Menu Actions */
     // TODO implement Menu Actions
