@@ -25,12 +25,12 @@ private:
     double radius;
 public:
     /* Setters */
-    void   setCenter(double num) { this->center = num; }
-    void   setRadius(double num) { this->radius = num; }
+    void   setCenter(double num);
+    void   setRadius(double num);
 
     /* Getters */
-    double getCenter() { return  this->center; }
-    double getRadius() { return  this->radius; }
+    double getCenter();
+    double getRadius();
 };
 
 class Rectangle : Geometry
