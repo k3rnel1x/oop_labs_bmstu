@@ -1,4 +1,4 @@
-// TODO create a classes for objects
+#pragma once
 #include <iostream>
 #include <array>
 #include <vector>

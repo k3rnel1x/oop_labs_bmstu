@@ -1,4 +1,41 @@
 #include "geometrytoolkit.hpp"
+// TODO split??
+
+ACTION_RES GeometryToolKit::addGeo()
+{
+    // TODO addGeo
+}
+
+ACTION_RES GeometryToolKit::showGeoParametrs()
+{
+    // TODO showGeoParametrs
+}
+
+ACTION_RES GeometryToolKit::showGeoPerimeters()
+{
+    // TODO showGeoPerimeters
+}
+
+ACTION_RES GeometryToolKit::showGeoSumPerimeters()
+{
+    // TODO showGeoSumPerimeters
+}
+
+ACTION_RES GeometryToolKit::sortGeoByGrowPerimeters()
+{
+    // TODO sortGeoByGrowPerimeters
+}
+
+ACTION_RES GeometryToolKit::delGeo()
+{
+    // TODO delGeo
+}
+
+ACTION_RES GeometryToolKit::delGeoByBiggerPerimeter()
+{
+    // TODO delGeoByBiggerPerimeter
+}
+
 GeometryToolKit::GeometryToolKit()
 {
     data = new AppData;

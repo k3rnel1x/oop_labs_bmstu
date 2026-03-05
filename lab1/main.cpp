@@ -1,4 +1,4 @@
-#include "geometrytoolkit.hpp";
+#include "geometrytoolkit.hpp"
 
 int main()
 {
