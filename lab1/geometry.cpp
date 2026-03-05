@@ -1,4 +1,5 @@
 #include "geomerty.hpp"
+// TODO add checks for input data
 /// Geometry ///
 /* Setters */
 void Geometry::setName(const string str) { this->name = str; }
