@@ -31,7 +31,7 @@ typedef enum action_res {
 #define END_MENU_ACTION   DEL_GEOMETRY_P
 
 typedef struct AppData {
-    vector<unique_ptr<Geometry*>> geos,
+    vector<unique_ptr<Geometry*>> geos;
 } AppData;
 
 #endif
