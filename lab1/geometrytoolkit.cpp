@@ -15,7 +15,7 @@ int GeometryToolKit::exec()
     ACTION_RES actionRes = SUCCESS;
 
     do {
-        menuChoice = this->getMenuChoice(MAIN_MENU_PROMPT, ADD_GEOMETRY, DEL_GEOMETRY_P);
+        menuChoice = this->getValidMenuChoice();
 
         // run action
         switch (menuChoice)
