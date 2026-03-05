@@ -26,7 +26,7 @@ typedef enum menu_actions {
 } MENU_ACTIONS;
 
 typedef struct AppData {
-    vector<std::unique_ptr<Geometry*>> geos,
+    vector<std::unique_ptr<Geometry*>> geos
 } AppData;
 
 class GeometryToolKit
