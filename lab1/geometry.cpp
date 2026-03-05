@@ -1,8 +1,14 @@
 #include "geomerty.hpp"
-// TODO add checks for input data
+#include "errors.hpp"
+#include <stdexcept>
+// TODO add checks for input data(how it realize??)
 /// Geometry ///
 /* Setters */
-void Geometry::setName(const string str) { this->name = str; }
+void Geometry::setName(const string str)
+{
+    if (!str.c_str())
+        this->name = str;
+}
 
 /* Getters */
 string Geometry::getName() { return  this->name; }
