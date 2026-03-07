@@ -1,7 +1,7 @@
-#include "geomerty.hpp"
-#include "errors.hpp"
+#include "geometry.hpp"
 #include <stdexcept>
-// TODO add checks for input data(how it realize??)
+
+
 /// Geometry ///
 /* Setters */
 void Geometry::setName(const string str)

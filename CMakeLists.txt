@@ -1,13 +1,18 @@
 cmake_minimum_required(VERSION 4.2)
 project(oop_labs_bmstu)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 11)
 
 include_directories(lab1)
 
+link_libraries(stdc++)
+
 add_executable(oop_labs_bmstu
-        lab1/geomerty.hpp
+        lab1/geometry.hpp
         lab1/geometry.cpp
-        lab1/geometrytoolkit.cpp
-        lab1/geometrytoolkit.hpp
-        lab1/main.cpp)
+        lab1/main.cpp
+        lab1/menu/menu.cpp
+        lab1/menu/menu.h
+        lab1/base/Base.h
+        lab1/items/item.h
+)
