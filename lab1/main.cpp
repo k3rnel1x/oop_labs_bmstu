@@ -1,24 +1,28 @@
-#include <exception>
-#include <vector>
 #include <iostream>
-#include <string>
+#include "finny_geometry.h"
 
-#include "menu/menu.h"
-#include "items/item.h"
+class Data {
+private:
+    std::vector<Figure*> _appdata;
+};
 
-int main()
+int main(int argc, char *argv[])
 {
-    std::vector<Base*> add_menu_items;
+#ifdef DEBUG
+    std::vector<Vector2> dots = {
+        {1,0},
+        {2,0},
+    };
+    try
+    {
+        PolyAngle poly_angle("Figur", dots);
+    } catch (std::exception& e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+#endif
 
-    std::vector<Base*> main_menu_items;
-    main_menu_items[0] = new Menu("Add menu", add_menu_items);
-    main_menu_items[1] = new Item("Show geometry");
 
-    Menu main("Main menu", main_menu_items);
-    main.set_input_prompt("Sel item: ");
-    main.exec();
 
-    delete main_menu_items[0];
-    delete main_menu_items[1];
-    return 0;
 }
+

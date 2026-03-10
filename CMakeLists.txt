@@ -8,11 +8,6 @@ include_directories(lab1)
 link_libraries(stdc++)
 
 add_executable(oop_labs_bmstu
-        lab1/geometry.hpp
-        lab1/geometry.cpp
         lab1/main.cpp
-        lab1/menu/menu.cpp
-        lab1/menu/menu.h
-        lab1/base/Base.h
-        lab1/items/item.h
+        lab1/finny_geometry.h
 )
