@@ -20,8 +20,8 @@ public:
     {
         if (name.empty())
             throw std::invalid_argument("Name must be non-emply.");
-        else
-            _name = name;
+
+        _name = name;
     }
 protected:
     bool _is_equal(double a, double b) { return fabs(a - b) < EPS; }
