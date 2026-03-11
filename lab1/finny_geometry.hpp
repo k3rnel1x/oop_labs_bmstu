@@ -3,6 +3,7 @@
 //
 
 #ifndef FINNY_GEOMETRY_H
+#define FINNY_GEOMETRY_H
 #include <cmath>
 #include <stdexcept>
 #include <string>
@@ -115,7 +116,5 @@ public:
 private:
     std::vector<Vector2> _dots;
 };
-
-#define FINNY_GEOMETRY_H
 
 #endif //FINNY_GEOMETRY_H
