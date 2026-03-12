@@ -10,6 +10,8 @@
 #include <vector>
 
 #define EPS 1e-6
+
+// TODO get_perimeters in all figures
 typedef struct Vector2 {
     double x;
     double y;
@@ -24,6 +26,14 @@ public:
 
         _name = name;
     }
+
+    std::string get_name()
+    {
+        return _name;
+    }
+
+    virtual double get_perimeter() = 0;
+
 protected:
     bool _is_equal(double a, double b) { return fabs(a - b) < EPS; }
     bool _is_equal(Vector2 a, Vector2 b) { return (fabs(a.x - b.x) < EPS) && (fabs(a.y - b.y) < EPS); }
