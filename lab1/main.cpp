@@ -65,7 +65,7 @@ protected:
         int is_user_ready = 0;
         do{
             is_user_ready = std::getchar();
-        } while(is_user_ready != '\n');
+        } while(!std::cin.eof() || is_user_ready != '\n');
     }
 
     Data* _data;
@@ -112,16 +112,21 @@ public:
         int num;
         do
         {
-            clear();
+            // clear();
             this->show();
-            num = input_int_num("Input menu num:");
+			try {
+            	num = input_int_num("Input menu num:");
+			} catch(std::exception& e) {
+				break;	
+			}
+
             if (num == _menu_items.size() + 1)
                 break;
 
             if (_validate_menu_num(num))
                 this->run_num(num);
             else
-                std::cout << "There is no this menu bla bla bla....";
+                std::cout << "There is no this menu bla bla bla...." << std::endl;
 
         } while (true);
     }
@@ -131,7 +136,23 @@ protected:
     {
         int num = 0;
         std::cout << prompt;
-        std::cin >> num;
+		if(std::cin.eof())
+			throw std::exception();
+		
+		char* line = (char*)malloc(100*sizeof(char));;
+		std::cin.getline(line, 99);
+
+		if(line[100-1] != 0)
+		{
+			printf("trigger\n");
+			while(!std::cin.eof())
+				std::cin.ignore();
+
+			throw std::exception();
+		}
+
+
+		num = atoi(line);
         return num;
     }
 
@@ -143,95 +164,6 @@ private:
 
     MenuItemsList _menu_items;
 };
-
-#if 0
-class InputTriangle : public InputAction {
-public:
-    InputTriangle()
-    {
-    };
-
-    void run()
-    {
-        clear();
-        std::string name;
-        Figure* figure = NULL;
-        Vector2 a, b, c;
-        do{
-            try
-            {
-                name = input_str("Input Triangle name:");
-                a = input_vec2("Input a coordinate:");
-                b = input_vec2("Input b coordinate:");
-                c = input_vec2("Input c coordinate:");
-                figure = new Triangle(name, a, b, c);
-            } catch (std::invalid_argument& e) {
-                clear();
-                std::cout << e.what();
-                figure = NULL;
-                continue;
-            }
-
-        }while (figure == NULL);
-
-        _appdata.push_back(figure);
-    }
-};
-
-
-class App : public Action {
-public:
-    // App(MenuList main_menu) : Sort(), ShowFigures(), DelByPerimeter(), InputCircle(), InputRectangle(), InputTriangle(), InputConvexPolygon(),
-    App(MenuList main_menu, std::vector<Figure*>* appdata) :
-        _main_menu(main_menu), _exit_item("Exit", this->_exit_action), Action(appdata)
-    {
-        _main_menu.add_item(_exit_item);
-    }
-
-    void run()
-    {
-        int menu_num;
-        do
-        {
-            clear();
-            _main_menu.show();
-            menu_num = input_int_num("What action u want to run? ");
-            try {
-                _main_menu.run_num(menu_num);
-            } catch (std::invalid_argument& e) {
-                clear();
-                std::cout << e.what() << std::endl;
-            } catch (std::exception& e) {
-                break;
-            }
-        } while (true);
-    }
-private:
-    MenuList _main_menu;
-    MenuItem _exit_item;
-    static void _exit_action()
-    {
-        throw std::exception();
-    }
-};
-
-
-class App {
-public:
-    App(MenuList main) : _main_menu(main)
-    {
-    }
-
-    void init();
-    void run()
-    {
-        _main_menu.run();
-    }
-
-private:
-    MenuList _main_menu;
-};
-#endif
 
 class AddCircle : public MenuItem {
 public:
@@ -255,7 +187,7 @@ public:
 
     void run() override
     {
-        clear();
+        // clear();
         if (_data->_appdata.empty())
             std::cout << "No figures :(" << std::endl;
         else
@@ -282,7 +214,7 @@ public:
 
     void run() override
     {
-        clear();
+        // clear();
         if (_data->_appdata.empty())
             std::cout << "No figures :(" << std::endl;
         else
@@ -304,7 +236,7 @@ public:
 
     void run() override
     {
-        clear();
+        // clear();
         if (_data->_appdata.empty())
             std::cout << "No figures :(" << std::endl;
         else {
