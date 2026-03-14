@@ -449,6 +449,39 @@ private:
     }
 };
 
+class DelByPerimeter : public MenuItem {
+public:
+    DelByPerimeter(Data* data) : MenuItem("Delete by perimeter", data)
+    {
+    }
+
+    void run() override
+    {
+        clear();
+        if (_data->_appdata.empty())
+            std::cout << "No figures :(" << std::endl;
+        else {
+            double maximum_perimeter = input_real_num("Input maximum perimeter:");
+            std::vector<Figure*>& figures = _data->_appdata;
+            for (int i = 0; i < figures.size(); i++)
+            {
+                if (figures[i]->get_perimeter() > maximum_perimeter)
+                {
+                    std::cout << "Deleted " << figures[i]->get_name() << std::endl;
+                    figures.erase(figures.begin() + i);
+                }
+            }
+            std::cout << "Deletion comlete." << std::endl;
+        }
+        wait_for_user();
+    };
+private:
+    static bool perimeter_cmp(Figure* a, Figure* b)
+    {
+        return a->get_perimeter() < b->get_perimeter();
+    }
+};
+
 int main()
 {
     std::vector<Vector2> coords = {
