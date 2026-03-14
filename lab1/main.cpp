@@ -421,6 +421,34 @@ private:
     }
 };
 
+class DelByNum : public MenuItem {
+public:
+    DelByNum(Data* data) : MenuItem("Delete by number", data)
+    {
+    }
+
+    void run() override
+    {
+        clear();
+        if (_data->_appdata.empty())
+            std::cout << "No figures :(" << std::endl;
+        else {
+            unsigned index = input_uint_num("Input number to delete:") - 1;
+            std::string name = _data->_appdata[index]->get_name();
+            _data->_appdata.erase(_data->_appdata.begin() + index);
+            clear();
+            std::cout << "Deleted " << name << std::endl;
+        }
+
+        wait_for_user();
+    };
+private:
+    static bool perimeter_cmp(Figure* a, Figure* b)
+    {
+        return a->get_perimeter() < b->get_perimeter();
+    }
+};
+
 int main()
 {
     std::vector<Vector2> coords = {
