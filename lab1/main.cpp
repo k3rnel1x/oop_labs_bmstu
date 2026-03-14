@@ -1,6 +1,7 @@
 #include <iostream>
 #include "finny_geometry.hpp"
 #include <cstdio>
+#include <algorithm>
 
 class Data {
 public:
@@ -392,9 +393,44 @@ public:
     };
 };
 
+class Sort : public MenuItem {
+public:
+    Sort(Data* data) : MenuItem("Sort perimeters", data)
+    {
+    }
+
+    void run() override
+    {
+        clear();
+        if (_data->_appdata.empty())
+            std::cout << "No figures :(" << std::endl;
+        else {
+            std::vector<Figure*>& figures = _data->_appdata;
+
+            std::sort(figures.begin(), figures.end(), perimeter_cmp);
+
+            std::cout << "Sorted." << std::endl;
+        }
+
+        wait_for_user();
+    };
+private:
+    static bool perimeter_cmp(Figure* a, Figure* b)
+    {
+        return a->get_perimeter() < b->get_perimeter();
+    }
+};
+
 int main()
 {
-    Data data;
+    std::vector<Vector2> coords = {
+        {2,3},
+        {5,4},
+        {3,2},
+        {1,1},
+        {1.5,2},
+    };
+    Data data = {._appdata = {new PolyAngle("poly", coords)}};
     /* Construct main menu */
     MenuList main_menu("Main");
     // Add figures
@@ -402,7 +438,7 @@ int main()
     AddRectangle rectangle(&data);
     AddTriangle  tritangle(&data);
     AddPolyAngle polyangle(&data);
-1
+
     MenuList add_figures("Add figures");
     add_figures.add_item(&circle);
     add_figures.add_item(&rectangle);
@@ -422,9 +458,9 @@ int main()
     ShowSum show_sum(&data);
     main_menu.add_item(&show_sum);
 
-    // // Sort
-    // Sort sort(&data);
-    // main_menu.add_item(&sort);
+    // Sort
+    Sort sort(&data);
+    main_menu.add_item(&sort);
     //
     // // Del by num
     // DelByNum del_by_num(&data);

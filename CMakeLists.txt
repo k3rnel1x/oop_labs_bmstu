@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 11)
 
 include_directories(lab1)
 
-link_libraries(stdc++)
+link_libraries(stdc++ m)
 
 add_executable(lab1
         lab1/main.cpp
