@@ -2,6 +2,7 @@
 #include "finny_geometry.hpp"
 #include <cstdio>
 #include <algorithm>
+#include <limits>
 
 class Data {
 public:
@@ -61,18 +62,41 @@ protected:
         std::cout << std::flush;
     }
 
-    int input_int_num(const std::string prompt)
+    int input_int_num(const std::string prompt) // TODO implement
     {
+        // if(std::cin.eof())
+            // throw std::exception();
         int num = 0;
-        std::cout << prompt;
-		if(std::cin.eof())
-			throw std::exception();
+        std::string buff = {0};
+        // std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        do
+        {
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            if (std::cin.peek() == '\n')
+                std::cout << "ASUDH\n";
 
-		std::cin >> num;
+            std::cout << prompt;
+            buff.clear();
+            std::getline(std::cin, buff);
+
+            bool is_all_number = 1;
+            int i = (buff[0] == '-');
+            for (; is_all_number && i < buff.size(); i++)
+                is_all_number = ('0' <= buff[i] && buff[i] <= '9');
+
+            if (buff[0] != 0 && is_all_number)
+                break;
+            else
+            {
+                std::cout << "Input error" << std::endl;
+            }
+        } while (true);
+
+		num = atoi(buff.data());
         return num;
     }
 
-    size_t input_uint_num(const std::string prompt)
+    size_t input_uint_num(const std::string prompt) // TODO if user inputs -1 or 0 -> err
     {
         size_t num = 0;
         std::cout << prompt;
@@ -484,6 +508,7 @@ private:
 
 int main()
 {
+    /************************ Tests ************************/
     std::vector<Vector2> coords = {
         {2,3},
         {5,4},
@@ -491,9 +516,17 @@ int main()
         {1,1},
         {1.5,2},
     };
-    Data data = {._appdata = {new PolyAngle("poly", coords)}};
-    /* Construct main menu */
+    Data data = {._appdata = {
+        new Triangle("4Tri", (Vector2){-1, 2}, (Vector2){3, 1}, (Vector2){9, 5}),
+        new PolyAngle("1Poly", coords),
+        new Circle("3Circ", (Vector2){0}, 2),
+        new Rectangle("2Rect", (Vector2){-1, 2}, (Vector2){3, 1}),
+    }};
+
+
+    /************************ Construct main menu ************************/
     MenuList main_menu("Main");
+
     // Add figures
     AddCircle    circle(&data);
     AddRectangle rectangle(&data);
@@ -522,15 +555,16 @@ int main()
     // Sort
     Sort sort(&data);
     main_menu.add_item(&sort);
-    //
-    // // Del by num
-    // DelByNum del_by_num(&data);
-    // main_menu.add_item(&del_by_num);
-    //
-    // // Del by perimeter
-    // DelByPerimeter del_by_perimeter(&data);
-    // main_menu.add_item(&del_by_perimeter);
 
+    // Del by num
+    DelByNum del_by_num(&data);
+    main_menu.add_item(&del_by_num);
+
+    // Del by perimeter
+    DelByPerimeter del_by_perimeter(&data);
+    main_menu.add_item(&del_by_perimeter);
+
+    /************************ Run main menu ************************/
     main_menu.run();
 }
 
