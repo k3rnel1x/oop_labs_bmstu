@@ -56,16 +56,81 @@ protected:
     }
     void clear()
     {
-        // std::cout << "\033[2J\033[1;1H";
-        // std::cout << std::flush;
+        std::cout << "\033[2J\033[1;1H";
+        std::cout << std::flush;
+    }
+
+    int input_int_num(const std::string prompt)
+    {
+        int num = 0;
+        std::cout << prompt;
+		if(std::cin.eof())
+			throw std::exception();
+
+		std::cin >> num;
+        return num;
+    }
+
+    size_t input_uint_num(const std::string prompt)
+    {
+        size_t num = 0;
+        std::cout << prompt;
+		if(std::cin.eof())
+			throw std::exception();
+
+		std::cin >> num;
+        return num;
+    }
+
+    std::string input_str(const std::string prompt)
+    {
+        int num = 0;
+        std::cout << prompt;
+		if(std::cin.eof())
+			throw std::exception();
+		
+		std::string str; 
+		std::cin >> str;
+
+        return str;
+    }
+
+    Vector2 input_vector(const std::string prompt)
+    {
+        Vector2 v;
+        std::cout << prompt;
+		if(std::cin.eof())
+			throw std::exception();
+		
+		std::cin >> v.x;
+		std::cin >> v.y;
+
+        return v;
+    }
+
+    double input_real_num(const std::string prompt)
+    {
+        double num = 0;
+        std::cout << prompt;
+		if(std::cin.eof())
+			throw std::exception();
+		
+		std::cin >> num;
+        return num;
     }
 
     void wait_for_user()
     {
         int is_user_ready = 0;
-        do{
-            is_user_ready = std::getchar();
-        } while(!std::cin.eof() || is_user_ready != '\n');
+        char ch;
+        std::cin >> ch;
+        std::cout << std::fflush;
+
+        // std::string tmp;
+        // do {
+        //     if(!std::getline(std::cin, tmp))
+        //         return;
+        // } while(tmp != "\n");
     }
 
     Data* _data;
@@ -112,7 +177,7 @@ public:
         int num;
         do
         {
-            // clear();
+            clear();
             this->show();
 			try {
             	num = input_int_num("Input menu num:");
@@ -132,29 +197,7 @@ public:
     }
 protected:
 
-    int input_int_num(const std::string prompt)
-    {
-        int num = 0;
-        std::cout << prompt;
-		if(std::cin.eof())
-			throw std::exception();
-		
-		char* line = (char*)malloc(100*sizeof(char));;
-		std::cin.getline(line, 99);
-
-		if(line[100-1] != 0)
-		{
-			printf("trigger\n");
-			while(!std::cin.eof())
-				std::cin.ignore();
-
-			throw std::exception();
-		}
-
-
-		num = atoi(line);
-        return num;
-    }
+    
 
 private:
     bool _validate_menu_num(int num)
@@ -173,11 +216,109 @@ public:
 
     void run() override
     {
-        // Circle* cptr = new Circle("Name", (Vector2){0}, 2);
-        // _data->_appdata.push_back(cptr);
+        do{
+            std::string name = input_str("Input name:");
+            Vector2 center = input_vector("Input center:");
+            double  radius = input_real_num("Input radius:");
+            
+            try {
+                _data->_appdata.push_back(new Circle(name, center, radius));
+            } catch(std::exception& e){
+                clear();
+                std::cout << e.what() << std::endl;
+                continue;
+            }
+
+            break;
+        } while(true);
     };
 };
 
+
+class AddRectangle : public MenuItem {
+public:
+    AddRectangle(Data* data) : MenuItem("Add rectangle", data)
+    {
+    }
+
+    void run() override
+    {
+        do{
+            std::string name = input_str("Input name:");
+            Vector2 left_corner = input_vector("Input left corner:");
+            Vector2 right_corner = input_vector("Input right corner:");
+            
+            try {
+                _data->_appdata.push_back(new Rectangle(name, left_corner, right_corner));
+            } catch(std::exception& e){
+                clear();
+                std::cout << e.what() << std::endl;
+                continue;
+            }
+
+            break;
+        } while(true);
+    };
+};
+
+class AddTriangle : public MenuItem {
+public:
+    AddTriangle(Data* data) : MenuItem("Add triangle", data)
+    {
+    }
+
+    void run() override
+    {
+        do{
+            std::string name = input_str("Input name:");
+            Vector2 a = input_vector("Input a:");
+            Vector2 b = input_vector("Input b:");
+            Vector2 c = input_vector("Input c:");
+            
+            try {
+                _data->_appdata.push_back(new Triangle(name, a, b, c));
+            } catch(std::exception& e){
+                clear();
+                std::cout << e.what() << std::endl;
+                continue;
+            }
+
+            break;
+        } while(true);
+    };
+};
+
+class AddPolyAngle : public MenuItem {
+public:
+    AddPolyAngle(Data* data) : MenuItem("Add polyangle", data)
+    {
+    }
+
+    void run() override
+    {
+        do{
+            std::string name = input_str("Input name:");
+            size_t points_count = input_uint_num("Input count of angles:");
+            std::vector<Vector2> dots;
+            for(int i = 0; i < points_count; i++)
+            {
+                Vector2 v = input_vector("Input angle:");
+                dots.push_back(v);
+            }
+                
+            
+            try {
+                _data->_appdata.push_back(new PolyAngle(name, dots));
+            } catch(std::exception& e){
+                clear();
+                std::cout << e.what() << std::endl;
+                continue;
+            }
+
+            break;
+        } while(true);
+    };
+};
 
 class Show : public MenuItem {
 public:
@@ -187,7 +328,7 @@ public:
 
     void run() override
     {
-        // clear();
+        clear();
         if (_data->_appdata.empty())
             std::cout << "No figures :(" << std::endl;
         else
@@ -214,7 +355,7 @@ public:
 
     void run() override
     {
-        // clear();
+        clear();
         if (_data->_appdata.empty())
             std::cout << "No figures :(" << std::endl;
         else
@@ -236,7 +377,7 @@ public:
 
     void run() override
     {
-        // clear();
+        clear();
         if (_data->_appdata.empty())
             std::cout << "No figures :(" << std::endl;
         else {
@@ -257,9 +398,16 @@ int main()
     /* Construct main menu */
     MenuList main_menu("Main");
     // Add figures
-    AddCircle circle(&data);
+    AddCircle    circle(&data);
+    AddRectangle rectangle(&data);
+    AddTriangle  tritangle(&data);
+    AddPolyAngle polyangle(&data);
+1
     MenuList add_figures("Add figures");
     add_figures.add_item(&circle);
+    add_figures.add_item(&rectangle);
+    add_figures.add_item(&tritangle);
+    add_figures.add_item(&polyangle);
     main_menu.add_item(&add_figures);
 
     // Show

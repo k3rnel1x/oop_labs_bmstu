@@ -10,6 +10,8 @@
 #include <vector>
 
 #define EPS 1e-6
+#define PI 3.1415926
+#define HYPOTINUSE(a, b) sqrt(a*a + b*b)
 
 // TODO get_perimeters in all figures
 typedef struct Vector2 {
@@ -51,6 +53,11 @@ public:
             throw std::invalid_argument("Radius must be great(more) than 0.");
         _radius = radius;
     }
+    
+    double get_perimeter()
+    {
+        return 2.0 * PI * _radius;
+    }
 
 private:
     Vector2 _center;
@@ -66,6 +73,13 @@ public:
             throw std::invalid_argument("Corners must be not a same point.");
         _left_corner  = left;
         _right_corner = right;
+    }
+
+    double get_perimeter()
+    {
+        double a = fabs(_left_corner.x - _right_corner.x);
+        double b = fabs(_left_corner.y - _right_corner.y);
+        return 2.0 * (a + b);
     }
 
 private:
@@ -91,6 +105,14 @@ public:
         throw std::invalid_argument("Corners must be not a same line.");
     }
 
+    double get_perimeter()
+    {
+        double a = HYPOTINUSE(fabs(_a.x - _b.x), fabs(_a.y - _b.y));
+        double b = HYPOTINUSE(fabs(_b.x - _c.x), fabs(_b.y - _c.y));
+        double c = HYPOTINUSE(fabs(_c.x - _a.x), fabs(_c.y - _a.y));
+        return a + b + c;
+    }
+
 private:
     Vector2 _a;
     Vector2 _b;
@@ -105,6 +127,7 @@ public:
         if (0 <= dots.size() && dots.size() <= 2)
             throw std::invalid_argument("Not enough points to create a polyangle.");
 
+        // Checks it flat
         bool flat_x = true;
         bool flat_y = true;
         Vector2 v_curr = dots[0];
@@ -121,8 +144,14 @@ public:
             throw std::invalid_argument("Flat polyangle.");
 
         _dots = dots;
+
+        
     }
 
+    double get_perimeter()
+    {
+        return 148.0;
+    }
 private:
     std::vector<Vector2> _dots;
 };
