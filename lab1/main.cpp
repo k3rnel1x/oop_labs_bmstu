@@ -1,3 +1,6 @@
+#include <cstddef>
+#include <exception>
+#include <unistd.h>
 #include <iostream>
 #include "finny_geometry.hpp"
 #include <cstdio>
@@ -64,10 +67,14 @@ protected:
         // std::cin.clear();
         // std::cin.ignore(LONG_MAX,'\n');
     }
-    void clear_cin()
+	void clear_cin()
     {
-        std::cin.clear();
-        std::cin.ignore(LONG_MAX,'\n');
+        // std::cin.sync();
+        // std::cin.clear();
+        // std::cin.ignore(LONG_MAX,'\n');
+		int c;
+		if(!std::cin.eof())
+        	while ((c = getchar()) != '\n' && c != EOF);
     }
 
     int input_int_num(const std::string prompt)
@@ -76,45 +83,50 @@ protected:
         std::string buff;
         do
         {
-            std::cout << prompt;
-            // std::cin.ignore(LONG_MAX,'\n');
-            // clear_cin();
-            while (!std::cin.peek());
-            getline(std::cin, buff);
-            std::cin >> num;
-
-            if(std::cin.fail() || buff.empty() || (!std::cin.eof() && std::cin.peek() != '\n')){
+			std::cout << prompt;
+           	if(!std::getline(std::cin, buff) || buff.empty()){
                 std::cout << "Input error" << std::endl;
+				clear_cin();
                 wait_for_user();
                 continue;
-            } else
-            {
-                num = atoi(buff.c_str());
-            }
-            break;
+            } else {
+				num = std::stoi(buff);
+			}
+            break; 
         } while (true);
         return num;
     }
 
-    size_t input_uint_num(const std::string prompt) // TODO if user inputs -1 or 0 -> err
+    unsigned long input_uint_num(const std::string prompt) // TODO if user inputs -1 or 0 -> err
     {
-
-        size_t num = 0;
+		unsigned long num = 0;
+        std::string buff;
         do
         {
-            clear_cin();
-            std::cout << prompt;
-            std::cin >> num;
-
-            if(std::cin.fail() || (!std::cin.eof() && std::cin.peek() != '\n')){
+			std::cout << prompt;
+           	if(!std::getline(std::cin, buff) || buff.empty()){
                 std::cout << "Input error" << std::endl;
 
                 wait_for_user();
                 continue;
-            }
-            break;
+            } else {
+				try {
+					num = std::stoul(buff);
+				} catch(std::exception& e) {
+					std::cout << "Input error" << std::endl;
+
+	                // wait_for_user();
+					clear_cin();
+	                continue;
+				}
+			}
+            break; 
         } while (true);
-        return num;
+
+		std::cout << "num = " << num;
+		std::cout << fflush;
+		sleep(5);
+        return num; 
     }
 
     std::string input_str(const std::string prompt)
@@ -165,8 +177,11 @@ protected:
 
     void wait_for_user()
     {
-        clear_cin();
-        while (!std::cin.peek());
+        // clear_cin();
+		if(!std::cin.eof())
+	        while (!std::cin.peek());
+
+        // std::cin.ignore(LONG_MAX,'\n');
     }
 
     Data* _data;
@@ -189,6 +204,9 @@ public:
 
     void show()
     {
+		// std::cout << _name << std::endl;
+		// clear();
+		// clear_cin();
         int i = 0;
         for (; i < _menu_items.size(); i++)
         {
@@ -206,6 +224,7 @@ public:
     void run_num(int num)
     {
         _menu_items[num-1]->run();
+		clear_cin();	
     }
 
     void run() override
@@ -214,6 +233,7 @@ public:
         do
         {
             clear();
+            // clear_cin();
             this->show();
 			try {
             	num = input_int_num("Input menu num:");
@@ -248,6 +268,7 @@ private:
 };
 
 class AddCircle : public MenuItem {
+
 public:
     AddCircle(Data* data) : MenuItem("Add circle", data)
     {
@@ -471,7 +492,8 @@ public:
         if (_data->_appdata.empty())
             std::cout << "No figures :(" << std::endl;
         else {
-            unsigned index = input_uint_num("Input number to delete:") - 1;
+            unsigned long index = input_uint_num("Input number to delete:") - 1;
+			// sleep(10);
             std::string name = _data->_appdata[index]->get_name();
             _data->_appdata.erase(_data->_appdata.begin() + index);
             clear();
