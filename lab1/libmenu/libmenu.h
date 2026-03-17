@@ -37,9 +37,25 @@ public:
     void show()
     {
         std::cout << _name;
-    };
+    }
 
 protected:
+    // utils
+    void clear();
+
+    void clear_cin();
+
+    int input_int_num(std::string prompt);
+
+    std::string input_str(std::string prompt);
+
+    Vector2 input_vector(std::string prompt);
+
+    double input_real_num(std::string prompt);
+
+    void wait_for_user();
+
+
     MenuItem()
     {
     };
@@ -66,114 +82,6 @@ protected:
 
         _data = data;
         _name = name;
-    }
-    void clear()
-    {
-        std::cout << "\033[2J\033[1;1H";
-        // std::cout << std::fflush;
-    }
-	void clear_cin()
-    {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
-    }
-
-    int input_int_num(const std::string prompt)
-    {
-
-
-        int num = 0;
-        do
-        {
-            if (std::cin.eof())
-                throw std::exception();
-
-            std::cout << prompt;
-            std::cin >> num;
-            if (std::cin.fail() || std::cin.eof() || (!std::cin.eof() && std::cin.peek() != '\n'))
-            {
-                std::cout << "Input error" << std::endl;
-                clear_cin();
-                continue;
-            }
-            break;
-        } while (true);
-        return num;
-    }
-
-    std::string input_str(const std::string prompt)
-    {
-        size_t num = 0;
-        std::string str;
-        do
-        {
-            if (std::cin.eof())
-                throw std::exception();
-
-
-            clear_cin();
-            std::cout << prompt;
-
-            if(!getline(std::cin, str, '\n') || !str[0] || std::cin.fail()){
-                std::cout << "Input error" << std::endl;
-                wait_for_user();
-                continue;
-            }
-            break;
-        } while (true);
-
-        return str;
-    }
-
-    Vector2 input_vector(const std::string prompt)
-    {
-        if(std::cin.eof())
-            throw std::exception();
-
-        Vector2 v;
-        do
-        {
-            if (std::cin.eof())
-                throw std::exception();
-
-            std::cout << prompt;
-            std::cin >> v.x >> v.y;
-            if (std::cin.fail() || std::cin.eof() || (!std::cin.eof() && std::cin.peek() != '\n'))
-            {
-                std::cout << "Input error" << std::endl;
-                clear_cin();
-                continue;
-            }
-            break;
-        } while (true);
-        return v;
-    }
-
-    double input_real_num(const std::string prompt)
-    {
-        double num = 0;
-        do
-        {
-            if (std::cin.eof())
-                throw std::exception();
-
-            std::cout << prompt;
-            std::cin >> num;
-            if (std::cin.fail() || std::cin.eof() || (!std::cin.eof() && std::cin.peek() != '\n'))
-            {
-                std::cout << "Input error" << std::endl;
-                clear_cin();
-                continue;
-            }
-            break;
-        } while (true);
-        return num;
-    }
-
-    void wait_for_user()
-    {
-        clear_cin();
-	    while (!std::cin.peek());
     }
 
     Data* _data;
@@ -255,6 +163,84 @@ private:
     }
 
     MenuItemsList _menu_items;
+};
+
+
+class Show : public MenuItem {
+public:
+    Show(Data* data) : MenuItem("Show", data)
+    {
+    }
+
+    void run() override;
+
+protected:
+    void clear()
+    {
+        std::cout << "\033[2J\033[1;1H";
+        std::cout << std::flush;
+    }
+};
+
+class ShowPerimeters : public MenuItem {
+public:
+    ShowPerimeters(Data* data) : MenuItem("Show perimeters", data)
+    {
+    }
+
+    void run() override;
+};
+
+class ShowSum : public MenuItem {
+public:
+    ShowSum(Data* data) : MenuItem("Show sum of perimeters", data)
+    {
+    }
+
+    void run() override;
+};
+
+class Sort : public MenuItem {
+public:
+    Sort(Data* data) : MenuItem("Sort perimeters", data)
+    {
+    }
+
+    void run() override;
+private:
+    static bool perimeter_cmp(Figure* a, Figure* b)
+    {
+        return a->get_perimeter() < b->get_perimeter();
+    }
+};
+
+class DelByNum : public MenuItem {
+public:
+    DelByNum(Data* data) : MenuItem("Delete by number", data)
+    {
+    }
+
+    void run() override;
+private:
+    static bool perimeter_cmp(Figure* a, Figure* b)
+    {
+        return a->get_perimeter() < b->get_perimeter();
+    }
+};
+
+class DelByPerimeter : public MenuItem {
+public:
+    DelByPerimeter(Data* data) : MenuItem("Delete by perimeter", data)
+    {
+    }
+
+    void run() override;
+
+private:
+    static bool perimeter_cmp(Figure* a, Figure* b)
+    {
+        return a->get_perimeter() < b->get_perimeter();
+    }
 };
 
 
