@@ -2,6 +2,7 @@
 #include "finny_geometry.hpp"
 #include <cstdio>
 #include <algorithm>
+#include <climits>
 #include <limits>
 
 class Data {
@@ -59,63 +60,81 @@ protected:
     void clear()
     {
         std::cout << "\033[2J\033[1;1H";
-        std::cout << std::flush;
+        // std::cout << std::fflush;
+        // std::cin.clear();
+        // std::cin.ignore(LONG_MAX,'\n');
+    }
+    void clear_cin()
+    {
+        std::cin.clear();
+        std::cin.ignore(LONG_MAX,'\n');
     }
 
-    int input_int_num(const std::string prompt) // TODO implement
+    int input_int_num(const std::string prompt)
     {
-        // if(std::cin.eof())
-            // throw std::exception();
         int num = 0;
-        std::string buff = {0};
-        // std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::string buff;
         do
         {
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            if (std::cin.peek() == '\n')
-                std::cout << "ASUDH\n";
-
             std::cout << prompt;
-            buff.clear();
-            std::getline(std::cin, buff);
+            // std::cin.ignore(LONG_MAX,'\n');
+            // clear_cin();
+            while (!std::cin.peek());
+            getline(std::cin, buff);
+            std::cin >> num;
 
-            bool is_all_number = 1;
-            int i = (buff[0] == '-');
-            for (; is_all_number && i < buff.size(); i++)
-                is_all_number = ('0' <= buff[i] && buff[i] <= '9');
-
-            if (buff[0] != 0 && is_all_number)
-                break;
-            else
-            {
+            if(std::cin.fail() || buff.empty() || (!std::cin.eof() && std::cin.peek() != '\n')){
                 std::cout << "Input error" << std::endl;
+                wait_for_user();
+                continue;
+            } else
+            {
+                num = atoi(buff.c_str());
             }
+            break;
         } while (true);
-
-		num = atoi(buff.data());
         return num;
     }
 
     size_t input_uint_num(const std::string prompt) // TODO if user inputs -1 or 0 -> err
     {
-        size_t num = 0;
-        std::cout << prompt;
-		if(std::cin.eof())
-			throw std::exception();
 
-		std::cin >> num;
+        size_t num = 0;
+        do
+        {
+            clear_cin();
+            std::cout << prompt;
+            std::cin >> num;
+
+            if(std::cin.fail() || (!std::cin.eof() && std::cin.peek() != '\n')){
+                std::cout << "Input error" << std::endl;
+
+                wait_for_user();
+                continue;
+            }
+            break;
+        } while (true);
         return num;
     }
 
     std::string input_str(const std::string prompt)
     {
-        int num = 0;
-        std::cout << prompt;
-		if(std::cin.eof())
-			throw std::exception();
-		
-		std::string str; 
-		std::cin >> str;
+        size_t num = 0;
+        std::string str;
+        do
+        {
+            clear_cin();
+            std::cout << prompt;
+            getline(std::cin, str);
+
+            if(!str[0] || std::cin.fail() || (!std::cin.eof() && std::cin.peek() != '\n')){
+                std::cout << "Input error" << std::endl;
+
+                wait_for_user();
+                continue;
+            }
+            break;
+        } while (true);
 
         return str;
     }
@@ -126,7 +145,7 @@ protected:
         std::cout << prompt;
 		if(std::cin.eof())
 			throw std::exception();
-		
+
 		std::cin >> v.x;
 		std::cin >> v.y;
 
@@ -139,23 +158,15 @@ protected:
         std::cout << prompt;
 		if(std::cin.eof())
 			throw std::exception();
-		
+
 		std::cin >> num;
         return num;
     }
 
     void wait_for_user()
     {
-        int is_user_ready = 0;
-        char ch;
-        std::cin >> ch;
-        std::cout << std::fflush;
-
-        // std::string tmp;
-        // do {
-        //     if(!std::getline(std::cin, tmp))
-        //         return;
-        // } while(tmp != "\n");
+        clear_cin();
+        while (!std::cin.peek());
     }
 
     Data* _data;
@@ -207,7 +218,7 @@ public:
 			try {
             	num = input_int_num("Input menu num:");
 			} catch(std::exception& e) {
-				break;	
+				break;
 			}
 
             if (num == _menu_items.size() + 1)
@@ -216,13 +227,16 @@ public:
             if (_validate_menu_num(num))
                 this->run_num(num);
             else
+            {
                 std::cout << "There is no this menu bla bla bla...." << std::endl;
+                wait_for_user();
+            }
 
         } while (true);
     }
 protected:
 
-    
+
 
 private:
     bool _validate_menu_num(int num)
@@ -245,7 +259,7 @@ public:
             std::string name = input_str("Input name:");
             Vector2 center = input_vector("Input center:");
             double  radius = input_real_num("Input radius:");
-            
+
             try {
                 _data->_appdata.push_back(new Circle(name, center, radius));
             } catch(std::exception& e){
@@ -272,7 +286,7 @@ public:
             std::string name = input_str("Input name:");
             Vector2 left_corner = input_vector("Input left corner:");
             Vector2 right_corner = input_vector("Input right corner:");
-            
+
             try {
                 _data->_appdata.push_back(new Rectangle(name, left_corner, right_corner));
             } catch(std::exception& e){
@@ -299,7 +313,7 @@ public:
             Vector2 a = input_vector("Input a:");
             Vector2 b = input_vector("Input b:");
             Vector2 c = input_vector("Input c:");
-            
+
             try {
                 _data->_appdata.push_back(new Triangle(name, a, b, c));
             } catch(std::exception& e){
@@ -330,8 +344,8 @@ public:
                 Vector2 v = input_vector("Input angle:");
                 dots.push_back(v);
             }
-                
-            
+
+
             try {
                 _data->_appdata.push_back(new PolyAngle(name, dots));
             } catch(std::exception& e){
