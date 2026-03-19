@@ -11,13 +11,16 @@ int main(int argc, char *argv[])
 {
     mylist<int> list_int;
     int a = 1, b = 5;
-    list_int.add(a);
-    list_int.add(b);
+	int mas[5] = {1, 2, 3, 4, 5};
+	for(int i = 0; i < sizeof(mas)/sizeof(*mas); i++)
+	{	
+    	list_int.add(mas[i]);
+	}
     // cout << "len: " << list_int[0] << endl;
-    // mylist<int>::Iterator begin(list_int);
-    // mylist<int>::Iterator end = list_int.end();
-    // for (; begin != end; ++begin)
-    // {
-    //     // cout << "Elem: " << begin.value() << endl;
-    // }
+    mylist<int>::iterator begin = list_int.begin();
+    mylist<int>::iterator end = list_int.end();
+    for (; begin != end; ++begin)
+    {
+        cout << "Elem: " << begin.value() << endl;
+    }
 }

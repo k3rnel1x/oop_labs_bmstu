@@ -52,29 +52,29 @@ public:
     mylist<T>& operator =(const mylist<T>& sample);
     T& operator[](int index);
 
-    // Iterator
-    class Iterator {
+    // iterator
+    class iterator {
     public:
         // Constructors - destructors
-        Iterator(mylist<T> lst);
+        iterator(mylist<T>& lst);
 
         // Methods
-        Iterator next();
-        T    value() const;
-        bool is_end() const;
+        // iterator next();
+         T    value();
+        bool is_end();
 
         // Оperators
-        Iterator& operator++();
+        iterator& operator++();
         T& operator*();
-        bool operator ==(Iterator &b);
-        bool operator !=(Iterator &b);
+        // bool operator ==(iterator &b);
+        bool operator!=(iterator &b);
     private:
         Node* _curr = NULL;
     };
-    typedef my::mylist<T>::Iterator Iter;
+    typedef my::mylist<T>::iterator Iter;
 
-    Iterator begin() const;
-    Iterator end() const;
+    iterator begin();
+    iterator end();
 protected:
     Node* _start = NULL;
 };
@@ -83,7 +83,7 @@ protected:
 // ********************** list ********************** //
 
 template<typename T>
-my::mylist<T>::mylist()
+mylist<T>::mylist()
 {
     // cout << "Run mylist()" << endl;
 }
@@ -140,18 +140,18 @@ my::mylist<T>::mylist(const mylist<T>& sample) : mylist()
 // }
 
 template<typename T>
-typename my::mylist<T>::Iterator my::mylist<T>::begin() const
+typename my::mylist<T>::iterator my::mylist<T>::begin()
 {
-    return my::mylist<T>::Iterator(*this);
+    return my::mylist<T>::iterator(*this);
 }
 
 
 template<typename T>
-typename my::mylist<T>::Iterator my::mylist<T>::end() const
+typename my::mylist<T>::iterator my::mylist<T>::end() 
 {
-    auto iter = my::mylist<T>::Iterator(*this);
-    while (*iter) ++iter;
-    return iter;
+	auto iter = this->begin();
+	while(!iter.is_end()) ++iter;
+	return iter;
 }
 
 template<typename T>
@@ -270,66 +270,43 @@ T& my::mylist<T>::get_elem(int index)
 }
 
 
-// ********************** Iterator ********************** //
-
-
-template<typename T>
-my::mylist<T>::Iterator::Iterator(mylist<T> lst)
+// ********************** iterator ********************** //
+template <typename T>
+mylist<T>::iterator::iterator(mylist<T>& lst)
 {
-    // this->_curr = lst._start;
-    cout << "run Iterator(mylist<T> lst)" << endl;
+	this->_curr = lst._start;
 }
 
-template<typename T>
-typename my::mylist<T>::Iterator my::mylist<T>::Iterator::next()
+template <typename T>
+T& mylist<T>::iterator::operator*()
 {
-    _curr = _curr->next;
-    return this;
+	return *(_curr->data);
 }
 
-template<typename T>
-T my::mylist<T>::Iterator::value() const
+template <typename T>
+typename mylist<T>::iterator& mylist<T>::iterator::operator++()
 {
-    if (!_curr->data)
-        throw runtime_error("data is null");
-    return *(_curr->data);
+	_curr = _curr->next;
+	return *this;
 }
 
-template<typename T>
-bool my::mylist<T>::Iterator::is_end() const
+template <typename T>
+bool mylist<T>::iterator::operator!=(iterator& b)
 {
-    return !_curr->data;
+	return this->_curr != b._curr;
+}
+	
+template <typename T>
+bool mylist<T>::iterator::is_end()
+{
+	return !this->_curr->next;
 }
 
-template<typename T>
-typename my::mylist<T>::Iterator& my::mylist<T>::Iterator::operator++()
+template <typename T>
+T mylist<T>::iterator::value()
 {
-    _curr = _curr->next;
-    return *this;
+	return *(_curr->data);
 }
-
-template<typename T>
-T& my::mylist<T>::Iterator::operator*()
-{
-    if (!_curr->data)
-        throw runtime_error("data is null");
-    return *(_curr->data);
-}
-
-template<typename T>
-bool my::mylist<T>::Iterator::operator==(my::mylist<T>::Iterator& b)
-{
-    return _curr == b._curr;
-}
-
-template<typename T>
-bool my::mylist<T>::Iterator::operator!=(my::mylist<T>::Iterator& b)
-{
-    return _curr != b._curr;
-}
-
-
-
 
 }
 

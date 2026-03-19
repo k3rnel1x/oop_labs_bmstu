@@ -12,3 +12,7 @@ add_executable(oop_labs_bmstu
         lab2/mylist.cpp
         lab2/mylist.h
         lab2/main.cpp)
+
+add_custom_target(run
+		./oop_labs_bmstu
+)
