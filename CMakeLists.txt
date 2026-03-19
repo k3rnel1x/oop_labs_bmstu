@@ -7,8 +7,8 @@ include_directories(.)
 link_libraries(stdc++)
 
 add_executable(oop_labs_bmstu
-        iterator.cpp
-        iterator.h
-        mylist.cpp
-        mylist.h
-        main.cpp)
+        lab2/iterator.cpp
+        lab2/iterator.h
+        lab2/mylist.cpp
+        lab2/mylist.h
+        lab2/main.cpp)

@@ -1,0 +1,3 @@
+/home/user/Programming/oop_labs_bmstu/build/CMakeFiles/oop_labs_bmstu.dir
+/home/user/Programming/oop_labs_bmstu/build/CMakeFiles/edit_cache.dir
+/home/user/Programming/oop_labs_bmstu/build/CMakeFiles/rebuild_cache.dir
