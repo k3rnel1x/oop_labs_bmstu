@@ -2,7 +2,7 @@
 // Created by k3rnel1x on 17.03.2026.
 //
 #include <iostream>
-#include "mylist.h"
+#include "../mylist.h"
 using std::cout;
 using std::endl;
 using my::mylist;
