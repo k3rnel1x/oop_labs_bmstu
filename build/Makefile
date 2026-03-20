@@ -67,8 +67,8 @@ CMAKE_BINARY_DIR = /home/user/Programming/oop_labs_bmstu/build
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -135,6 +135,19 @@ oop_labs_bmstu: cmake_check_build_system
 oop_labs_bmstu/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/oop_labs_bmstu.dir/build.make CMakeFiles/oop_labs_bmstu.dir/build
 .PHONY : oop_labs_bmstu/fast
+
+#=============================================================================
+# Target rules for targets named run
+
+# Build rule for target.
+run: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run
+.PHONY : run
+
+# fast build rule for target.
+run/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run.dir/build.make CMakeFiles/run.dir/build
+.PHONY : run/fast
 
 lab2/iterator.o: lab2/iterator.cpp.o
 .PHONY : lab2/iterator.o
@@ -217,6 +230,7 @@ help:
 	@echo "... codegen"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... run"
 	@echo "... oop_labs_bmstu"
 	@echo "... lab2/iterator.o"
 	@echo "... lab2/iterator.i"

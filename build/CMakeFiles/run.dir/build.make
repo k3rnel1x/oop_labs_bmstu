@@ -66,8 +66,8 @@ include CMakeFiles/run.dir/compiler_depend.make
 # Include the progress variables for this target.
 include CMakeFiles/run.dir/progress.make
 
-CMakeFiles/run: lab1
-	./lab1
+CMakeFiles/run:
+	./oop_labs_bmstu
 
 CMakeFiles/run.dir/codegen:
 .PHONY : CMakeFiles/run.dir/codegen
