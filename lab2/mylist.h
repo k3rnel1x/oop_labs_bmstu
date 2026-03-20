@@ -7,12 +7,14 @@
 
 #include <initializer_list>
 #include <memory>
+#include <new>
 #include <stdexcept>
 #include <iostream>
 
 namespace my {
 using std::bad_alloc;
 using std::runtime_error;
+using std::invalid_argument;
 using std::cout;
 using std::endl;
 
@@ -35,11 +37,12 @@ public:
     ~mylist();
 
     // Methods
-    int  get_len() const;
+    int  get_len() 				  const;
     int  get_index(const T& elem) const;
     void add(const T& elem);
-    // void add_range(const list<T>& b);
-    // void add_range(T* arr, int size);
+    void add_range(const mylist<T>& b);
+    void add_range(T* arr, int size);
+    T at(int index) const;
     // void set_elem(int index,const T& elem);
     T&   get_elem(int index);
     // void remove_elem(int index);
@@ -138,6 +141,81 @@ my::mylist<T>::mylist(const mylist<T>& sample) : mylist()
 // {
 //     // TODO i dont know ths shit
 // }
+//
+template <typename T> 
+void my::mylist<T>::add_range(const mylist<T>& lst)
+{
+	if(!lst.get_len())
+		return;
+	Node* last_node = _start;
+	while(last_node->next) last_node = last_node->next;
+
+	for(int i = 0; i < lst.get_len(); i++){
+		Node* new_node; 
+		try {
+			new_node = new Node;
+			new_node->data = new T;
+		} catch(bad_alloc) {
+			throw bad_alloc();	
+		};
+		new_node->next = NULL;
+
+		// copy data from lst
+		*(new_node->data) = lst.at(i);
+
+		// set new node to last 
+		last_node->next = new_node;
+		new_node->prev = last_node;					
+		last_node = new_node;
+	}
+}
+
+template <typename T> 
+void my::mylist<T>::add_range(T* arr, int size)
+{
+	if(!arr)
+		throw invalid_argument("Invalid arr ptr");
+	if(size <= 0)
+		throw invalid_argument("Size must be > 0");
+
+	Node* last_node = _start;
+	while(last_node->next) last_node = last_node->next;
+
+	for(int i = 0; i < size; i++){
+		Node* new_node; 
+		try {
+			new_node = new Node;
+			new_node->data = new T;
+		} catch(bad_alloc) {
+			throw bad_alloc();	
+		};
+		new_node->next = NULL;
+		cout << i << endl;
+		cout << arr[i] << endl;
+
+		// copy data from lst
+		*(new_node->data) = arr[i];
+		// set new node to last 
+		last_node->next = new_node;
+		new_node->prev  = last_node;					
+		last_node = new_node;
+	}
+	
+}
+
+template<typename T>
+T mylist<T>::at(int index) const 
+{
+	if(index < 0)
+		throw invalid_argument("Index must be >= 0");
+
+	Node* curr = _start;
+	for(int i = 0; curr->next != NULL && i < index; ++i) {
+		curr = curr->next;
+	}
+
+	return *(curr->data);
+}
 
 template<typename T>
 typename my::mylist<T>::iterator my::mylist<T>::begin()
@@ -238,7 +316,7 @@ void my::mylist<T>::add(const T& elem)
         return;
     }
 
-    // if exist create next node
+    // if one or more exist create next node
     // alloc new node and data
     Node* new_node;
     try {
@@ -255,6 +333,7 @@ void my::mylist<T>::add(const T& elem)
     Node* end_node = _start;
     while (end_node->next) end_node = end_node->next;
     end_node->next = new_node;
+	new_node->prev = end_node;
 }
 
 template<typename T>
