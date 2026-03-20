@@ -32,7 +32,7 @@ public:
     // Constructors - destructors
     mylist();
     mylist(const mylist<T>& lst);
-    // list(list<T>&& list);
+    mylist(mylist<T>&& sample);
     // explicit list(std::initializer_list<T> lst);
     ~mylist();
 
@@ -43,13 +43,12 @@ public:
     void add_range(const mylist<T>& b);
     void add_range(T* arr, int size);
     T at(int index) const;
-    // void set_elem(int index,const T& elem);
+    void set_elem(int index,const T& elem);
     T&   get_elem(int index);
-    // void remove_elem(int index);
-    // void sort(int (*comp)(const T& r1, const T& r2));
-    // T*   to_array();
-    // list<T> combine(const list<T>& lst);
-
+    void remove_elem(int index);
+    void sort(int (*comp)(const T& r1, const T& r2));
+    T*   to_array();
+    mylist<T> combine(const mylist<T>& lst);
 
     // Оperators
     mylist<T>& operator =(const mylist<T>& sample);
@@ -78,6 +77,8 @@ public:
 
     iterator begin();
     iterator end();
+private:
+    void swap_nodes(Node** _start, Node* a, Node* b);
 protected:
     Node* _start = NULL;
 };
@@ -99,14 +100,19 @@ my::mylist<T>::~mylist()
     // goto last node
     Node* last_node = _start;
     while (last_node->next != NULL) last_node = last_node->next;
+    if (last_node == _start) {
+        delete _start->data;
+        delete _start;
+        return;
+    }
 
     // start rising, clearing data and nodes
     Node* curr = last_node;
-    while (curr->prev != NULL) {
+    while (curr != _start) {
         delete curr->data;
         curr = curr->prev;
         delete curr->next;
-        curr->next = NULL;
+        // curr->next = NULL;
     }
 
     // erase _start node
@@ -117,45 +123,77 @@ my::mylist<T>::~mylist()
 template<typename T>
 my::mylist<T>::mylist(const mylist<T>& sample) : mylist()
 {
-    // get first elem iter of sample
-    Iter sample_iter = sample.begin();
+    if (sample.get_len() == 0)
+        return;
+    try {
+        _start = new Node;
+        _start->data = new T;
+    } catch(bad_alloc&) {
+        throw bad_alloc();
+    };
     Node* curr = _start;
-    while (!sample_iter.is_end()) // while next node exists
+    *(curr->data) = sample.at(0);
+    for(int i = 1; i < sample.get_len(); i++){
+        Node* new_node;
+        try {
+            new_node = new Node;
+            new_node->data = new T;
+        } catch(bad_alloc&) {
+            throw bad_alloc();
+        };
+        new_node->next = NULL;
+
+        // copy data from lst
+        *(new_node->data) = sample.at(i);
+
+        // set new node to last
+        curr->next = new_node;
+        new_node->prev = curr;
+        curr = new_node;
+    }
+}
+
+template<typename T>
+mylist<T>::mylist(mylist<T>&& sample)
+{
+    if (this == &sample)
+        throw runtime_error("objects are simular");
+
+    Node* sample_curr = sample._start;
+    Node* curr = _start;
+    while (sample_curr->next)
     {
         // create next node
         try {
             curr->next = new Node;
-        } catch (bad_alloc) {
+        } catch (bad_alloc&) {
             throw bad_alloc();
         }
-        // copy curr data
-        *(curr->data) = sample_iter.value();
+        // copy sample curr data ptr
+        curr->data = sample_curr->data;
+        sample_curr->data = NULL;
         // move on next node
         curr = curr->next;
-        ++sample_iter;
+        sample_curr = sample_curr->next;
     }
 }
 
-// template<typename T>
-// my::list<T>::list(std::initializer_list<T> lst) : list()
-// {
-//     // TODO i dont know ths shit
-// }
-//
-template <typename T> 
+template <typename T>
 void my::mylist<T>::add_range(const mylist<T>& lst)
 {
 	if(!lst.get_len())
 		return;
 	Node* last_node = _start;
 	while(last_node->next) last_node = last_node->next;
+    if (last_node == _start)
+        *(last_node->data) = lst.at(0);
 
-	for(int i = 0; i < lst.get_len(); i++){
+	for(int i = (last_node == _start); i < lst.get_len(); i++){
 		Node* new_node; 
 		try {
 			new_node = new Node;
 			new_node->data = new T;
-		} catch(bad_alloc) {
+		} catch(bad_alloc&) {
 			throw bad_alloc();	
 		};
 		new_node->next = NULL;
@@ -186,12 +224,10 @@ void my::mylist<T>::add_range(T* arr, int size)
 		try {
 			new_node = new Node;
 			new_node->data = new T;
-		} catch(bad_alloc) {
+		} catch(bad_alloc&) {
 			throw bad_alloc();	
 		};
 		new_node->next = NULL;
-		cout << i << endl;
-		cout << arr[i] << endl;
 
 		// copy data from lst
 		*(new_node->data) = arr[i];
@@ -218,6 +254,19 @@ T mylist<T>::at(int index) const
 }
 
 template<typename T>
+void mylist<T>::set_elem(int index, const T& elem)
+{
+    if(index < 0 || index >= this->get_len())
+        throw invalid_argument("0 <= index < size");
+
+    Node* curr = _start;
+    for (int i = 0; i != index; i++)
+        curr = curr->next;
+
+    *(curr->data) = elem;
+}
+
+template<typename T>
 typename my::mylist<T>::iterator my::mylist<T>::begin()
 {
     return my::mylist<T>::iterator(*this);
@@ -229,7 +278,13 @@ typename my::mylist<T>::iterator my::mylist<T>::end()
 {
 	auto iter = this->begin();
 	while(!iter.is_end()) ++iter;
-	return iter;
+	return ++iter;
+}
+
+template<typename T>
+void mylist<T>::swap_nodes(Node** _start, Node* a, Node* b)
+{
+    // TODO !!!!!!!
 }
 
 template<typename T>
@@ -243,7 +298,7 @@ my::mylist<T>& my::mylist<T>::operator=(const mylist<T>& sample)
         // create next node
         try {
             curr->next = new Node(0);
-        } catch (bad_alloc) {
+        } catch (bad_alloc&) {
             throw bad_alloc();
         }
         // copy curr data
@@ -307,7 +362,7 @@ void my::mylist<T>::add(const T& elem)
         {
             _start = new Node;
             _start->data = new T;
-        } catch (bad_alloc) {
+        } catch (bad_alloc&) {
             throw bad_alloc();
         }
         *(_start->data) = elem;
@@ -322,7 +377,7 @@ void my::mylist<T>::add(const T& elem)
     try {
         new_node = new Node;
         new_node->data = new T;
-    } catch (bad_alloc) {
+    } catch (bad_alloc&) {
         throw bad_alloc();
     }
 
@@ -343,9 +398,73 @@ T& my::mylist<T>::get_elem(int index)
     for (int i = 0; i < this->get_len(); i++) {
         if (index == i)
             return *(curr->data);
+        curr = curr->next;
     }
 
     throw runtime_error("No elem by this index");
+}
+
+template<typename T>
+void mylist<T>::remove_elem(int index)
+{
+    if(index < 0 || index >= this->get_len())
+        throw invalid_argument("0 <= index < size");
+
+    Node* curr = _start;
+    for (int i = 0; i != index; i++)
+        curr = curr->next;
+
+    if (curr == _start)
+        _start = curr->next;
+    else
+    {
+        (curr->prev)->next = curr->next;
+        (curr->next)->prev = curr->prev;
+    }
+
+
+    delete curr->data;
+    delete curr;
+}
+
+template<typename T>
+void mylist<T>::sort(int(*comp)(const T& r1, const T& r2))
+{
+    if (!comp)
+        throw invalid_argument("comp is null :((");
+
+    for (Node* crr = _start; (crr->next)->next != NULL; crr = crr->next)
+    {
+        for (Node* nxt = crr->next; nxt->next != NULL; nxt = nxt->next)
+        {
+            if (comp(*(crr->data), *(nxt->data)) > 0);
+                // swap_nodes(&_start, crr, nxt);
+        }
+    }
+}
+
+template<typename T>
+T* mylist<T>::to_array()
+{
+    T* arr = NULL;
+    try {
+        arr = new T[this->get_len()];
+    } catch (bad_alloc&) {
+        throw bad_alloc();
+    }
+    Node* curr = _start;
+    for (int i = 0; i < this->get_len(); i++, curr = curr->next)
+        arr[i] = *(curr->data);
+
+    return arr;
+}
+
+template<typename T>
+mylist<T> mylist<T>::combine(const mylist<T>& lst)
+{
+    mylist<T> new_list;
+    new_list.add_range(lst);
+    return new_list;
 }
 
 
@@ -378,7 +497,7 @@ bool mylist<T>::iterator::operator!=(iterator& b)
 template <typename T>
 bool mylist<T>::iterator::is_end()
 {
-	return !this->_curr->next;
+	return !(this->_curr->next);
 }
 
 template <typename T>
