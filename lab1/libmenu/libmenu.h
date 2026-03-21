@@ -14,7 +14,7 @@
 #include <algorithm>
 #include <climits>
 #include <limits>
-
+#define EPS 1e-6
 class Data {
 public:
     std::vector<Figure*> _appdata;
@@ -89,10 +89,10 @@ private:
     std::string _name;
 };
 
-class MenuList : public MenuItem {
+class MenuComposite : public MenuItem {
 typedef std::vector<MenuItem*> MenuItemsList;
 public:
-    MenuList(std::string name) : MenuItem(name)
+    MenuComposite(std::string name) : MenuItem(name)
     {
     }
 

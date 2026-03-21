@@ -12,7 +12,7 @@ public:
     {
         Data data;
         /************************ Construct main menu ************************/
-        MenuList main_menu("Main");
+        MenuComposite main_menu("Main");
 
         // Add figures
         AddCircle    circle(&data);
@@ -20,7 +20,7 @@ public:
         AddTriangle  tritangle(&data);
         AddPolyAngle polyangle(&data);
 
-        MenuList add_figures("Add figures");
+        MenuComposite add_figures("Add figures");
         add_figures.add_item(&circle);
         add_figures.add_item(&rectangle);
         add_figures.add_item(&tritangle);

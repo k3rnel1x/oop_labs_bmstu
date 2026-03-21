@@ -19,8 +19,6 @@ void MenuItem::clear_cin()
 
 int MenuItem::input_int_num(const std::string prompt)
 {
-
-
     int num = 0;
     do
     {
@@ -126,7 +124,7 @@ void Show::run()
     else
         for (int i = 0; i < _data->_appdata.size(); i++)
         {
-            std::cout << i + 1 << ". " << _data->_appdata[i]->get_name() << std::endl;
+            std::cout << i + 1 << ". Name:|" << _data->_appdata[i]->get_name() << "|"  << std::endl;
         }
     wait_for_user();
 };
@@ -139,8 +137,8 @@ void ShowPerimeters::run()
     else
         for (int i = 0; i < _data->_appdata.size(); i++)
         {
-            std::cout << i + 1 << ". " << _data->_appdata[i]->get_name()
-                      << " Perimeter:" << _data->_appdata[i]->get_perimeter() << std::endl;
+            std::cout << i + 1 << ". Name:|" << _data->_appdata[i]->get_name()
+                      << "| Perimeter:|" << _data->_appdata[i]->get_perimeter() << "|" << std::endl;
         }
     wait_for_user();
 };
@@ -187,13 +185,13 @@ void DelByNum::run()
         do {
 
             index = input_int_num("Input number to delete:") - 1;
-            if (0 < index && index < _data->_appdata.size())
-                break;
-            else
-            {
-                std::cout << "Input error" << std::endl;
+            if (0 < index || index >= _data->_appdata.size())
+			{
+				std::cout << "there is no menu element with this number" << std::endl;
                 wait_for_user();
-            }
+				return;
+			}
+			break;
         } while (true);
         // sleep(10);
         std::string name = _data->_appdata[index]->get_name();
@@ -226,6 +224,7 @@ void DelByPerimeter::run()
             {
                 std::cout << "Error: perimeter must be more than 0" << std::endl;
                 wait_for_user();
+				return;
             }
         } while (true);
 
@@ -236,7 +235,8 @@ void DelByPerimeter::run()
             {
                 std::cout << "Deleted " << figures[i]->get_name() << std::endl;
                 figures.erase(figures.begin() + i);
-            }
+				i--;
+            };
         }
         std::cout << "Deletion comlete." << std::endl;
     }
