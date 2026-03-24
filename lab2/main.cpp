@@ -1,11 +1,19 @@
 //
 // Created by k3rnel1x on 17.03.2026.
 //
+#include <cmath>
 #include <iostream>
 #include "mylist.h"
 using std::cout;
 using std::endl;
 using my::mylist;
+#define EPS 1e-6
+
+int comp(const double& r1, const double& r2)
+{
+	return r1 - r2 > 0;
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -30,8 +38,14 @@ int main(int argc, char *argv[])
         cout << "Elem: " << begin.value() << endl;
     }
 
-	// mylist<double> mylist_double = {1,2.2, 23,  241 ,1 , 20.2 , 23,3, 2323.2};
-	mylist<double> mylist_double{1.2, 123.1, 0.0};
+	mylist<double> mylist_double = {4.0, 2.3, 1.0, 0.0, 5.2, 0.6, -133.0, 0.1};
+	cout << "___________________________" << endl;
+	for(double a : mylist_double)
+	{
+		cout << a << endl;
+	}
+	mylist_double.sort(comp);
+
 	cout << "___________________________" << endl;
 	for(double a : mylist_double)
 	{

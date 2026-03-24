@@ -5,7 +5,92 @@
 #include <cmath>
 #include "mylist.h"
 
-SCENARIO("Copy constructor must copy list")
+SCENARIO("Create empty list of int")
+{
+    my::mylist<int> mylist;
+}
+
+// TEST_CASE("Test list, inited with double nums: 1.3, -1, 1., 0")
+TEST_CASE("Test list")
+{
+    my::mylist<double> dlist = {1.3, -1, 1., 0};
+    SECTION("Test operator[]:")
+    {
+        GIVEN("list, inited with double nums: 1.3, -1, 1., 0")
+        {
+            REQUIRE(dlist[0] == 1.3);
+            REQUIRE(dlist[1] == -1);
+            REQUIRE(dlist[2] == 1.);
+            REQUIRE(dlist[3] == 0);
+        }
+    }
+
+    SECTION("list_copy[0..3] must show 1.3, -1, 1., 0")
+    {
+        my::mylist<double> list_copy{dlist};
+        REQUIRE(list_copy[0] == 1.3);
+        REQUIRE(list_copy[1] == -1);
+        REQUIRE(list_copy[2] == 1.);
+        REQUIRE(list_copy[3] == 0);
+    }
+}
+
+SCENARIO("List initsialization")
+{
+    struct Vector2 {
+        int weight;
+        int height;
+    };
+    my::mylist<Vector2> mylist;
+}
+
+SCENARIO("Create list by initializer_list and check operator[] / test operator[]")
+{
+    GIVEN("A dlist of double: 1.3, -1, 1., 0")
+    {
+        my::mylist<double> dlist = {1.3, -1, 1., 0};
+        WHEN("dlist[0..3] must show 1.3, -1, 1., 0")
+        {
+            REQUIRE(dlist[0] == 1.3);
+            REQUIRE(dlist[1] == -1);
+            REQUIRE(dlist[2] == 1.);
+            REQUIRE(dlist[3] == 0);
+        }
+    }
+}
+
+SCENARIO("Copy list to another")
+{
+    GIVEN("A dlist of double: 1.3, -1, 1., 0, copyed dlist_copy")
+    {
+        my::mylist<double> dlist = {1.3, -1, 1., 0};
+        my::mylist<double> dlist_copy{dlist};
+        WHEN("dlist_copy[0..3] must show 1.3, -1, 1., 0")
+        {
+            REQUIRE(dlist_copy[0] == 1.3);
+            REQUIRE(dlist_copy[1] == -1);
+            REQUIRE(dlist_copy[2] == 1.);
+            REQUIRE(dlist_copy[3] == 0);
+        }
+    }
+}
+
+SCENARIO("Move list to another")
+{
+    GIVEN("A dlist_move, created by tmp-object, that inited with double numbers: 1.3, -1, 1., 0")
+    {
+        my::mylist<double> dlist_move{my::mylist<double>{1.3, -1, 1., 0}};
+        WHEN("dlist_move[0..3] must show 1.3, -1, 1., 0")
+        {
+            REQUIRE(dlist_move[0] == 1.3);
+            REQUIRE(dlist_move[1] == -1);
+            REQUIRE(dlist_move[2] == 1.);
+            REQUIRE(dlist_move[3] == 0);
+        }
+    }
+}
+
+SCENARIO("Creating empty list")
 {
     GIVEN("A list1 of ints: 1 3 5 9")
     {
