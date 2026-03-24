@@ -32,8 +32,8 @@ public:
     // Constructors - destructors
     mylist();
     mylist(const mylist<T>& lst);
+    explicit mylist(std::initializer_list<T> lst);
     mylist(mylist<T>&& sample);
-    // explicit list(std::initializer_list<T> lst);
     ~mylist();
 
     // Methods
@@ -77,8 +77,6 @@ public:
 
     iterator begin();
     iterator end();
-private:
-    void swap_nodes(Node** _start, Node* a, Node* b);
 protected:
     Node* _start = NULL;
 };
@@ -100,19 +98,14 @@ my::mylist<T>::~mylist()
     // goto last node
     Node* last_node = _start;
     while (last_node->next != NULL) last_node = last_node->next;
-    if (last_node == _start) {
-        delete _start->data;
-        delete _start;
-        return;
-    }
 
     // start rising, clearing data and nodes
     Node* curr = last_node;
-    while (curr != _start) {
+    while (curr->prev != NULL) {
         delete curr->data;
         curr = curr->prev;
         delete curr->next;
-        // curr->next = NULL;
+        curr->next = NULL;
     }
 
     // erase _start node
@@ -176,6 +169,14 @@ mylist<T>::mylist(mylist<T>&& sample)
         curr = curr->next;
         sample_curr = sample_curr->next;
     }
+}
+
+template<typename T>
+my::mylist<T>::mylist(std::initializer_list<T> lst) : mylist()
+{
+	for(T elem : lst){
+		this->add(elem);
+	}
 }
 
 template <typename T>
