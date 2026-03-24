@@ -1,1 +1,0 @@
-/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/oop_labs_bmstu.dir/link.d CMakeFiles/oop_labs_bmstu.dir/lab2/iterator.cpp.o CMakeFiles/oop_labs_bmstu.dir/lab2/mylist.cpp.o CMakeFiles/oop_labs_bmstu.dir/lab2/main.cpp.o -o oop_labs_bmstu  -lstdc++

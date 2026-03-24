@@ -29,4 +29,13 @@ int main(int argc, char *argv[])
     {
         cout << "Elem: " << begin.value() << endl;
     }
+
+	// mylist<double> mylist_double = {1,2.2, 23,  241 ,1 , 20.2 , 23,3, 2323.2};
+	mylist<double> mylist_double{1.2, 123.1, 0.0};
+	cout << "___________________________" << endl;
+	for(double a : mylist_double)
+	{
+		cout << a << endl;
+	}
+	return 0;
 }

@@ -33,7 +33,7 @@ public:
     mylist();
     mylist(const mylist<T>& lst);
     // list(list<T>&& list);
-    // explicit list(std::initializer_list<T> lst);
+    explicit mylist(std::initializer_list<T> lst);
     ~mylist();
 
     // Methods
@@ -136,12 +136,14 @@ my::mylist<T>::mylist(const mylist<T>& sample) : mylist()
     }
 }
 
-// template<typename T>
-// my::list<T>::list(std::initializer_list<T> lst) : list()
-// {
-//     // TODO i dont know ths shit
-// }
-//
+template<typename T>
+my::mylist<T>::mylist(std::initializer_list<T> lst) : mylist()
+{
+	for(T elem : lst){
+		this->add(elem);
+	}
+}
+
 template <typename T> 
 void my::mylist<T>::add_range(const mylist<T>& lst)
 {
