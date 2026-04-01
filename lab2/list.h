@@ -19,7 +19,7 @@ using std::cout;
 using std::endl;
 
 template <typename T>
-class mylist {
+class list {
 // Node
 typedef struct Node {
     T*    data;
@@ -28,40 +28,39 @@ typedef struct Node {
 } Node;
 
 public:
-
     // Constructors - destructors
-    mylist() = default;
-    mylist(const mylist<T>& lst);
-    mylist(std::initializer_list<T> lst);
-    mylist(mylist<T>&& sample);
-    ~mylist();
+    list() = default;
+    list(const list& lst);              // copy
+    list(std::initializer_list<T> lst); // init list
+    list(list&& lst);                // move
+    ~list();                            // destroy
 
     // Methods
-    int  get_len() 				  const;
-    int  get_index(const T& elem) const;
+    int  get_len() const;
+    int  index(const T& elem) const;
     void add(const T& elem);
-    void add_range(const mylist<T>& b);
+    void add_range(const list& b);
     void add_range(T* arr, int size);
     T at(int index) const;
-    void set_elem(int index,const T& elem);
-    T&   get_elem(int index);
-    void remove_elem(int index);
+    void set(int index,const T& elem);
+    T&   get(int index);
+    void remove(int index);
     void sort(int (*comp)(const T& r1, const T& r2));
     T*   to_array();
-    mylist<T> combine(const mylist<T>& lst);
+    list&& combine(const list& lst);
 
     // Оperators
-    mylist<T>& operator =(const mylist<T>& sample);
+    list& operator=(const list& lst);
     T& operator[](int index);
 
     // iterator
     class iterator {
     public:
         // Constructors - destructors
-        iterator(mylist<T>& lst);
+        iterator(list<T>& lst);
 
         iterator next();
-         T    value();
+        T value();
         bool is_end();
 
         // Оperators
@@ -69,21 +68,28 @@ public:
         T& operator*();
         // bool operator ==(iterator &b);
         bool operator!=(iterator &b);
+    protected:
+        iterator _next();
+        iterator _value();
     private:
-        Node* _curr = NULL;
+        Node* _curr = nullptr;
     };
-    typedef my::mylist<T>::iterator Iter;
-
     iterator begin();
     iterator end();
 protected:
-    Node* _start = NULL;
+    int _len = 0;
+    T _at(int index) const;
+    void _add(const T& elem);
+    T&   _get(int index);
+    Node* _start = nullptr;
+    Node* _end   = nullptr;
 };
 
 }
 
-#include "mylist.cpp"
 
+#include "list.cpp"
 
 #endif //LIST_H
+
 

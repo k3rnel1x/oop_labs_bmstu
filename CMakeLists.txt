@@ -4,9 +4,10 @@ project(lab2)
 set(CMAKE_CXX_STANDARD 14)
 # run main
 set(SOURCES
-		lab2/mylist.h
+		lab2/list.h
 		lab2/main.cpp
-		lab2/mylist.cpp
+		lab2/list.cpp
+		lab2/iterator.cpp
 )
 link_libraries(stdc++ m)
 #add_executable(main lab2/main.cpp lab2/mylist.h)
