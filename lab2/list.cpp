@@ -1,9 +1,9 @@
 //
 // Created by k3rnel1x on 17.03.2026.
 //
-#ifndef LIST_H
+// #ifndef LIST_H
 #include "list.h"
-#endif
+// #endif
 
 // ********************** list ********************** //
 namespace my {
@@ -13,8 +13,10 @@ list<T>::list(const list& lst) : list()
 {
     if (!lst._len) return;
 
-    for (T a : lst)
-        this->_add(a);
+    for (Node* curr = lst._start; curr; curr = curr->next)
+        this->_add(*(curr->data));
+
+    // for (const auto& iter = lst.begin(); !iter.is_end(); ++iter)
 }
 
 template<typename T>
@@ -41,7 +43,7 @@ list<T>::~list()
 }
 
 template<typename T>
-list<T>::list(list<T>&& lst)
+list<T>::list(list&& lst)
 {
     if (this == &lst)
         throw runtime_error("objects are simular");
@@ -50,6 +52,7 @@ list<T>::list(list<T>&& lst)
 
     this->_start = lst._start;
     lst._start = nullptr;
+    lst._len = 0;
 }
 
 template<typename T>
@@ -61,7 +64,7 @@ list<T>::list(std::initializer_list<T> lst) : list()
 }
 
 template <typename T>
-void list<T>::add_range(const list<T>& lst)
+void list<T>::add_range(const list& lst)
 {
     if(!lst._len) return;
 
@@ -143,13 +146,12 @@ int list<T>::get_len() const
 }
 
 template<typename T>
-int list<T>::index(const T& elem) const
+int list<T>::indexof(const T& elem) const
 {
     int i = 0;
-    auto iter = this->begin();
+    const auto iter = this->begin();
     while (!iter.is_end()) {
-
-        if (*iter == elem)
+        if (iter.value() == elem)
             return i;
         ++iter; ++i;
     }
@@ -202,6 +204,8 @@ void list<T>::sort(int(*comp)(const T& r1, const T& r2))
 template<typename T>
 T* list<T>::to_array()
 {
+    if (!_len) return nullptr;
+
     T* arr = nullptr;
     try {
         arr = new T[_len];
@@ -210,7 +214,7 @@ T* list<T>::to_array()
     }
 
     auto iter = this->begin();
-    for (int i = 0; !iter.is_end(); i++)
+    for (int i = 0; !iter.is_end(); i++, ++iter)
         arr[i] = *iter;
 
     return arr;
@@ -232,6 +236,7 @@ list<T>&& list<T>::combine(const list& lst)
 template<typename T>
 void list<T>::_add(const T& elem)
 {
+
     // create new node
     Node* new_node;
     try {
@@ -241,7 +246,8 @@ void list<T>::_add(const T& elem)
         throw bad_alloc();
     };
     new_node->next = nullptr;
-    new_node->data = elem;
+    *(new_node->data) = elem;
+    ++_len;
 
     // insert node
     auto iter = this->begin();
@@ -252,14 +258,12 @@ void list<T>::_add(const T& elem)
     while (iter._curr->next) ++iter;
     iter._curr->next = new_node;
     new_node->prev = iter._curr;
-
-    ++_len;
 }
 
 template<typename T>
 T list<T>::_at(int index) const
 {
-    if(index < 0 || index >= this->get_len())
+    if(index < 0 || index >= _len)
         throw invalid_argument("Index must be >= 0 and smaller than my display");
 
     auto iter = this->begin();
@@ -279,7 +283,7 @@ T& list<T>::_get(int index)
     int i = 0;
     while (i++ != index) ++iter;
 
-    return iter._curr->data;
+    return *(iter._curr->data);
 }
 
 //

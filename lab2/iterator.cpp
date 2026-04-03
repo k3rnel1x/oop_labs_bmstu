@@ -9,7 +9,13 @@ namespace my {
 //
 
 template <typename T>
-list<T>::iterator::iterator(list<T>& lst)
+list<T>::iterator::iterator(list& lst)
+{
+    this->_curr = lst._start;
+}
+
+template<typename T>
+list<T>::iterator::iterator(const list& lst)
 {
     this->_curr = lst._start;
 }
@@ -37,7 +43,7 @@ T list<T>::iterator::value()
 //
 
 template<typename T>
-typename list<T>::iterator list<T>::iterator::_next()
+typename list<T>::iterator& list<T>::iterator::_next()
 {
     // if (!_curr)
         // throw runtime_error("_curr is null");
@@ -64,6 +70,13 @@ template <typename T>
 T& list<T>::iterator::operator*()
 {
     return *(_curr->data);
+}
+
+
+template<typename T>
+bool list<T>::iterator::operator==(iterator &b)
+{
+    return this->_curr == b._curr;
 }
 
 template <typename T>

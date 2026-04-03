@@ -32,12 +32,12 @@ public:
     list() = default;
     list(const list& lst);              // copy
     list(std::initializer_list<T> lst); // init list
-    list(list&& lst);                // move
+    list(list&& lst);                   // move
     ~list();                            // destroy
 
     // Methods
     int  get_len() const;
-    int  index(const T& elem) const;
+    int  indexof(const T& elem) const;
     void add(const T& elem);
     void add_range(const list& b);
     void add_range(T* arr, int size);
@@ -55,9 +55,11 @@ public:
 
     // iterator
     class iterator {
+    friend list;
     public:
         // Constructors - destructors
-        iterator(list<T>& lst);
+        iterator(list& lst);
+        iterator(const list& lst);
 
         iterator next();
         T value();
@@ -66,12 +68,12 @@ public:
         // Оperators
         iterator& operator++();
         T& operator*();
-        // bool operator ==(iterator &b);
+        bool operator==(iterator &b);
         bool operator!=(iterator &b);
     protected:
-        iterator _next();
-        iterator _value();
-    private:
+        iterator& _next();
+        T _value();
+    // private:
         Node* _curr = nullptr;
     };
     iterator begin();
@@ -87,8 +89,8 @@ protected:
 
 }
 
-
 #include "list.cpp"
+#include "iterator.cpp"
 
 #endif //LIST_H
 
