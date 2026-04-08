@@ -1,87 +1,111 @@
 #include "list.h"
-//
-// Created by k3rnel1x on 01.04.2026.
-//
-// ********************** iterator ********************** //
+
 namespace my {
-//
-// public
-//
-
-template <typename T>
-list<T>::iterator::iterator(list& lst)
-{
-    this->_curr = lst._start;
-}
-
 template<typename T>
-list<T>::iterator::iterator(const list& lst)
+typename list<T>::iterator& list<T>::iterator::operator=(iterator&& iter)
 {
-    this->_curr = lst._start;
+    this->current_node = iter.current_node;
+    iter.current_node = nullptr;
+
+    return *this;
 }
 
 template<typename T>
 typename list<T>::iterator list<T>::iterator::next()
 {
-    return _next();
+    iterator iter = *this;
+    return ++iter;
 }
-
-template <typename T>
-bool list<T>::iterator::is_end()
-{
-    return !this->_curr;
-}
-
-template <typename T>
-T list<T>::iterator::value()
-{
-    return _value();
-}
-
-//
-// protected
-//
 
 template<typename T>
-typename list<T>::iterator& list<T>::iterator::_next()
+T list<T>::iterator::value()
 {
-    // if (!_curr)
-        // throw runtime_error("_curr is null");
+    if (!current_node)
+        throw invalid_argument("iterator is empty");
 
-    _curr = _curr->next;
+    return T(current_node->val);
+}
+
+template<typename T>
+bool list<T>::iterator::is_end() const { return !current_node; }
+
+template<typename T>
+typename list<T>::iterator& list<T>::iterator::operator++()
+{
+    if (!current_node)
+        throw invalid_argument("trying to increment empty iterator");
+
+    if (!current_node->next)
+        throw invalid_argument("trying increment out of range");
+
+    current_node = current_node->next;
     return *this;
 }
 
-template <typename T>
-T list<T>::iterator::_value()
+template<typename T>
+typename list<T>::iterator & list<T>::iterator::operator--()
 {
-    // if (!_curr->data)
-        // throw runtime_error("data is null");
-    return *(_curr->data);
-}
+    if (!current_node)
+        throw invalid_argument("trying to decrement empty iterator");
 
-template <typename T>
-typename list<T>::iterator& list<T>::iterator::operator++()
-{
-    return _next();
-}
+    if (!current_node->prev)
+        throw invalid_argument("trying decrement out of range");
 
-template <typename T>
-T& list<T>::iterator::operator*()
-{
-    return *(_curr->data);
+    current_node = current_node->prev;
+    return *this;
 }
-
 
 template<typename T>
-bool list<T>::iterator::operator==(iterator &b)
+T& list<T>::iterator::operator*()
 {
-    return this->_curr == b._curr;
+    if (!current_node)
+        throw invalid_argument("iterator is empty");
+
+    return current_node->val;
 }
 
-template <typename T>
-bool list<T>::iterator::operator!=(iterator& b)
+template<typename T>
+bool list<T>::iterator::operator==(iterator& b) const
 {
-    return this->_curr != b._curr;
+    return current_node == b.current_node;
 }
+
+template<typename T>
+bool list<T>::iterator::operator!=(const iterator& b) const
+{
+    return current_node != b.current_node;
+}
+
+template<typename T>
+bool list<T>::iterator::operator!=(const iterator&& b) const
+{
+    return current_node != b.current_node;
+}
+
+// template<typename T>
+// typename list<T>::iterator&& list<T>::iterator::operator-(int a)
+// {
+//     iterator tmp{*this};
+//     for (int i = 0; i < a; ++i) {
+//         // if (!tmp.current_node->prev && i < a - 1)
+//             // throw std::out_of_range("trying to out of range");
+//         --tmp;
+//     }
+//
+//     return std::move(tmp);
+// }
+//
+// template<typename T>
+// typename list<T>::iterator&& list<T>::iterator::operator+(int a)
+// {
+//     iterator tmp{current_node};
+//     for (int i = 0; i < a; ++i) {
+//         if (!tmp.current_node->prev && i < a - 1)
+//             throw std::out_of_range("trying to out of range");
+//         ++tmp;
+//     }
+//
+//     return std::move(tmp);
+// }
+
 }

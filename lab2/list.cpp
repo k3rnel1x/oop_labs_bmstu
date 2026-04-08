@@ -1,305 +1,315 @@
-//
-// Created by k3rnel1x on 17.03.2026.
-//
-// #ifndef LIST_H
 #include "list.h"
-// #endif
 
-// ********************** list ********************** //
+#include <algorithm>
+
 namespace my {
+template<typename T>
+list<T>::list()
+{
+    start_node = end_node = new Node{};
+
+    // iters set to one node
+    start_iterator = iterator(start_node);
+    end_iterator   = iterator(end_node);
+}
 
 template<typename T>
 list<T>::list(const list& lst) : list()
 {
-    if (!lst._len) return;
+    for (auto iter = lst.start_iterator; iter != lst.end_iterator; ++iter)
+        this->append(T(*iter));
+}
 
-    for (Node* curr = lst._start; curr; curr = curr->next)
-        this->_add(*(curr->data));
+template<typename T>
+list<T>::list(std::initializer_list<T> init_lst) : list()
+{
+    for (T val : init_lst) {
+        this->append(val);
+    }
 
-    // for (const auto& iter = lst.begin(); !iter.is_end(); ++iter)
+    this->len = init_lst.size();
+}
+
+template<typename T>
+list<T>::list(list&& lst) : list()
+{
+    start_node   = lst.start_node;
+    end_node     = lst.end_node;
+    lst.end_node = lst.start_node = nullptr;
+
+
+    start_iterator   = lst.start_iterator;
+    end_iterator     = lst.end_iterator;
+    lst.end_iterator = lst.start_iterator = iterator(nullptr);
+
+    len = lst.len;
+    lst.len = 0;
 }
 
 template<typename T>
 list<T>::~list()
 {
-    auto end = this->end();
-    if (!end._curr) return;
-
-    // get last node
-    Node* last_node = _start;
-    while (last_node->next) last_node = last_node->next;
-
-    // start rising, clearing data and nodes
-    Node* curr = last_node;
-    while (curr->prev) {
-        delete curr->data;
-        curr = curr->prev;
-        delete curr->next;
+    if (!len) {
+        delete start_node;
+        return;
     }
 
-    // erase _start node
-    delete _start->data;
-    _start->data = nullptr;
-}
-
-template<typename T>
-list<T>::list(list&& lst)
-{
-    if (this == &lst)
-        throw runtime_error("objects are simular");
-
-    if (!lst._len) return;
-
-    this->_start = lst._start;
-    lst._start = nullptr;
-    lst._len = 0;
-}
-
-template<typename T>
-list<T>::list(std::initializer_list<T> lst) : list()
-{
-    for(T elem : lst){
-        this->_add(elem);
-    }
-}
-
-template <typename T>
-void list<T>::add_range(const list& lst)
-{
-    if(!lst._len) return;
-
-    for (T a : lst)
-        this->_add(a);
-}
-
-template <typename T>
-void list<T>::add_range(T* arr, int size)
-{
-    if(!arr)
-        throw invalid_argument("Invalid arr ptr");
-    if(size <= 0)
-        throw invalid_argument("Size must be > 0");
-
-    for (int i = 0; i < size; i++)
-        this->_add(arr[i]);
-}
-
-template<typename T>
-T list<T>::at(int index) const
-{
-    return _at(index);
-}
-
-template<typename T>
-void list<T>::set(int index, const T& elem)
-{
-    if(index < 0 || index >= _len)
-        throw invalid_argument("0 <= index < sizZZZZZe");
-
-    auto iter = this->begin();
-    int i = 0;
-    while (i++ != index) ++iter;
-
-    *(iter._curr->data) = elem;
-}
-
-template<typename T>
-T& list<T>::get(int index)
-{
-    return _get(index);
-}
-
-template<typename T>
-list<T>& list<T>::operator=(const list& lst)
-{
-    // get first elem iter of sample
-    auto iter = lst.begin();
-    Node* curr = _start;
-    while (!iter.is_end()) // while next node exists
+    for (auto iter = iterator(end_node->prev); iter != start_iterator; --iter)
     {
-        // create next node
-        try {
-            curr->next = new Node(0);
-        } catch (bad_alloc&) {
-            throw bad_alloc();
-        }
-        // copy curr data
-        *(curr->data) = *(iter._curr->data);
-
-        // move on next node
-        curr = curr->next;
-        ++iter;
+        delete iter.current_node->next;
     }
-    return *this;
+
+    delete start_node;
+    start_node = nullptr;
+    end_node = nullptr;
+    start_iterator = iterator(nullptr);
+    end_iterator   = iterator(nullptr);
 }
 
 template<typename T>
-T& list<T>::operator[](int index)
-{
-    return _get(index);
-}
-
-template<typename T>
-int list<T>::get_len() const
-{
-    return _len;
-}
+int list<T>::get_len() const { return int(len); }
 
 template<typename T>
 int list<T>::indexof(const T& elem) const
 {
-    int i = 0;
-    const auto iter = this->begin();
-    while (!iter.is_end()) {
-        if (iter.value() == elem)
-            return i;
-        ++iter; ++i;
-    }
+    int idx = 0;
+    for (auto iter = start_iterator; iter != end_iterator; ++iter, ++idx)
+        if (elem == *iter)
+            return idx;
 
     return -1;
 }
 
 template<typename T>
-void list<T>::add(const T& elem)
+void list<T>::add(const T &elem) { this->append(elem); }
+
+template<typename T>
+void list<T>::add_range(const list& b)
 {
-    this->_add(elem);
+    for (auto iter = b.start_iterator; iter != iterator(b.end_iterator); ++iter) // костыль
+        this->append(T(*iter));
+}
+
+template<typename T>
+void list<T>::add_range(T* arr, int size)
+{
+    for (size_t i = 0; i < size; ++i)
+        this->append(arr[i]);
+}
+
+template<typename T>
+inline T& list<T>::at(int index) { return on_index(index); }
+
+template<typename T>
+void list<T>::set(int index, const T& elem)
+{
+    if (index < 0 || index >= len)
+        throw std::invalid_argument("index out of range");
+
+    int i = 0;
+    for (auto iter = start_iterator; i != index; ++iter, ++i)
+        if (i == index) {
+            *iter = elem;
+            return;
+        }
+}
+
+template<typename T>
+T list<T>::get(int index) const // костыль
+{
+    if (index < 0 || index >= len)
+        throw std::invalid_argument("index out of range");
+
+    int i = 0;
+    auto iter = start_iterator;
+    for (; i != index; ++iter, ++i)
+        if (i == index)
+            break;
+
+    return T(*iter);
 }
 
 template<typename T>
 void list<T>::remove(int index)
 {
-    if(index < 0 || index >= _len)
-        throw invalid_argument("0 <= index < sizZZZZZe");
+    if (index < 0 || index >= len)
+        throw std::invalid_argument("index out of range");
 
-    auto iter = this->begin();
     int i = 0;
-    while (i++ != index) ++iter;
-
-    delete iter._curr->data;
-    (iter._curr->prev)->next = (iter._curr->next);
-    (iter._curr->next)->prev = (iter._curr->prev);
-    delete iter._curr;
+    for (auto iter = start_iterator; i != index; ++iter, ++i)
+        if (i == index) {
+            iter_deleter(iter);
+            return;
+        }
 }
 
 template<typename T>
-void list<T>::sort(int(*comp)(const T& r1, const T& r2))
-{
-    if (!comp)
-        throw invalid_argument("comp is null :((");
-
-    for (Node* crr = _start; crr->next != NULL; crr = crr->next)
-    {
-        for (Node* nxt = crr->next; nxt != crr; nxt = nxt->next? nxt->next : crr)
-        {
-            if (comp(*(crr->data), *(nxt->data)) > 0)
-            {
-                T* tmp = crr->data;
-                crr->data = nxt->data;
-                nxt->data = tmp;
-            }
-        }
-    }
-}
+void list<T>::remove(iterator& iter) { iter_deleter(iter); }
 
 template<typename T>
 T* list<T>::to_array()
 {
-    if (!_len) return nullptr;
-
-    T* arr = nullptr;
-    try {
-        arr = new T[_len];
-    } catch (bad_alloc&) {
-        throw bad_alloc();
-    }
-
-    auto iter = this->begin();
-    for (int i = 0; !iter.is_end(); i++, ++iter)
-        arr[i] = *iter;
+    T* arr = new T[len]{};
+    size_t i = 0;
+    for (auto iter = start_iterator; iter != end_iterator; ++iter)
+        arr[i++] = *iter;
 
     return arr;
 }
 
 template<typename T>
-list<T>&& list<T>::combine(const list& lst)
+void list<T>::sort(int(*comp)(const T& r1, const T& r2))
 {
-    list new_list;
-    for (T a : *this)
-        new_list._add(a);
+    if (len < 2 || !comp) return;
 
-    for (T a : lst)
-        new_list._add(a);
-
-    return move(new_list);
-}
-
-template<typename T>
-void list<T>::_add(const T& elem)
-{
-
-    // create new node
-    Node* new_node;
-    try {
-        new_node = new Node{};
-        new_node->data = new T;
-    } catch(bad_alloc&) {
-        throw bad_alloc();
-    };
-    new_node->next = nullptr;
-    *(new_node->data) = elem;
-    ++_len;
-
-    // insert node
-    auto iter = this->begin();
-    if (!iter._curr) {
-        _start = new_node;
-        return;
+    for (auto iter_a = start_iterator; iter_a != iterator(end_iterator.current_node->prev); ++iter_a)
+    {
+        for (auto iter_b = iterator(iter_a.current_node->next); iter_b != end_iterator; ++iter_b) {
+            if (comp(*iter_b, *iter_a) > 0)
+                swap_iters(iter_a, iter_b);
+        }
     }
-    while (iter._curr->next) ++iter;
-    iter._curr->next = new_node;
-    new_node->prev = iter._curr;
+
 }
 
 template<typename T>
-T list<T>::_at(int index) const
-{
-    if(index < 0 || index >= _len)
-        throw invalid_argument("Index must be >= 0 and smaller than my display");
+typename list<T>::iterator list<T>::begin() { return iterator(this->start_iterator); }
 
-    auto iter = this->begin();
+template<typename T>
+typename list<T>::iterator list<T>::end() { return iterator(this->end_iterator); }
+
+template<typename T>
+void list<T>::append(const T& val)
+{
+    Node* node = new Node{val};
+    node->val = val;
+
+    if (!len) {
+        start_node->prev = node;
+        node->next = start_node;
+        start_node = node;
+        start_iterator.current_node = node;
+
+    } else {
+        (end_node->prev)->next = node;
+        node->prev = (end_node->prev);
+        end_node->prev = node;
+        node->next = end_node;
+        // end_iterator = iterator(end_node);
+    }
+
+    ++len;
+}
+
+template<typename T>
+void list<T>::append(T&& val)
+{
+    Node* node = new Node{val};
+
+    if (!len) {
+        start_node->prev = node;
+        node->next = start_node;
+        start_node = node;
+        start_iterator.current_node = node;
+
+    } else {
+        (end_node->prev)->next = node;
+        node->prev = (end_node->prev);
+        end_node->prev = node;
+        node->next = end_node;
+        // end_iterator = iterator(end_node);
+    }
+
+    ++len;
+}
+
+template<typename T>
+inline void list<T>::swap_iters(iterator& iter1, iterator& iter2)
+{
+    T tmp {*iter1};
+    *iter1 = std::move(*iter2);
+    *iter2 = std::move(tmp);
+}
+
+template<typename T>
+T& list<T>::on_index(int index)
+{
+    if (index < 0 || index >= len)
+        throw std::invalid_argument("index out of range");
+
     int i = 0;
-    while (i++ != index) ++iter;
+    auto iter = start_iterator;
+    for (; iter != end_iterator; ++iter)
+        if (i++ == index)
+            break;
 
     return *iter;
 }
 
 template<typename T>
-T& list<T>::_get(int index)
+list<T>&& list<T>::unit(const list& lst)
 {
-    if(index < 0 || index >= _len)
-        throw invalid_argument("0 <= index < sizZZZZZe");
+    list tmp{*this};
+    for (T val : lst)
+        tmp.append(val);
 
-    auto iter = this->begin();
-    int i = 0;
-    while (i++ != index) ++iter;
-
-    return *(iter._curr->data);
-}
-
-//
-// iterator
-//
-template<typename T>
-typename list<T>::iterator list<T>::begin()
-{
-    return iterator(*this);
+    return std::move(tmp);
 }
 
 template<typename T>
-typename list<T>::iterator list<T>::end()
+list<T>& list<T>::operator=(const list& lst)
 {
-    iterator iter = this->begin();
-    while(!iter.is_end()) ++iter;
-    return iter;
+    auto target = lst.start_iterator;
+    auto iter   = start_iterator;
+    for (; target != lst.end_iterator; ++iter, ++target)
+        if (iter == end_iterator)
+        {
+            this->append(T(target.current_node->val));
+            iter.current_node = iter.current_node->prev;
+        }
+        else
+            *iter = T(target.current_node->val);
+
+    if (iter != end_iterator)
+        for (auto itr = iterator(end_node->prev); itr != iter; --itr)
+            iter_deleter(itr);
+
+    return *this;
+}
+
+template<typename T>
+bool list<T>::operator==(const list& lst) const
+{
+    if (&lst == this) return true;
+    if (len != lst.len) return false;
+
+    auto iter = start_iterator;
+    auto iter_lst = lst.start_iterator;
+    for (; iter != end_iterator && iter_lst != lst.end_iterator; ++iter, ++iter_lst)
+        if (*iter != *iter_lst)
+            return false;
+
+    return true;
+}
+
+template<typename T>
+T& list<T>::operator[](int index) { return on_index(index); }
+
+template<typename T>
+void list<T>::iter_deleter(iterator& del_iter)
+{
+    for (auto iter = start_iterator; iter != end_iterator; ++iter) {
+        if (iter == del_iter) {
+            (iter.current_node->prev)->next = iter.current_node->next;
+            (iter.current_node->next)->prev = iter.current_node->prev;
+
+            delete iter.current_node;
+            del_iter.current_node = nullptr;
+            --len;
+            return;
+        }
+    }
+
+    throw std::invalid_argument("iterator does not exist");
 }
 }
