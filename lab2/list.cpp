@@ -31,8 +31,10 @@ list<T>::list(std::initializer_list<T> init_lst) : list()
 }
 
 template<typename T>
-list<T>::list(list&& lst) : list()
+list<T>::list(list&& lst)
 {
+    // if (!lst.get_len()) return;
+
     start_node   = lst.start_node;
     end_node     = lst.end_node;
     lst.end_node = lst.start_node = nullptr;
@@ -247,13 +249,14 @@ T& list<T>::on_index(int index)
 }
 
 template<typename T>
-list<T>&& list<T>::unit(const list& lst)
+list<T> list<T>::unit(const list& lst)
 {
-    list tmp{*this};
-    for (T val : lst)
-        tmp.append(val);
+    list<T> tmp{*this};
 
-    return std::move(tmp);
+    for (auto iter = lst.start_iterator; iter != lst.end_iterator; ++iter)
+        tmp.append(T(*iter));
+
+    return tmp;
 }
 
 template<typename T>

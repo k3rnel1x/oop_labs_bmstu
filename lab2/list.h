@@ -103,7 +103,7 @@ public:
     void remove(iterator& iter);
     void sort(int (*comp)(const T& r1, const T& r2));
     T*   to_array();
-    list&& unit(const list& lst);
+    list unit(const list& lst);
 
     list& operator=(const list& lst);
     bool operator==(const list& lst) const;
