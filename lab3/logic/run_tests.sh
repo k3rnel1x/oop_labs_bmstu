@@ -1,0 +1,1 @@
+g++ -lstdc++ deixtralg.cpp tests.cpp --std=c++17 && ./a.out

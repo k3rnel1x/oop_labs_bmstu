@@ -62,6 +62,18 @@ void MainWindow::on_anyCalcButton_clicked(int id)
         inverseText();
     }
 
+    if(ch == '=') {
+        try {
+            double res = calc.calcExpression(text);
+            text = QString::number(res);
+
+        } catch (std::exception& e) {
+            QMessageBox::critical(this, "ERROR", "INVALID EXPRESSION");
+            text.clear();
+        }
+
+    }
+
     updateText();
     // qDebug() << text;
 }
