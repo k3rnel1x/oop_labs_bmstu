@@ -14,5 +14,4 @@ find_package(Qt6 REQUIRED Widgets COMPONENTS Core)
 qt_standard_project_setup()
 
 add_subdirectory(app)
-add_subdirectory(entrypoint)
-add_subdirectory(businesslogic)
+add_subdirectory(logic)

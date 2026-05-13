@@ -6,19 +6,94 @@
 #include <QHeaderView>
 #include <QFileDialog>
 #include <QMessageBox>
-#include <entrypoint.h>
-#include <businesslogic.h>
 #include <QtMinMax>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    context = new AppContext{};
+    // context = new AppContext{};
+    calcButtonGroup = new QButtonGroup {};
+
+    // init buttons
+    QSizePolicy policy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    QGridLayout* layout = new QGridLayout(ui->calcButtonsWidget);
+
+    int buttonId = 0;
+    for (int i = 0; i < HEIGHTSELLS; ++i)
+    {
+        for (int j = 0; j < WIDTHSELLS; ++j)
+        {
+            QPushButton* button = new QPushButton { QString(calcSymbols[i][j]) };
+            calcButtonGroup->addButton(button, buttonId++);
+            button->setSizePolicy(policy);
+            layout->addWidget(button, i, j);
+        }
+    }
+
+    connect(calcButtonGroup, &QButtonGroup::idClicked, this, &MainWindow::on_anyCalcButton_clicked);
 }
 
 MainWindow::~MainWindow()
 {
-    performOperation(context, NULL, CleanUp);
-    delete context;
+
+    // delete layout;
+    delete calcButtonGroup;
     delete ui;
+    
+}
+
+void MainWindow::on_anyCalcButton_clicked(int id)
+{
+    char ch = *((char*)calcSymbols + id);
+
+    if(isdigit(ch) || isOperator(ch) || ch == '.') {
+        putSymbol(ch);
+    }
+
+    if(ch == 'd') {
+        delSymbol();
+    }
+
+    if(ch == 'c') {
+        clearText();
+    }
+
+    if(ch == 'p') {
+        inverseText();
+    }
+
+    updateText();
+    // qDebug() << text;
+}
+
+inline bool MainWindow::isOperator(char c) {
+    for (size_t i = 0; i < OPERATORSCOUNT; i++)
+        if(operators[i] == c)
+            return true;
+
+    return false;
+}
+
+inline void MainWindow::putSymbol(char c) {
+    text.append(c);
+}
+
+inline void MainWindow::delSymbol() {
+    text.removeLast();
+}
+
+inline void MainWindow::inverseText() {
+    if(text[0] == '-'){
+        text.removeFirst();
+    } else {
+        text.insert(0, '-');
+    }    
+}
+
+inline void MainWindow::updateText() {
+    ui->textBrowser->setText(text);
+}
+
+inline void MainWindow::clearText() {
+    text.clear();
 }
