@@ -77,7 +77,7 @@ void MainWindow::execButtonOperation(char ch)
         inverseText();
     }
 
-    if(ch == '=') {
+    if(ch == '=' && !text.endsWith('.')) {
         try {
             double res = calc.calcExpression(text);
             text = QString::number(res, 'f', CALCRESOLUTION);
@@ -90,7 +90,11 @@ void MainWindow::execButtonOperation(char ch)
             }
             
         } catch (const std::invalid_argument& e) {
-            QMessageBox::critical(this, "ERROR", "BAD CALCULATION");
+            QMessageBox::critical(this, "ERROR", e.what());
+            // text.clear();
+            
+        } catch (const std::runtime_error& e) {
+            QMessageBox::critical(this, "ERROR", e.what());
             // text.clear();
         }
     }
@@ -115,6 +119,9 @@ inline void MainWindow::delSymbol() {
 }
 
 inline void MainWindow::inverseText() {
+    if(text.isEmpty())
+        return;
+        
     if(text[0] == '-'){
         text.removeFirst();
     } else {

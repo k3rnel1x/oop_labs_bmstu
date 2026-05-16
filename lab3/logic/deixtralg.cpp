@@ -30,7 +30,8 @@ const map<char, int> operators = {
     {'*', 2},
     {'/', 2},
     {'^', 3},
-    {'~', 4}
+    {'~', 4},
+    {'!', 5}
 };
 
 TokenType typeOfToken(const char token)
@@ -137,6 +138,9 @@ string toPostfix(const string infix)
         case Operator:
             if(c == '-' && (i == 0 || i > 1 && operators.find(infix[i-1]) != operators.end()))
                 c = '~';
+
+            if(c == '+' && (i == 0 || i > 1 && operators.find(infix[i-1]) != operators.end()))
+                c = '!';
 
             while(!operators_stack.empty() && tokenPrior(operators_stack.top()) >= tokenPrior(c)) {
                 postfix += operators_stack.top();
@@ -257,6 +261,13 @@ double calcInPostfix(const string postfix)
 
             case Operator:
             {
+                if(c == '!') {
+                    double num = numbers.top();
+                    numbers.pop();
+                    numbers.push(num);
+                    break;
+                }
+
                 if(c == '~') {
                     double num = numbers.top();
                     numbers.pop();
@@ -270,6 +281,10 @@ double calcInPostfix(const string postfix)
                 double a = numbers.empty()? INFINITY : numbers.top();
                 if (!numbers.empty()) numbers.pop();
                 qDebug() << postfix;
+
+                if(b == INFINITY || a == INFINITY)
+                    throw runtime_error("not enought numbers");
+
                 numbers.push(execOperation(c, a, b));
                 break;
             }
