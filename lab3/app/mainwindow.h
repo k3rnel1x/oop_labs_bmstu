@@ -12,7 +12,8 @@
 
 #define HEIGHTSELLS 5
 #define WIDTHSELLS  4
-#define OPERATORSCOUNT  4
+#define OPERATORSCOUNT  7
+#define CALCRESOLUTION 16
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -32,10 +33,11 @@ protected:
 
 private slots:
     void on_anyCalcButton_clicked(int id);
+    void keyPressEvent(QKeyEvent* event);
 
 private:
     char calcSymbols[HEIGHTSELLS][WIDTHSELLS] = {
-        {'d','c','%','/'},
+        {'d','c','^','/'},
         {'7','8','9','*'},
         {'4','5','6','-'},
         {'1','2','3','+'},
@@ -43,9 +45,10 @@ private:
     };
 
     char operators[OPERATORSCOUNT] = {
-        '/', '*', '-', '+'
+        '/', '*', '-', '+', '^', '(', ')'
     };
 
+    void execButtonOperation(char ch);
     inline bool isOperator(char c);
     void putSymbol(char c);
     void delSymbol();

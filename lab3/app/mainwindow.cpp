@@ -2,11 +2,12 @@
 #include "./ui_mainwindow.h"
 
 #include <string.h>
-
+#include <stdexcept>
 #include <QHeaderView>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QtMinMax>
+#include <QKeyEvent>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) , ui(new Ui::MainWindow)
 {
@@ -46,6 +47,20 @@ void MainWindow::on_anyCalcButton_clicked(int id)
 {
     char ch = *((char*)calcSymbols + id);
 
+    execButtonOperation(ch);
+    // qDebug() << text;
+}
+
+void MainWindow::keyPressEvent(QKeyEvent* event)
+{
+    QChar key = char(event->key());
+    key = key.toLower();
+    // qDebug() << char(key);
+    execButtonOperation(key.toLatin1());
+}
+
+void MainWindow::execButtonOperation(char ch)
+{
     if(isdigit(ch) || isOperator(ch) || ch == '.') {
         putSymbol(ch);
     }
@@ -65,17 +80,22 @@ void MainWindow::on_anyCalcButton_clicked(int id)
     if(ch == '=') {
         try {
             double res = calc.calcExpression(text);
-            text = QString::number(res);
+            text = QString::number(res, 'f', CALCRESOLUTION);
+            while(text.endsWith('0')) {
+                text.removeLast();
+            }
 
-        } catch (std::exception& e) {
-            QMessageBox::critical(this, "ERROR", "INVALID EXPRESSION");
-            text.clear();
+            if(text.endsWith('.')) {
+                text.removeLast();
+            }
+            
+        } catch (const std::invalid_argument& e) {
+            QMessageBox::critical(this, "ERROR", "BAD CALCULATION");
+            // text.clear();
         }
-
     }
 
     updateText();
-    // qDebug() << text;
 }
 
 inline bool MainWindow::isOperator(char c) {

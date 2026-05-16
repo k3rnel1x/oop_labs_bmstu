@@ -6,6 +6,7 @@
 #include <cmath>
 #include <algorithm>
 #include <cfloat>
+#include <QDebug>
 
 using namespace std;
 
@@ -160,6 +161,7 @@ string toPostfix(const string infix)
 
             operators_stack.pop();
             break;
+
         case Other:
             break;
         }
@@ -217,7 +219,7 @@ double execOperation(char operation, double a, double b)
     default:
         break;
     }
-    // cout << "Operation: " << a << " " << operation << " " << b << endl;
+    cout << "Operation: " << a << " " << operation << " " << b << endl;
 
     return result;
 }
@@ -262,12 +264,12 @@ double calcInPostfix(const string postfix)
                     break;
                 }
 
-                double b = numbers.empty()? 0 : numbers.top();
+                double b = numbers.empty()? INFINITY : numbers.top();
                 if (!numbers.empty()) numbers.pop();
 
-                double a = numbers.empty()? 0 : numbers.top();
+                double a = numbers.empty()? INFINITY : numbers.top();
                 if (!numbers.empty()) numbers.pop();
-
+                qDebug() << postfix;
                 numbers.push(execOperation(c, a, b));
                 break;
             }
