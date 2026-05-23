@@ -1,0 +1,6 @@
+set(__QT_DEPLOY_TARGET_laba4_FILE /Users/k3rnel1x/Programming/qt_op_labs_bmstu/laba4/out/build/GCC/app/laba4.app/Contents/MacOS/laba4)
+set(__QT_DEPLOY_TARGET_laba4_TYPE EXECUTABLE)
+set(__QT_DEPLOY_TARGET_entrypoint_FILE /Users/k3rnel1x/Programming/qt_op_labs_bmstu/laba4/out/build/GCC/entrypoint/libentrypoint.a)
+set(__QT_DEPLOY_TARGET_entrypoint_TYPE STATIC_LIBRARY)
+set(__QT_DEPLOY_TARGET_businesslogic_FILE /Users/k3rnel1x/Programming/qt_op_labs_bmstu/laba4/out/build/GCC/businesslogic/libbusinesslogic.a)
+set(__QT_DEPLOY_TARGET_businesslogic_TYPE STATIC_LIBRARY)

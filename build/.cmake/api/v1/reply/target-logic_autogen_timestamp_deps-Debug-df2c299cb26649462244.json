@@ -1,0 +1,51 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"logic/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	},
+	"folder" : 
+	{
+		"name" : "QtInternalTargets"
+	},
+	"id" : "logic_autogen_timestamp_deps::@330d13901b3cda70f4f4",
+	"isGeneratorProvided" : true,
+	"name" : "logic_autogen_timestamp_deps",
+	"orderDependencies" : 
+	[
+		{
+			"backtrace" : 0,
+			"id" : "Qt6::moc::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "Qt6::uic::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "Qt6::Widgets::@6890427a1f51a3e7e1df"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "logic",
+		"source" : "logic"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

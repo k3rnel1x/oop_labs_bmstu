@@ -1,0 +1,10 @@
+# Hashes of file build rules.
+d4ec3bf5a316c99d20f16b95026caa57 app/.qt/5fe068/ui_mainwindow.h
+c1e5f483f6cb3c764faf18b7b01e108e app/CMakeFiles/laba4_autogen
+c1e5f483f6cb3c764faf18b7b01e108e app/CMakeFiles/laba4_ui_property_check
+281f32065cdc3eb788c490b843535ca3 app/laba4_autogen/timestamp
+37b8fa927a2fb24b75842a1ec90068d1 app/laba4_autogen/ui_property_check_timestamp
+a5937b71a0552af63de4ce49efefb23c logic/CMakeFiles/logic_autogen
+162abd196180cc292f7a052655b48f0b logic/logic_autogen/timestamp
+a1073ca12450aa20ed5c9b8df67a598c logic/meta_types/logic_json_file_list.txt
+d9c4a23a565a30acfe369794f67b6077 logic/meta_types/qt6logic_metatypes.json.gen

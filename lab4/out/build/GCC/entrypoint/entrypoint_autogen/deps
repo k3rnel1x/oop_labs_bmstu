@@ -1,0 +1,5 @@
+entrypoint_autogen/timestamp: \
+	/Users/k3rnel1x/Programming/qt_op_labs_bmstu/laba4/entrypoint/CMakeLists.txt \
+	/Users/k3rnel1x/Programming/qt_op_labs_bmstu/laba4/entrypoint/entrypoint.cpp \
+	/Users/k3rnel1x/Programming/qt_op_labs_bmstu/laba4/entrypoint/entrypoint.h \
+	/opt/homebrew/bin/cmake

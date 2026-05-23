@@ -1,0 +1,10 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/k3rnel1x/Programming/qt_op_labs_bmstu/laba4/out/build/GCC/cmake_install.cmake",
+		"/Users/k3rnel1x/Programming/qt_op_labs_bmstu/laba4/out/build/GCC/app/cmake_install.cmake",
+		"/Users/k3rnel1x/Programming/qt_op_labs_bmstu/laba4/out/build/GCC/entrypoint/cmake_install.cmake",
+		"/Users/k3rnel1x/Programming/qt_op_labs_bmstu/laba4/out/build/GCC/businesslogic/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

@@ -1,0 +1,2 @@
+/usr/bin/ar qc liblogic.a CMakeFiles/logic.dir/logic_autogen/mocs_compilation.cpp.o CMakeFiles/logic.dir/facadecalculator.cpp.o CMakeFiles/logic.dir/deixtralg.cpp.o
+/usr/bin/ranlib liblogic.a

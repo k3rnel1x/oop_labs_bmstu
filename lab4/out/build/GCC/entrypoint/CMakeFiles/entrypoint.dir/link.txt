@@ -1,0 +1,2 @@
+/usr/bin/ar qc libentrypoint.a CMakeFiles/entrypoint.dir/entrypoint_autogen/mocs_compilation.cpp.o CMakeFiles/entrypoint.dir/entrypoint.cpp.o
+/usr/bin/ranlib libentrypoint.a

@@ -1,0 +1,70 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"app/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"codemodelVersion" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	},
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 0,
+			"id" : "laba4_ui_property_check::@5f5a17c01335469806cb"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "logic::@330d13901b3cda70f4f4"
+		}
+	],
+	"folder" : 
+	{
+		"name" : "QtInternalTargets"
+	},
+	"id" : "laba4_autogen_timestamp_deps::@5f5a17c01335469806cb",
+	"isGeneratorProvided" : true,
+	"name" : "laba4_autogen_timestamp_deps",
+	"orderDependencies" : 
+	[
+		{
+			"backtrace" : 0,
+			"id" : "Qt6::moc::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "Qt6::Core::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "Qt6::Widgets::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "laba4_ui_property_check::@5f5a17c01335469806cb"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "logic::@330d13901b3cda70f4f4"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "app",
+		"source" : "app"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}
