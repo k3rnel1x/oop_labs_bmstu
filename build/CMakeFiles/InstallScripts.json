@@ -1,9 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/Users/k3rnel1x/Programming/oop_labs_bmstu/build/cmake_install.cmake",
-		"/Users/k3rnel1x/Programming/oop_labs_bmstu/build/app/cmake_install.cmake",
-		"/Users/k3rnel1x/Programming/oop_labs_bmstu/build/logic/cmake_install.cmake"
-	],
-	"Parallel" : false
-}

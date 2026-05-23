@@ -1,10 +1,15 @@
-qt_add_library(businesslogic STATIC
-        businesslogic.cpp
-        pointsarr/pointsarr.h
-        pointsarr/pointsarr.cpp
-        pointsarr/point.h
-        parser/parser.cpp
-)
+cmake_minimum_required(VERSION 3.16)
+project(laba4 VERSION 0.1 LANGUAGES CXX)
 
-target_link_libraries(businesslogic PRIVATE entrypoint Qt6::Core Qt6::Widgets)
-target_include_directories(businesslogic INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+set(SOURCES
+        abstract/IFileReader.h
+        abstract/IFacadeResult.h
+        DrawSurfaceFacade.h
+        DrawSurfaceFacade.cpp
+        NormalizationParams.h
+        FileReader.cpp
+        FileReader.h
+        abstract/ISceneDrawer.h
+)
+add_library(libusinesslogic STATIC ${SOURCES})
+set_target_properties(libusinesslogic PROPERTIES LINKER_LANGUAGE CXX)

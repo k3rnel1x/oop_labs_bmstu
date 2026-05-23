@@ -1,20 +1,69 @@
-qt_add_executable(laba4
-    mainwindow.cpp
-    mainwindow.h
-    surfacedrawer/surfacedrawer.h
-    surfacedrawer/surfacedrawer.cpp
-    surfacedrawer/vec2dyarr.cpp
-    logger.hpp
-    appcontext.h
-    main.cpp
+cmake_minimum_required(VERSION 3.16)
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+
+set(PROJECT_SOURCES
+        main.cpp
+        mainwindow.cpp
+        mainwindow.hpp
+        mainwindow.ui
 )
 
-qt_add_ui(laba4 SOURCES mainwindow.ui)
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    qt_add_executable(laba4
+        MANUAL_FINALIZATION
+        ${PROJECT_SOURCES}
+    )
+# Define target properties for Android with Qt 6 as:
+#    set_property(TARGET laba4 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
+# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
+else()
+    if(ANDROID)
+        add_library(laba4 SHARED
+            ${PROJECT_SOURCES}
+        )
+# Define properties for Android with Qt 5 after find_package() calls as:
+#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
+    else()
+        add_executable(laba4
+            ${PROJECT_SOURCES}
+        )
+    endif()
+endif()
 
-target_link_libraries(laba4 PRIVATE businesslogic entrypoint Qt6::Widgets stdc++ Qt6::Core)
-target_include_directories(laba4 INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(laba4 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(laba4 PRIVATE libusinesslogic)
 
+# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
+# If you are developing for iOS or macOS you should consider setting an
+# explicit, fixed bundle identifier manually though.
+if(${QT_VERSION} VERSION_LESS 6.1.0)
+  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.laba4)
+endif()
 set_target_properties(laba4 PROPERTIES
-    WIN32_EXECUTABLE ON
-    MACOSX_BUNDLE ON
+    ${BUNDLE_ID_OPTION}
+    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+    MACOSX_BUNDLE TRUE
+    WIN32_EXECUTABLE TRUE
 )
+
+include(GNUInstallDirs)
+install(TARGETS laba4
+    BUNDLE DESTINATION .
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt_finalize_executable(laba4)
+endif()
