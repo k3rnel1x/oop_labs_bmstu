@@ -7,6 +7,11 @@ private:
     Vertex& _end;
 
 public:
+    Edge(const Edge& edge) = default;
+    Edge(Vertex begin, Vertex end)
+    : _begin(begin), _end(end)
+    {
+    };
     Vertex& GetBegin();
     Vertex& GetEnd();
 

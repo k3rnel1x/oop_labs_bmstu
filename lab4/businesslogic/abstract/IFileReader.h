@@ -7,5 +7,5 @@
 class IFileReader {
 public:
     virtual Scene ReadScene(std::string path, NormalizationParameters nparams) = 0;
-    virtual ~IFileReader() = default;
+    ~IFileReader() = default;
 };

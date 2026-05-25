@@ -10,3 +10,8 @@ std::vector<Figure> Scene::GetFigures()
 {
     return _figures;
 }
+
+void Scene::SetFigures(const std::vector<Figure>& figures)
+{
+    this->_figures = std::vector(figures);
+}
