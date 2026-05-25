@@ -1,7 +1,9 @@
 #include <string>
 
-#include "abstract/IFacadeResult.h"
+#include "FacadeResult.h"
 #include "NormalizationParams.h"
+#include "abstract/IFileReader.h"
+#include "abstract/ISceneDrawer.h"
 
 class DrawSurfaceFacade
 {
