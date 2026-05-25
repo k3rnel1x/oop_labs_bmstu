@@ -5,7 +5,7 @@
 
 class Scene {
 public:
-    void TransformFigures(TransformMatrix&& transformMatrix);
+    void TransformFigures(const TransformMatrix& transformMatrix);
     std::vector<Figure> GetFigures();
 
 private:

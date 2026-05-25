@@ -12,7 +12,8 @@ void Vertex::Transform(const TransformMatrix& transform)
     TransformMatrix vertexMatrix  {
         {_point.x},
         {_point.y},
-        {_point.z}
+        {_point.z},
+        {1}
     };
 
     TransformMatrix res = transform * vertexMatrix;
