@@ -25,7 +25,8 @@ set(SOURCES
         SceneObject.cpp
         abstract/SceneObject.h
         Vertex.cpp
-        matrixTest.cpp
+        tests/matrixTest.cpp
+        tests/vertexAndBuilderTest.cpp
 )
 add_library(libusinesslogic STATIC ${SOURCES})
 set_target_properties(libusinesslogic PROPERTIES LINKER_LANGUAGE CXX)
@@ -33,7 +34,16 @@ set_target_properties(libusinesslogic PROPERTIES LINKER_LANGUAGE CXX)
 
 # matrixTest
 add_executable(matrixTest
-        matrixTest.cpp
+        tests/matrixTest.cpp
         TransformMatrix.cpp
 )
 add_test(NAME matrixTest COMMAND matrixTest)
+
+# vertexAndBuilderTest
+add_executable(vertexAndBuilderTest
+        tests/vertexAndBuilderTest.cpp
+        TransformMatrixBuilder.cpp
+        TransformMatrix.cpp
+        Vertex.cpp
+)
+add_test(NAME vertexAndBuilderTest COMMAND vertexAndBuilderTest)
