@@ -1,5 +1,5 @@
 #pragma once
-#define MATRIXSIZE 3
+#define MATRIXSIZE 4
 #include <initializer_list>
 
 #include "3DPoint.h"

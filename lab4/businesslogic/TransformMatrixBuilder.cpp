@@ -3,7 +3,6 @@
 //
 
 #include "TransformMatrixBuilder.h"
-
 #include <valarray>
 
 TransformMatrix TransformMatrixBuilder::CreateRotationMatrix(double alpha, double beta, double gamma)
@@ -27,4 +26,14 @@ TransformMatrix TransformMatrixBuilder::CreateRotationMatrix(double alpha, doubl
     };
 
     return xRotMatrix * yRotMatrix * zRotMatrix;
+}
+
+TransformMatrix TransformMatrixBuilder::CreateMoveMatrix(double x, double y, double z)
+{
+    return TransformMatrix {
+            {1, 0, 0, x},
+            {0, 1, 0, y},
+            {0, 0, 1, z},
+            {0, 0, 0, 1},
+        };;
 }
