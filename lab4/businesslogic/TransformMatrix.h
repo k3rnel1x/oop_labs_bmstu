@@ -14,5 +14,4 @@ public:
 
 private:
     double _matrix[MATRIXSIZE][MATRIXSIZE] = {0};
-
 };
