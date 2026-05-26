@@ -2,7 +2,7 @@
 
 void Scene::TransformFigures(const TransformMatrix& transformMatrix)
 {
-    for (auto& figure: _figures)
+    for (auto& figure: this->_figures)
         figure.Transform(transformMatrix);
 }
 

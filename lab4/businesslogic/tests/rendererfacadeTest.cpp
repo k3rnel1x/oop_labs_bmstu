@@ -1,53 +1,51 @@
+#include "../io/FileReader.h"
 #include <iostream>
-#include <renderer/QtSceneDrawer.h>
-#include <QWidget>
 #include <QApplication>
 #include <QPainter>
 #include <QTimer>
 
 #include "core/RendererFacade.h"
 #define PATH "/Users/k3rnel1x/Programming/oop_labs_bmstu/lab4/test_files/students_exams (вариант 2).csv"
-
 using namespace std;
 
 class Painter : public QWidget {
 public:
-    Painter(Scene scene) : _scene(scene), _drawer(this)
+    Painter()
     {
         QTimer *timer = new QTimer(this);
         connect(timer, &QTimer::timeout, this, QOverload<>::of(&Painter::update));
 
         timer->start(1);
+
+        FacadeResult res = renderer.LoadScene(PATH, NormalizationParameters{});
+        if (!res)
+            throw std::runtime_error(res.GetErrorMessage());
+
     }
+
     void paintEvent(QPaintEvent* event) override
     {
-        QPainter p(this);
-        this->_drawer.DrawScene(_scene);
-        _scene.TransformFigures(TransformMatrixBuilder::CreateRotationMatrix(2, 2, 2));
-        p.end();
+        FacadeResult res = renderer.RotateScene(0.0008, 0.001, 0.001);
+        if (!res)
+            throw std::runtime_error(res.GetErrorMessage());
+
+        res = renderer.DrawScene();
+        if (!res)
+            throw std::runtime_error(res.GetErrorMessage());
     };
 
 private:
-    QtSceneDrawer _drawer;
-    Scene _scene;
+    RendererFacade renderer {
+        make_unique<FileReader>(),
+        make_unique<QtSceneDrawer>(this)
+    };;
 };
+
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    FileReader reader;
-    Scene scene;
-    try
-    {
-        scene = reader.ReadScene(PATH, NormalizationParameters());
-    } catch (exception& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-
-    Painter painter(scene);
-
+    Painter painter{};
     painter.show();
-
     return app.exec();
 }

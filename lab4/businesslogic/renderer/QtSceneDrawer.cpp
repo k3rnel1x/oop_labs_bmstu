@@ -3,6 +3,8 @@
 //
 
 #include "QtSceneDrawer.h"
+
+#include <iostream>
 #include <QPainter>
 
 void QtSceneDrawer::DrawScene(const Scene& scene)
@@ -13,6 +15,7 @@ void QtSceneDrawer::DrawScene(const Scene& scene)
     QPainter p;
     p.begin(_canvas);
 
+    // std::cout << "!! ->> :" << scene.GetFigures()[0].GetVertices()[0].GetPosition().x << std::endl;
     for (auto& figure : scene.GetFigures())
     {
         for (auto& edge : figure.GetEdges())
@@ -21,7 +24,6 @@ void QtSceneDrawer::DrawScene(const Scene& scene)
             std::pair end = _processVertex(edge.GetEnd());
             p.drawLine(begin.first, begin.second,
                        end.first,   end.second);
-            // qDebug() << "Placed: " << std::to_string(placedBegin.first) << std::to_string(placedBegin.second);
         }
     }
 
@@ -36,13 +38,14 @@ void QtSceneDrawer::SetCanvas(QWidget *canvas)
     this->_canvas = canvas;
 }
 
-std::pair<int, int> QtSceneDrawer::_processVertex(const Vertex& vertex)
+std::pair<int, int> QtSceneDrawer::_processVertex(Vertex vertex)
 {
     Point3D point = vertex.GetPosition();
-    double scale = 3; // TODO
+    double scale = 1.5; // TODO
     std::swap(point.y, point.z);
 
     // Normalize
+    // std::cout << point.x << " " << point.y << " " << point.z << std::endl;
     point.x = scale*(-1 + (point.x)/double(30)*2);
     point.y = scale*(-1 + (point.y)/double(30)*2);
     point.z = -1 + (point.z)/(ZMAX)*2 + INITZ;

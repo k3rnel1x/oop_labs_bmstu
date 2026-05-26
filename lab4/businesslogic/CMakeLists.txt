@@ -34,14 +34,11 @@ set(SOURCES
         renderer/Scene.h
         renderer/abstract/ISceneObject.h
         math/Vertex.cpp
-        tests/matrixTest.cpp
-        tests/builderTest.cpp
         math/Edge.cpp
         renderer/Scene.cpp
-        tests/readsceneTest.cpp
         renderer/QtSceneDrawer.cpp
         renderer/QtSceneDrawer.h
-        tests/qtscenedrawerTest.cpp
+        core/FacadeResult.cpp
 )
 add_library(libusinesslogic STATIC ${SOURCES})
 target_link_libraries(libusinesslogic PRIVATE Qt6::Widgets)
@@ -95,3 +92,12 @@ add_executable(qtscenedrawerTest
 )
 target_link_libraries(qtscenedrawerTest PRIVATE Qt6::Widgets)
 add_test(NAME qtscenedrawerTest COMMAND ./qtscenedrawerTest)
+
+# rendererfacadeTest
+add_executable(rendererfacadeTest
+        ${SOURCES}
+        core/FacadeResult.cpp
+        tests/rendererfacadeTest.cpp
+)
+target_link_libraries(rendererfacadeTest PRIVATE Qt6::Widgets)
+add_test(NAME rendererfacadeTest COMMAND ./rendererfacadeTest)

@@ -2,10 +2,10 @@
 
 Vertex Edge::GetBegin()
 {
-    return this->_begin;
+    return _begin;
 }
 
 Vertex Edge::GetEnd()
 {
-    return this->_end;
+    return _end;
 }

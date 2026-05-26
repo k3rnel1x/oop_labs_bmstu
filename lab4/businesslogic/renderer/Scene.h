@@ -6,7 +6,7 @@
 class Scene {
 public:
     Scene() = default;
-    Scene(std::vector<Figure> figures)
+    Scene(std::vector<Figure>&& figures)
     : _figures(std::vector(figures))
     {
     }

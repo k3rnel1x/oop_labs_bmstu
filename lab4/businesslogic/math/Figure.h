@@ -7,7 +7,7 @@
 
 class Figure : public ISceneObject {
 public:
-    Figure(std::vector<Vertex> vertices, std::vector<Edge> edges)
+    Figure(std::vector<Vertex>&& vertices, std::vector<Edge>&& edges)
     : _vertices(vertices), _edges(edges)
     {
     }

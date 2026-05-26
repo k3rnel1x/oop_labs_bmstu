@@ -41,9 +41,9 @@ Scene FileReader::ReadScene(std::string path, NormalizationParameters nparams)
             edges.push_back(Edge(vertices[i], vertices[i + size]));
     }
 
-    Figure figure(vertices, edges);
+    Figure figure(std::move(vertices), std::move(edges));
     vector figures{figure};
-    Scene scene{figures};
+    Scene scene{std::move(figures)};
     return scene;
 }
 

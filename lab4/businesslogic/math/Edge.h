@@ -14,5 +14,4 @@ public:
     };
     Vertex GetBegin();
     Vertex GetEnd();
-
 };
