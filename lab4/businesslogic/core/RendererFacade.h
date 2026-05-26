@@ -1,17 +1,18 @@
 #include <string>
 
 #include "FacadeResult.h"
-#include "NormalizationParams.h"
-#include "abstract/IFileReader.h"
-#include "abstract/ISceneDrawer.h"
+#include <io/NormalizationParams.h>
+#include <io/FileReader.h>
+#include <core/abstract/ISceneDrawer.h>
 
-class DrawSurfaceFacade
+class RendererFacade
 {
 public:
-    DrawSurfaceFacade(/* args */);
-    ~DrawSurfaceFacade();
+    RendererFacade(/* args */);
+    ~RendererFacade();
 
     FacadeResult&& DrawScene();
+
     FacadeResult&& LoadScene(std::string path, NormalizationParameters nparams);
     FacadeResult&& MoveScene  (double x, double y, double z);
     FacadeResult&& RotateScene(double x, double y, double z);
@@ -19,7 +20,7 @@ public:
 
 private:
     /* data */
-    IFileReader _file_reader;
+    FileReader _file_reader;
     ISceneDrawer _scene_drawer;
     Scene _scene;
 };

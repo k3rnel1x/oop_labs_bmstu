@@ -1,4 +1,4 @@
-#include "../FileReader.h"
+#include "../io/FileReader.h"
 #include <iostream>
 #define PATH "/Users/k3rnel1x/Programming/oop_labs_bmstu/lab4/test_files/students_exams (вариант 2).csv"
 using namespace std;

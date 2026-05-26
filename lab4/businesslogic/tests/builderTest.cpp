@@ -1,7 +1,7 @@
 #include <cassert>
 
-#include "../Vertex.h"
-#include "../TransformMatrixBuilder.h"
+#include "../math/Vertex.h"
+#include "../math/TransformMatrixBuilder.h"
 #include <iostream>
 using namespace std;
 

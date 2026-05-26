@@ -1,5 +1,6 @@
 #include "FileReader.h"
-
+#include <sstream>
+#include <filesystem>
 namespace fs = std::filesystem;
 
 Scene FileReader::ReadScene(std::string path, NormalizationParameters nparams)

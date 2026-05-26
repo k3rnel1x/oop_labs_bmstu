@@ -1,7 +1,7 @@
 #pragma once
-#include "TransformMatrix.h"
+#include <math/TransformMatrix.h>
 #include <vector>
-#include "Figure.h"
+#include <math/Figure.h>
 
 class Scene {
 public:

@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 #include "IFileReader.h"
-#include "../NormalizationParams.h"
-#include "../Scene.h"
+#include <io/NormalizationParams.h>
+#include <core/Scene.h>
 
 class IFileReader {
 public:

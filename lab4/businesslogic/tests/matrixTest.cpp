@@ -1,6 +1,6 @@
 #include <cassert>
 
-#include "../TransformMatrix.h"
+#include "../math/TransformMatrix.h"
 
 #include <iostream>
 using namespace std;

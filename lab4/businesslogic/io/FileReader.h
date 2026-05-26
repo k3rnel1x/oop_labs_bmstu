@@ -1,10 +1,9 @@
 #pragma once
-#include "abstract/IFileReader.h"
-#include <iostream>
-#include <filesystem>
-#include <sstream>
+#include <io/abstract/IFileReader.h>
+#include <io/NormalizationParams.h>
 #include <fstream>
 #include <string>
+
 #define CSVFILEFORMAT ".csv"
 
 class FileReader : public IFileReader {

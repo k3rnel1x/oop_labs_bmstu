@@ -1,5 +1,5 @@
 #pragma once
-#include "../Scene.h"
+#include <core/Scene.h>
 
 class ISceneDrawer {
     virtual void DrawScene(const Scene& scene) = 0;

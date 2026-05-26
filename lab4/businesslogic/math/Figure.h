@@ -1,10 +1,11 @@
 #pragma once
 #include <vector>
-
+#include <core/abstract/ISceneObject.h>
+#include "TransformMatrix.h"
 #include "Edge.h"
 #include "Vertex.h"
 
-class Figure {
+class Figure : public ISceneObject {
 public:
     Figure(std::vector<Vertex> vertices, std::vector<Edge> edges)
     : _vertices(vertices), _edges(edges)
