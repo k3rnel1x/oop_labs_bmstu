@@ -5,7 +5,7 @@
 #include "QtSceneDrawer.h"
 #include <QPainter>
 
-void QtSceneDrawer::DrawScene(const Scene& scene)
+void QtSceneDrawer::DrawScene(const Scene &scene)
 {
     if (!_canvas)
         throw std::runtime_error("Canvas is null");

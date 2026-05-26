@@ -3,9 +3,16 @@
 
 class FacadeResult {
 public:
+    FacadeResult() = default;
+    explicit FacadeResult(const char* errorMessage): _errorMessage(errorMessage) {};
     std::string GetErrorMessage();
-    bool IsSuccess();
+    explicit operator bool();
+    inline bool IsSucceed();
 
 private:
-    bool _isSucceed();
+    inline bool _isSucceed();
+    bool _success = true;
+    std::string _errorMessage;
 };
+
+
