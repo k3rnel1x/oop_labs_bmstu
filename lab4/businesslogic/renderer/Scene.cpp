@@ -6,7 +6,7 @@ void Scene::TransformFigures(const TransformMatrix& transformMatrix)
         figure.Transform(transformMatrix);
 }
 
-std::vector<Figure> Scene::GetFigures()
+std::vector<Figure> Scene::GetFigures() const
 {
     return _figures;
 }

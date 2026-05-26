@@ -91,6 +91,7 @@ add_executable(qtscenedrawerTest
         renderer/Scene.cpp
         math/Edge.cpp
         renderer/QtSceneDrawer.cpp
+        io/FileReader.cpp
 )
 target_link_libraries(qtscenedrawerTest PRIVATE Qt6::Widgets)
 add_test(NAME qtscenedrawerTest COMMAND ./qtscenedrawerTest)

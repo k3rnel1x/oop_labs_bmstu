@@ -1,11 +1,11 @@
 #include "Edge.h"
 
-Vertex& Edge::GetBegin()
+Vertex Edge::GetBegin()
 {
     return this->_begin;
 }
 
-Vertex & Edge::GetEnd()
+Vertex Edge::GetEnd()
 {
     return this->_end;
 }

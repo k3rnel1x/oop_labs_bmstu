@@ -12,7 +12,7 @@ public:
     : _begin(begin), _end(end)
     {
     };
-    Vertex& GetBegin();
-    Vertex& GetEnd();
+    Vertex GetBegin();
+    Vertex GetEnd();
 
 };

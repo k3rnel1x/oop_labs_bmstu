@@ -1,6 +1,7 @@
 #pragma once
 #include <io/abstract/IFileReader.h>
 #include <io/NormalizationParams.h>
+#include <renderer/Scene.h>
 #include <fstream>
 #include <string>
 

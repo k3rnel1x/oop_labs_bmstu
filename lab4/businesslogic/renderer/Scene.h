@@ -12,7 +12,7 @@ public:
     }
 
     void TransformFigures(const TransformMatrix& transformMatrix);
-    std::vector<Figure> GetFigures();
+    std::vector<Figure> GetFigures() const;
     void SetFigures(const std::vector<Figure>& figures);
 
 private:
