@@ -3,15 +3,21 @@
 #include "FacadeResult.h"
 #include <io/NormalizationParams.h>
 #include <io/FileReader.h>
-#include <core/abstract/ISceneDrawer.h>
+#include <renderer/QtSceneDrawer.h>
+#include <renderer/Scene.h>
 
 class RendererFacade
 {
 public:
-    RendererFacade(/* args */);
+    RendererFacade(std::unique_ptr<IFileReader> file_reader) :
+    _file_reader(std::move(file_reader))
+    {
+    };
+
     ~RendererFacade();
 
-    FacadeResult&& DrawScene();
+    void SetSceneDrawer(std::unique_ptr<ISceneDrawer> _scene_drawer);
+    FacadeResult&& DrawScene(const Scene& scene);
 
     FacadeResult&& LoadScene(std::string path, NormalizationParameters nparams);
     FacadeResult&& MoveScene  (double x, double y, double z);
@@ -20,7 +26,7 @@ public:
 
 private:
     /* data */
-    FileReader _file_reader;
-    ISceneDrawer _scene_drawer;
+    std::unique_ptr<IFileReader>  _file_reader;
+    std::unique_ptr<ISceneDrawer> _scene_drawer;
     Scene _scene;
 };

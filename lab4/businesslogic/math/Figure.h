@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include <core/abstract/ISceneObject.h>
+#include <renderer/abstract/ISceneObject.h>
 #include "TransformMatrix.h"
 #include "Edge.h"
 #include "Vertex.h"

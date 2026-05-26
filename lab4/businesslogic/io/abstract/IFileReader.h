@@ -2,7 +2,7 @@
 #include <string>
 #include "IFileReader.h"
 #include <io/NormalizationParams.h>
-#include <core/Scene.h>
+#include <../../renderer/Scene.h>
 
 class IFileReader {
 public:

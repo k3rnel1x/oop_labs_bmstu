@@ -4,6 +4,15 @@ set(CMAKE_CXX_STANDARD 17)
 enable_testing()
 include(CTest)
 
+
+#setup qt
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
+
 set(SOURCES
         io/abstract/IFileReader.h
         core/FacadeResult.h
@@ -12,7 +21,7 @@ set(SOURCES
         io/NormalizationParams.h
         io/FileReader.cpp
         io/FileReader.h
-        core/abstract/ISceneDrawer.h
+        renderer/abstract/ISceneDrawer.h
         math/3DPoint.h
         math/Vertex.h
         math/Figure.cpp
@@ -22,16 +31,20 @@ set(SOURCES
         math/TransformMatrix.h
         math/TransformMatrixBuilder.cpp
         math/TransformMatrixBuilder.h
-        core/Scene.h
-        core/abstract/ISceneObject.h
+        renderer/Scene.h
+        renderer/abstract/ISceneObject.h
         math/Vertex.cpp
         tests/matrixTest.cpp
         tests/builderTest.cpp
         math/Edge.cpp
-        core/Scene.cpp
+        renderer/Scene.cpp
         tests/readsceneTest.cpp
+        renderer/QtSceneDrawer.cpp
+        renderer/QtSceneDrawer.h
+        tests/qtscenedrawerTest.cpp
 )
 add_library(libusinesslogic STATIC ${SOURCES})
+target_link_libraries(libusinesslogic PRIVATE Qt6::Widgets)
 set_target_properties(libusinesslogic PROPERTIES LINKER_LANGUAGE CXX)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
@@ -41,6 +54,7 @@ add_executable(matrixTest
         tests/matrixTest.cpp
         math/TransformMatrix.cpp
 )
+target_link_libraries(matrixTest PRIVATE Qt6::Widgets)
 add_test(NAME matrixTest COMMAND matrixTest)
 
 # builderTest
@@ -50,6 +64,7 @@ add_executable(builderTest
         math/TransformMatrix.cpp
         math/Vertex.cpp
 )
+target_link_libraries(builderTest PRIVATE Qt6::Widgets)
 add_test(NAME builderTest COMMAND builderTest)
 
 # readsceneTest
@@ -59,8 +74,23 @@ add_executable(readsceneTest
         math/TransformMatrix.cpp
         math/Vertex.cpp
         math/Figure.cpp
-        core/Scene.cpp
+        renderer/Scene.cpp
         io/FileReader.cpp
         math/Edge.cpp
 )
+target_link_libraries(readsceneTest PRIVATE Qt6::Widgets)
 add_test(NAME readsceneTest COMMAND readsceneTest)
+
+# qtscenedrawerTest
+add_executable(qtscenedrawerTest
+        tests/qtscenedrawerTest.cpp
+        math/TransformMatrixBuilder.cpp
+        math/TransformMatrix.cpp
+        math/Vertex.cpp
+        math/Figure.cpp
+        renderer/Scene.cpp
+        math/Edge.cpp
+        renderer/QtSceneDrawer.cpp
+)
+target_link_libraries(qtscenedrawerTest PRIVATE Qt6::Widgets)
+add_test(NAME qtscenedrawerTest COMMAND ./qtscenedrawerTest)

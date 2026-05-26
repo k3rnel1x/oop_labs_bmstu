@@ -1,7 +1,7 @@
 #pragma once
 #include "3DPoint.h"
 #include "TransformMatrix.h"
-#include <core/abstract/ISceneObject.h>
+#include <renderer/abstract/ISceneObject.h>
 
 class Vertex : public ISceneObject {
 public:
