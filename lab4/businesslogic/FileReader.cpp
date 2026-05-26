@@ -27,15 +27,17 @@ Scene FileReader::ReadScene(std::string path, NormalizationParameters nparams)
         ++r;
     }
 
+    f.close();
+
     vector<Edge> edges;
-    int matrix_size = c;
+    int size = c;
     for (int i = 0; i < vertices.size(); ++i)
     {
-        if (( i + 1 < vertices.size() ) && ( (i+1) % matrix_size != 0 ))
+        if (( i + 1 < vertices.size() ) && ( (i+1) % size != 0 ))
             edges.push_back(Edge(vertices[i], vertices[i+1]));
 
-        if(i + matrix_size < vertices.size())
-            edges.push_back(Edge(vertices[i], vertices[i + matrix_size]));
+        if(i + size < vertices.size())
+            edges.push_back(Edge(vertices[i], vertices[i + size]));
     }
 
     Figure figure(vertices, edges);
@@ -61,5 +63,5 @@ std::ifstream FileReader::_openValidFile(std::string path)
     if (f.eof() || f.peek() == EOF)
         throw std::invalid_argument("File is empty");
 
-
+    return f;
 }

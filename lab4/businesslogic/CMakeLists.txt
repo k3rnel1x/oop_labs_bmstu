@@ -29,6 +29,7 @@ set(SOURCES
         tests/builderTest.cpp
         Edge.cpp
         Scene.cpp
+        tests/readsceneTest.cpp
 )
 add_library(libusinesslogic STATIC ${SOURCES})
 set_target_properties(libusinesslogic PROPERTIES LINKER_LANGUAGE CXX)
@@ -49,3 +50,16 @@ add_executable(builderTest
         Vertex.cpp
 )
 add_test(NAME builderTest COMMAND builderTest)
+
+# readsceneTest
+add_executable(readsceneTest
+        tests/readsceneTest.cpp
+        TransformMatrixBuilder.cpp
+        TransformMatrix.cpp
+        Vertex.cpp
+        Figure.cpp
+        Scene.cpp
+        FileReader.cpp
+        Edge.cpp
+)
+add_test(NAME readsceneTest COMMAND readsceneTest)

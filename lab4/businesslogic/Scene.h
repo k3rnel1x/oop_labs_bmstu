@@ -16,5 +16,6 @@ public:
     void SetFigures(const std::vector<Figure>& figures);
 
 private:
+    int _size;
     std::vector<Figure> _figures;
 };

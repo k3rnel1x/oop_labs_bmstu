@@ -7,7 +7,7 @@
 class Figure {
 public:
     Figure(std::vector<Vertex> vertices, std::vector<Edge> edges)
-        : _vertices(vertices), _edges(edges)
+    : _vertices(vertices), _edges(edges)
     {
     }
 

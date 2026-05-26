@@ -28,3 +28,4 @@ void Figure::Transform(const TransformMatrix& transformMatrix)
     for (auto& vertex : this->_vertices)
         vertex.Transform(transformMatrix);
 }
+
