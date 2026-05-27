@@ -23,7 +23,7 @@ public:
     {
         QPainter p(this);
         this->_drawer.DrawScene(_scene);
-        _scene.TransformFigures(TransformMatrixBuilder::CreateRotationMatrix(2, 2, 2));
+        _scene.TransformFigures(TransformMatrixBuilder::CreateRotationMatrix(0, 0.001, 0));
         p.end();
     };
 

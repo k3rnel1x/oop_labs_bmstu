@@ -8,6 +8,7 @@ Scene CsvFileReader::ReadScene(std::string path, NormalizationParameters nparams
     using namespace std;
     std::ifstream f = _openValidFile(path);
 
+    // Fill vertices
     vector<Vertex> vertices;
     string line;
     int r = 0;
@@ -27,9 +28,29 @@ Scene CsvFileReader::ReadScene(std::string path, NormalizationParameters nparams
         }
         ++r;
     }
-
     f.close();
 
+    // Get zMax and zMin
+    Point3D first = vertices[0].GetPosition();
+    double zMax = first.z, zMin = first.z;
+    for (const auto& v : vertices) {
+        Point3D p = v.GetPosition();
+        zMax = std::max(zMax, p.z);
+        zMin = std::min(zMin, p.z);
+    }
+
+    // Normalize
+    for (auto& v : vertices)
+    {
+        Point3D p = v.GetPosition();
+        p.x *= nparams.DxScale;
+        p.y *= nparams.DyScale;
+        double normZ = nparams.Min + double(p.z - zMin) / double(zMax - zMin) * double(nparams.Max - nparams.Min);
+        p.z = normZ;
+        v = Vertex(p);
+    }
+
+    // Construct Edges
     vector<Edge> edges;
     int size = c;
     for (int i = 0; i < vertices.size(); ++i)

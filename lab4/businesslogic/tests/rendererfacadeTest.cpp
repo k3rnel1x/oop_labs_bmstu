@@ -18,8 +18,7 @@ public:
         connect(timer, &QTimer::timeout, this, QOverload<>::of(&Painter::update));
 
         timer->start(1);
-
-        FacadeResult res = renderer.LoadScene(OBJPATH, NormalizationParameters{});
+        FacadeResult res = renderer.LoadScene(CSVPATH, NormalizationParameters{10, 100, 1, 1});
         if (!res)
             throw std::runtime_error(res.GetErrorMessage());
 
@@ -27,18 +26,26 @@ public:
 
     void paintEvent(QPaintEvent* event) override
     {
-        // FacadeResult res = renderer.RotateScene(0, 0, 0);
-        // if (!res)
-            // throw std::runtime_error(res.GetErrorMessage());
+        FacadeResult res = renderer.RotateScene(0, 0, 0.002);
+        if (!res)
+            throw std::runtime_error(res.GetErrorMessage());
 
-        FacadeResult res = renderer.DrawScene();
+        res = renderer.MoveScene(0, -0.01, 0.001);
+        if (!res)
+            throw std::runtime_error(res.GetErrorMessage());
+
+        res = renderer.ScaleScene(1, 1, 1.0005);
+        if (!res)
+            throw std::runtime_error(res.GetErrorMessage());
+
+        res = renderer.DrawScene();
         if (!res)
             throw std::runtime_error(res.GetErrorMessage());
     };
 
 private:
     RendererFacade renderer {
-        make_unique<ObjFileReader>(),
+        make_unique<CsvFileReader>(),
         make_unique<QtSceneDrawer>(this)
     };;
 };

@@ -3,6 +3,6 @@
 struct NormalizationParameters {
     double Min;
     double Max;
-    double DxStep;
-    double DyStep;
+    double DxScale;
+    double DyScale;
 };
