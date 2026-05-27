@@ -7,18 +7,27 @@
 
 class Figure : public ISceneObject {
 public:
-    Figure(std::vector<Vertex>&& vertices, std::vector<Edge>&& edges)
-    : _vertices(vertices), _edges(edges)
-    {
-    }
+
+class FigureMetaInfo {
+public:
+    double xMax, xMin;
+    double yMax, yMin;
+    double zMax, zMin;
+};
+
+    Figure(std::vector<Vertex>&& vertices, std::vector<Edge>&& edges);
 
     std::vector<Vertex> GetVertices();
     std::vector<Edge>   GetEdges();
     void SetVertices(const std::vector<Vertex>& vertices);
     void SetEdges(const std::vector<Edge>& edges);
+    FigureMetaInfo GetMetaInfo();
     void Transform(const TransformMatrix& transformMatrix);
 
 private:
     std::vector<Vertex> _vertices;
     std::vector<Edge>   _edges;
+
+    FigureMetaInfo _metaInfo;
+    void _calculateMetaInfo();
 };
