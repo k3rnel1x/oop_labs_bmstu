@@ -1,11 +1,11 @@
-#include "../io/FileReader.h"
+#include "../io/CsvFileReader.h"
 #include <iostream>
 #define PATH "/Users/k3rnel1x/Programming/oop_labs_bmstu/lab4/test_files/students_exams (вариант 2).csv"
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-    FileReader reader;
+    CsvFileReader reader;
     NormalizationParameters nparams;
     Scene scene;
     try

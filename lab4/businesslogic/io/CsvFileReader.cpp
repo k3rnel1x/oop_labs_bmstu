@@ -1,9 +1,9 @@
-#include "FileReader.h"
+#include "CsvFileReader.h"
 #include <sstream>
 #include <filesystem>
 namespace fs = std::filesystem;
 
-Scene FileReader::ReadScene(std::string path, NormalizationParameters nparams)
+Scene CsvFileReader::ReadScene(std::string path, NormalizationParameters nparams)
 {
     using namespace std;
     std::ifstream f = _openValidFile(path);
@@ -47,7 +47,7 @@ Scene FileReader::ReadScene(std::string path, NormalizationParameters nparams)
     return scene;
 }
 
-std::ifstream FileReader::_openValidFile(std::string path)
+std::ifstream CsvFileReader::_openValidFile(std::string path)
 {
     using namespace std;
     if (path.empty())

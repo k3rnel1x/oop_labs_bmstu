@@ -7,7 +7,7 @@
 
 #define CSVFILEFORMAT ".csv"
 
-class FileReader : public IFileReader {
+class CsvFileReader : public IFileReader {
 public:
     Scene ReadScene(std::string path, NormalizationParameters nparams);
 

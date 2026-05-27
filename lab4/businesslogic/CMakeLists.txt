@@ -19,8 +19,8 @@ set(SOURCES
         core/RendererFacade.h
         core/RendererFacade.cpp
         io/NormalizationParams.h
-        io/FileReader.cpp
-        io/FileReader.h
+        io/CsvFileReader.cpp
+        io/CsvFileReader.h
         renderer/abstract/ISceneDrawer.h
         math/3DPoint.h
         math/Vertex.h
@@ -39,8 +39,11 @@ set(SOURCES
         renderer/QtSceneDrawer.cpp
         renderer/QtSceneDrawer.h
         core/FacadeResult.cpp
+        io/ObjFileReader.cpp
+        io/ObjFileReader.h
 )
-add_library(libusinesslogic STATIC ${SOURCES})
+add_library(libusinesslogic STATIC ${SOURCES}
+        )
 target_link_libraries(libusinesslogic PRIVATE Qt6::Widgets)
 set_target_properties(libusinesslogic PROPERTIES LINKER_LANGUAGE CXX)
 
@@ -72,7 +75,7 @@ add_executable(readsceneTest
         math/Vertex.cpp
         math/Figure.cpp
         renderer/Scene.cpp
-        io/FileReader.cpp
+        io/CsvFileReader.cpp
         math/Edge.cpp
 )
 target_link_libraries(readsceneTest PRIVATE Qt6::Widgets)
@@ -88,7 +91,7 @@ add_executable(qtscenedrawerTest
         renderer/Scene.cpp
         math/Edge.cpp
         renderer/QtSceneDrawer.cpp
-        io/FileReader.cpp
+        io/CsvFileReader.cpp
 )
 target_link_libraries(qtscenedrawerTest PRIVATE Qt6::Widgets)
 add_test(NAME qtscenedrawerTest COMMAND ./qtscenedrawerTest)

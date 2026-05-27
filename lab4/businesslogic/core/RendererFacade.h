@@ -3,7 +3,7 @@
 #include <string>
 #include "FacadeResult.h"
 #include <io/NormalizationParams.h>
-#include <io/FileReader.h>
+#include <io/CsvFileReader.h>
 #include <renderer/QtSceneDrawer.h>
 #include <renderer/Scene.h>
 #include "math/TransformMatrixBuilder.h"

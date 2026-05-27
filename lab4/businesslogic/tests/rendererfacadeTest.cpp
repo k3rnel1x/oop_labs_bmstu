@@ -1,11 +1,13 @@
-#include "../io/FileReader.h"
+#include "../io/CsvFileReader.h"
 #include <iostream>
 #include <QApplication>
 #include <QPainter>
 #include <QTimer>
 
 #include "core/RendererFacade.h"
-#define PATH "/Users/k3rnel1x/Programming/oop_labs_bmstu/lab4/test_files/students_exams (вариант 2).csv"
+#include "io/ObjFileReader.h"
+#define CSVPATH "/Users/k3rnel1x/Programming/oop_labs_bmstu/lab4/test_files/students_exams (вариант 2).csv"
+#define OBJPATH "/Users/k3rnel1x/Programming/oop_labs_bmstu/lab4/test_files/cube.obj"
 using namespace std;
 
 class Painter : public QWidget {
@@ -17,7 +19,7 @@ public:
 
         timer->start(1);
 
-        FacadeResult res = renderer.LoadScene(PATH, NormalizationParameters{});
+        FacadeResult res = renderer.LoadScene(OBJPATH, NormalizationParameters{});
         if (!res)
             throw std::runtime_error(res.GetErrorMessage());
 
@@ -25,18 +27,18 @@ public:
 
     void paintEvent(QPaintEvent* event) override
     {
-        FacadeResult res = renderer.RotateScene(0.0008, 0.001, 0.001);
-        if (!res)
-            throw std::runtime_error(res.GetErrorMessage());
+        // FacadeResult res = renderer.RotateScene(0, 0, 0);
+        // if (!res)
+            // throw std::runtime_error(res.GetErrorMessage());
 
-        res = renderer.DrawScene();
+        FacadeResult res = renderer.DrawScene();
         if (!res)
             throw std::runtime_error(res.GetErrorMessage());
     };
 
 private:
     RendererFacade renderer {
-        make_unique<FileReader>(),
+        make_unique<ObjFileReader>(),
         make_unique<QtSceneDrawer>(this)
     };;
 };

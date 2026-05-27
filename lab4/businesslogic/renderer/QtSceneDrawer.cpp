@@ -20,6 +20,7 @@ void QtSceneDrawer::DrawScene(const Scene &scene)
     {
         for (auto& edge : figure.GetEdges())
         {
+            // std::cout << edge.GetBegin().GetPosition().x << ' ' << edge.GetBegin().GetPosition().y << ' ' << edge.GetBegin().GetPosition().z << std::endl;
             std::pair begin = _processVertex(edge.GetBegin());
             std::pair end = _processVertex(edge.GetEnd());
             p.drawLine(begin.first, begin.second,
@@ -42,13 +43,13 @@ std::pair<int, int> QtSceneDrawer::_processVertex(Vertex vertex)
 {
     Point3D point = vertex.GetPosition();
     double scale = 1.5; // TODO
-    std::swap(point.y, point.z);
+    // std::swap(point.y, point.z);
 
     // Normalize
     // std::cout << point.x << " " << point.y << " " << point.z << std::endl;
-    point.x = scale*(-1 + (point.x)/double(30)*2);
-    point.y = scale*(-1 + (point.y)/double(30)*2);
-    point.z = -1 + (point.z)/(ZMAX)*2 + INITZ;
+    // point.x = scale*(-1 + (point.x)/double(30)*2);
+    // point.y = scale*(-1 + (point.y)/double(30)*2);
+    // point.z = -1 + (point.z)/(ZMAX)*2 + INITZ;
 
     // Protect
     std::pair<double, double> p = { (point.x / point.z), (point.y / point.z) };
