@@ -7,6 +7,9 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+enable_testing()
+include(CTest)
+
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 find_package(Qt6 REQUIRED COMPONENTS StateMachine)
@@ -46,6 +49,8 @@ target_link_libraries(laba4 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(laba4 PRIVATE libusinesslogic)
 target_link_libraries(laba4 PRIVATE Qt6::StateMachine)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
@@ -70,3 +75,12 @@ install(TARGETS laba4
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(laba4)
 endif()
+
+# qtdrawerwidgetTest
+add_executable(qtdrawerwidgetTest
+        tests/qtdrawerwidgetTest.cpp
+        surfacedrawer/QtDrawerWidget.cpp
+)
+target_link_libraries(qtdrawerwidgetTest PRIVATE Qt6::Widgets)
+target_link_libraries(qtdrawerwidgetTest PRIVATE libusinesslogic)
+add_test(NAME qtdrawerwidgetTest COMMAND ./qtdrawerwidgetTest)

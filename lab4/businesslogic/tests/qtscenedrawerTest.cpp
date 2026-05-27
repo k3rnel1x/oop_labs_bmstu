@@ -2,11 +2,13 @@
 #include <renderer/QtSceneDrawer.h>
 #include <QWidget>
 #include <QApplication>
+#include <qevent.h>
 #include <QPainter>
 #include <QTimer>
 
 #include "core/RendererFacade.h"
-#define PATH "/Users/k3rnel1x/Programming/oop_labs_bmstu/lab4/test_files/students_exams (вариант 2).csv"
+#define PATH1 "/Users/k3rnel1x/Programming/oop_labs_bmstu/lab4/test_files/schools_exams (вариант 1).csv"
+#define PATH2 "/Users/k3rnel1x/Programming/oop_labs_bmstu/lab4/test_files/students_exams (вариант 2).csv"
 
 using namespace std;
 
@@ -21,11 +23,10 @@ public:
     }
     void paintEvent(QPaintEvent* event) override
     {
-        QPainter p(this);
         this->_drawer.DrawScene(_scene);
-        _scene.TransformFigures(TransformMatrixBuilder::CreateRotationMatrix(0, 0.001, 0));
-        p.end();
-    };
+        _scene.TransformFigures(TransformMatrixBuilder::CreateRotationMatrix(0, 0, 0.01));
+        // _scene.TransformFigures(TransformMatrixBuilder::CreateScaleMatrix(1, 1, 1));
+    }
 
 private:
     QtSceneDrawer _drawer;
@@ -39,7 +40,7 @@ int main(int argc, char *argv[])
     Scene scene;
     try
     {
-        scene = reader.ReadScene(PATH, NormalizationParameters());
+        scene = reader.ReadScene(PATH1, NormalizationParameters{0, 40, 1, 1});
     } catch (exception& e)
     {
         std::cerr << e.what() << std::endl;

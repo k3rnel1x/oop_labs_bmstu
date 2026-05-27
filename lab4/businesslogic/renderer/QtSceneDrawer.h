@@ -6,6 +6,7 @@
 
 #define ZMAX  100
 #define INITZ -4.0
+#define SCALE 1.0
 
 class QtSceneDrawer : public ISceneDrawer {
 public:
@@ -18,6 +19,6 @@ public:
     void SetCanvas(QWidget* canvas);
 
 private:
-    std::pair<int, int> _processVertex(Vertex vertex);
+    std::pair<int, int> _processVertex(Vertex vertex, Figure::FigureMetaInfo &info);
     QWidget* _canvas;
 };

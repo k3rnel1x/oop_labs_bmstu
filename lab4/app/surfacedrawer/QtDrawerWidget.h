@@ -13,11 +13,13 @@ class QtDrawerWidget: public QWidget {
 public:
     QtDrawerWidget(std::unique_ptr<IFileReader> fileReader);
 
-    void DrawScene();
+    void UnloadScene();
     void LoadScene(std::string path, NormalizationParameters nparams);
     void MoveScene  (double x, double y, double z);
     void RotateScene(double alpha, double beta, double gamma);
     void ScaleScene (double a, double b, double c);
+
+    void paintEvent(QPaintEvent* event) override;
 
 private:
     std::unique_ptr<RendererFacade> _renderer;

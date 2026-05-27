@@ -20,6 +20,7 @@ public:
     FacadeResult DrawScene();
 
     FacadeResult LoadScene(std::string path, NormalizationParameters nparams);
+    void UnloadScene();
     FacadeResult MoveScene  (double x, double y, double z);
     FacadeResult RotateScene(double alpha, double beta, double gamma);
     FacadeResult ScaleScene (double a, double b, double c);

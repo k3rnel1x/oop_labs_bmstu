@@ -71,3 +71,8 @@ FacadeResult RendererFacade::LoadScene(std::string path, NormalizationParameters
     }
     return FacadeResult{};
 }
+
+void RendererFacade::UnloadScene()
+{
+    _scene = Scene(std::vector<Figure>());
+}

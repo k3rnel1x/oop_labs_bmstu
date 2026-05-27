@@ -1,6 +1,7 @@
 #include "CsvFileReader.h"
 #include <sstream>
 #include <filesystem>
+#include <iostream>
 namespace fs = std::filesystem;
 
 Scene CsvFileReader::ReadScene(std::string path, NormalizationParameters nparams)
@@ -29,6 +30,8 @@ Scene CsvFileReader::ReadScene(std::string path, NormalizationParameters nparams
         ++r;
     }
     f.close();
+    int size = c;
+    // cout << "size = " << size << endl;
 
     // Get zMax and zMin
     Point3D first = vertices[0].GetPosition();
@@ -50,9 +53,10 @@ Scene CsvFileReader::ReadScene(std::string path, NormalizationParameters nparams
         v = Vertex(p);
     }
 
+    // std::cout << "readed " << vertices.size() << " vertices" << std::endl;
+
     // Construct Edges
     vector<Edge> edges;
-    int size = c;
     for (int i = 0; i < vertices.size(); ++i)
     {
         if (( i + 1 < vertices.size() ) && ( (i+1) % size != 0 ))

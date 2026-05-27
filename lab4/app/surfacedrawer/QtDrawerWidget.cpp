@@ -1,3 +1,7 @@
+//
+// Created by k3rnel1x on 02.05.2026.
+//
+
 #include "QtDrawerWidget.h"
 
 QtDrawerWidget::QtDrawerWidget(std::unique_ptr<IFileReader> fileReader)
@@ -8,11 +12,9 @@ QtDrawerWidget::QtDrawerWidget(std::unique_ptr<IFileReader> fileReader)
         );
 }
 
-void QtDrawerWidget::DrawScene()
+void QtDrawerWidget::UnloadScene()
 {
-    FacadeResult res = _renderer->DrawScene();
-    if(!res)
-        throw std::runtime_error("Draw scene failed" + res.GetErrorMessage());
+    _renderer->UnloadScene();
 }
 
 void QtDrawerWidget::LoadScene(std::string path, NormalizationParameters nparams)
@@ -41,4 +43,9 @@ void QtDrawerWidget::ScaleScene(double a, double b, double c)
     FacadeResult res = _renderer->ScaleScene(a, b, c);
     if(!res)
         throw std::runtime_error("Scale scene failed:" + res.GetErrorMessage());
+}
+
+void QtDrawerWidget::paintEvent(QPaintEvent *event)
+{
+    _renderer->DrawScene();
 }
