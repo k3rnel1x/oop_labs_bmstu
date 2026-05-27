@@ -17,5 +17,5 @@ inline bool FacadeResult::IsSucceed()
 
 inline bool FacadeResult::_isSucceed()
 {
-    return _success;
+    return _errorMessage.empty();
 }

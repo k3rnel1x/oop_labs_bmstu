@@ -11,7 +11,6 @@ public:
 
 private:
     inline bool _isSucceed();
-    bool _success = true;
     std::string _errorMessage;
 };
 
