@@ -4,6 +4,9 @@
 #include <QStateMachine>
 #include <QMainWindow>
 
+#include "core/RendererFacade.h"
+#include "surfacedrawer/QtDrawerWidget.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -17,11 +20,22 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
+
     QState* idleState;
     QState* configureRenderState;
+public slots:
+    void on_loadDataButton_clicked();
+    void onFileOpenFailed();
+    // void on_renderButton_clicked();
+
+signals:
+    void fileOpenFinished();
+    void fileOpenSucceed();
+    void fileOpenFailed();
 
 private:
-    QStateMachine machine;
-    Ui::MainWindow *ui;
+    QStateMachine* machine;
+    Ui::MainWindow* ui;
+    QtDrawerWidget renderer;
 };
 #endif // MAINWINDOW_H

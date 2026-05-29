@@ -8,8 +8,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     QtDrawerWidget drawer(std::make_unique<CsvFileReader>());
 
-    drawer.LoadScene(PATH2, NormalizationParameters{0, 100, 1,1});
-    drawer.RotateScene(0, 2, 0);
+    drawer.LoadScene(PATH1, NormalizationParameters{0, 100, 1,1});
+    drawer.RotateScene(0, 0.002, 0);
     drawer.show();
 
     return QCoreApplication::exec();

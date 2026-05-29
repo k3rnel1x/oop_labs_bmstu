@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     Scene scene;
     try
     {
-        scene = reader.ReadScene(PATH1, NormalizationParameters{0, 40, 1, 1});
+        scene = reader.ReadScene(PATH2, NormalizationParameters{0, 40, 1, 1});
     } catch (exception& e)
     {
         std::cerr << e.what() << std::endl;

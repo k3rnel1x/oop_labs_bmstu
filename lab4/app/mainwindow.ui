@@ -31,7 +31,7 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="5,2">
     <item>
-     <widget class="QWidget" name="widget_2" native="true"/>
+     <widget class="QWidget" name="renderArea" native="true"/>
     </item>
     <item>
      <widget class="QScrollArea" name="scrollArea">
@@ -52,8 +52,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>283</width>
-         <height>650</height>
+         <width>279</width>
+         <height>638</height>
         </rect>
        </property>
        <property name="minimumSize">
@@ -87,6 +87,9 @@
         </item>
         <item>
          <widget class="QWidget" name="configureRenderUI" native="true">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_3">

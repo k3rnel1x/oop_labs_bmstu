@@ -8,8 +8,7 @@
 #include <renderer/Scene.h>
 #include "math/TransformMatrixBuilder.h"
 
-class RendererFacade
-{
+class RendererFacade{
 public:
     RendererFacade(std::unique_ptr<IFileReader> fileReader, std::unique_ptr<ISceneDrawer> sceneDrawer) :
     _file_reader(std::move(fileReader)), _scene_drawer(std::move(sceneDrawer))
