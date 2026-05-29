@@ -1,18 +1,25 @@
-//
-// Created by k3rnel1x on 27.05.2026.
-//
-
 #include "Doors.h"
 
-#include <iostream>
-#include <ostream>
+#include <QTimer>
 
-void Doors::open()
+// Cabine::closeDoor()
+void Doors::closeDoors()
 {
-    std::cout << "Door opened" << std::endl;
+    QTimer::singleShot(1000, this, &Doors::doorsClosed);
+}
+// QTimer
+void Doors::doorsClosed()
+{
+    emit closed();
 }
 
-void Doors::close()
+// Cabine::openDoor()
+void Doors::openDoors()
 {
-    std::cout << "Door closed" << std::endl;
+    QTimer::singleShot(1000, this, &Doors::doorsOpened);
+}
+// QTimer
+void Doors::doorsOpened()
+{
+    emit opened();
 }
