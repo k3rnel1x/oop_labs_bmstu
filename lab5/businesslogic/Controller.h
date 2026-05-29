@@ -10,6 +10,7 @@ enum ControllerState {
     MOVING,
     UPDATINGTARGET,
 };
+
 signals:
     void goDown();
     void goUp();

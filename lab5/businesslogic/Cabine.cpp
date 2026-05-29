@@ -1,5 +1,7 @@
 #include "Cabine.h"
 
+#include <iostream>
+
 
 Cabine::Cabine()
 {
@@ -35,6 +37,7 @@ void Cabine::goDown()
 // Doors::closed()
 void Cabine::doorsClosed()
 {
+    std::cout << "Doors closed" << std::endl;
     emit goMove();
     _state = MOVING;
 }
@@ -42,6 +45,7 @@ void Cabine::doorsClosed()
 // Cabine::goMove()
 void Cabine::cabineMoving()
 {
+    std::cout << "Cabine moving" << std::endl;
     _currentFloor += _direction;
     QTimer::singleShot(MSECMOVING, this, &Cabine::onFloor);
 }
@@ -61,6 +65,7 @@ void Cabine::arriveCurr()
 // Doors::opened()
 void Cabine::doorsOpened()
 {
+    std::cout << "Doors opened" << std::endl;
     _state = IDLE;
     emit arrivedOnFloor(_currentFloor);
 }

@@ -5,5 +5,13 @@
 #include "Elevator.h"
 Elevator::Elevator()
 {
+    connect(&_controller, &Controller::goUp, &_cabine, &Cabine::goUp);
+    connect(&_controller, &Controller::goDown, &_cabine, &Cabine::goDown);
+    connect(&_controller, &Controller::arrive, &_cabine, &Cabine::arriveCurr);
 
+    connect(&_cabine, &Cabine::cabineOnFloor, &_controller, &Controller::cabineOnFloor);
+    connect(&_cabine, &Cabine::arrivedOnFloor, &_controller, &Controller::cabineArrivedOnFloor);
+
+    connect(this, &Elevator::call, &_controller, &Controller::addTarget);
 }
+
