@@ -1,30 +1,29 @@
 #pragma once
+#include <QObject>
 #include <queue>
-
-#include "Cabine.h"
 
 class Controller : public QObject {
 Q_OBJECT
-struct Command {
-    size_t floor;
-};
 
 enum ControllerState {
     FREE,
     MOVING,
     UPDATINGTARGET,
-    //
 };
-public:
-    Controller(Cabine& cabine) : _controllingCabine(cabine) { };
+signals:
+    void goDown();
+    void goUp();
+    void arrive();
 
 public slots:
-    void handleCall(size_t floor);
-    void handleArrived();
+    void cabineArrivedOnFloor(size_t floor);
+    void cabineOnFloor(size_t floor);
+
+    void addTarget(size_t floor);
 
 private:
-    void _processQueue();
+    int _getDirection();
     ControllerState _state = FREE;
-    std::queue<Command> _commandsQueue;
-    Cabine& _controllingCabine;
+    std::deque<size_t> _queue;
+    size_t _targetFloor;
 };

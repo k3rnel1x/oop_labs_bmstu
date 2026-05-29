@@ -1,27 +1,66 @@
-//
-// Created by k3rnel1x on 27.05.2026.
-//
-
 #include "Cabine.h"
 
-#include <iostream>
-#include <thread>
 
-void Cabine::_moveToTarget(size_t floor)
+Cabine::Cabine()
 {
-    if (_state == STOPPED && _currentFloor != floor)
-    {
-        _doors.close();
+    connect(this, &Cabine::closeDoor, &_doors, &Doors::closeDoors);
+    connect(&_doors, &Doors::closed, this, &Cabine::doorsClosed);
 
-        _state = MOVING;
-        std::cout << "Cabinee moving.. " << std::endl;
+    connect(this, &Cabine::goMove, this, &Cabine::cabineMoving);
 
-        std::this_thread::sleep_for(std::chrono::seconds(2));
-        _doors.open();
+    connect(this, &Cabine::openDoor, &_doors, &Doors::openDoors);
+    connect(&_doors, &Doors::opened, this, &Cabine::doorsOpened);
+}
 
-        _currentFloor = floor;
-        std::cout << "Cabinee on " << _currentFloor << " floor" << std::endl;
+// Controller::goUp()
+void Cabine::goUp()
+{
+    if (_state == MOVING)
+        return;
 
-        _state = STOPPED;
-    }
+    _direction = 1;
+    emit closeDoor();
+}
+
+// Controller::goDown()
+void Cabine::goDown()
+{
+    if (_state == MOVING)
+        return;
+
+    _direction = -1;
+    emit closeDoor();
+}
+
+// Doors::closed()
+void Cabine::doorsClosed()
+{
+    emit goMove();
+    _state = MOVING;
+}
+
+// Cabine::goMove()
+void Cabine::cabineMoving()
+{
+    _currentFloor += _direction;
+    QTimer::singleShot(MSECMOVING, this, &Cabine::onFloor);
+}
+
+// QTimer
+void Cabine::onFloor()
+{
+    emit cabineOnFloor(_currentFloor);
+}
+
+// Controller::arrive()
+void Cabine::arriveCurr()
+{
+    emit openDoor();
+}
+
+// Doors::opened()
+void Cabine::doorsOpened()
+{
+    _state = IDLE;
+    emit arrivedOnFloor(_currentFloor);
 }

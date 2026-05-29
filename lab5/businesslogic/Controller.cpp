@@ -3,27 +3,47 @@
 //
 
 #include "Controller.h"
+#include <algorithm>
 
-void Controller::handleCall(size_t floor)
+void Controller::cabineArrivedOnFloor(size_t floor)
 {
-    _commandsQueue.push(Command{floor});
-    _processQueue();
+    if (_queue.empty())
+        return;
+
+    size_t next = _getNextTarget();
+    while (next == floor) next = _getNextTarget();
+    _targetFloor = next;
+
+    emit gotoFloor(next);
 }
 
-void Controller::handleArrived()
+void Controller::cabineOnFloor(size_t floor)
 {
-    _processQueue();
+    if (floor == _targetFloor)
+    {
+        cabineArrivedOnFloor(floor);
+        return;
+    }
+
+    // auto iter = std::find(_queue.begin(), _queue.end(), floor);
+    // if (iter != _queue.end() && *iter != _targetFloor)
+    // {
+    //     _queue.erase(iter);
+    //     emit arriveCurr();
+    //     return;
+    // }
+
+    emit gotoFloor(++floor);
 }
 
-void Controller::_processQueue()
+int Controller::_getDirection()
 {
-    if (_commandsQueue.empty()) return;
+    return 1;
+}
 
-    Command command = _commandsQueue.front();
+void Controller::addTarget(size_t floor)
+{
+    _queue.push_back(floor);
 
-    _controllingCabine._moveToTarget(command.floor);
-
-    _commandsQueue.pop();
-
-    _processQueue();
+    _getDirection()? emit goUp() : emit goDown();
 }
