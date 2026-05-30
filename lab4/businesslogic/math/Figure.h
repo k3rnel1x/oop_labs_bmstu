@@ -17,11 +17,11 @@ public:
 
     Figure(std::vector<Vertex>&& vertices, std::vector<Edge>&& edges);
 
-    std::vector<Vertex> GetVertices();
-    std::vector<Edge>   GetEdges();
+    std::vector<Vertex> GetVertices() const;
+    std::vector<Edge>   GetEdges() const;
     void SetVertices(const std::vector<Vertex>& vertices);
     void SetEdges(const std::vector<Edge>& edges);
-    FigureMetaInfo GetMetaInfo();
+    FigureMetaInfo GetMetaInfo() const;
     void Transform(const TransformMatrix& transformMatrix);
 
 private:

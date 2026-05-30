@@ -7,7 +7,8 @@
 #include <core/RendererFacade.h>
 
 #define ROTATIONANGLE 0.05
-#define STEP 0.2
+#define STEP 2
+#define PADD 30
 
 class QtDrawerWidget: public QWidget {
 public:
@@ -20,6 +21,7 @@ public:
     void ScaleScene (double a, double b, double c);
 
     void paintEvent(QPaintEvent* event) override;
+    NormalizationParameters GetNormalizationParameters();
 
 private:
     std::unique_ptr<RendererFacade> _renderer;

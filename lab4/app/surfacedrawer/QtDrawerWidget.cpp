@@ -10,6 +10,11 @@ QtDrawerWidget::QtDrawerWidget(std::unique_ptr<IFileReader> fileReader)
     _renderer = std::make_unique<RendererFacade>(
         std::move(fileReader), std::move(drawer)
         );
+
+    QTimer *timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, QOverload<>::of(&QtDrawerWidget::update));
+
+    timer->start(1);
 }
 
 void QtDrawerWidget::UnloadScene()
@@ -47,5 +52,12 @@ void QtDrawerWidget::ScaleScene(double a, double b, double c)
 
 void QtDrawerWidget::paintEvent(QPaintEvent *event)
 {
-    _renderer->DrawScene();
+    FacadeResult res = _renderer->DrawScene();
+    if(!res)
+        throw std::runtime_error("Draw scene failed:" + res.GetErrorMessage());
+}
+
+NormalizationParameters QtDrawerWidget::GetNormalizationParameters()
+{
+    return _renderer->GetNormalizationParameters();
 }

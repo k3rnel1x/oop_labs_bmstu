@@ -24,7 +24,7 @@ public:
     void paintEvent(QPaintEvent* event) override
     {
         this->_drawer.DrawScene(_scene);
-        _scene.TransformFigures(TransformMatrixBuilder::CreateRotationMatrix(0, 0, 0.01));
+        // _scene.TransformFigures(TransformMatrixBuilder::CreateRotationMatrix(0, 0, 0.01));
         // _scene.TransformFigures(TransformMatrixBuilder::CreateScaleMatrix(1, 1, 1));
     }
 

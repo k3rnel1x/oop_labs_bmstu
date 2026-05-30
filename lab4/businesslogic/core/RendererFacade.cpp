@@ -1,5 +1,7 @@
 #include "RendererFacade.h"
 
+#include <iostream>
+
 FacadeResult RendererFacade::MoveScene(double x, double y, double z)
 {
     try
@@ -40,6 +42,11 @@ FacadeResult RendererFacade::ScaleScene(double a, double b, double c)
     return FacadeResult{};
 }
 
+NormalizationParameters RendererFacade::GetNormalizationParameters() const
+{
+    return _scene.GetNormalizationParams();
+}
+
 void RendererFacade::SetSceneDrawer(std::unique_ptr<ISceneDrawer> scene_drawer)
 {
     if (!scene_drawer)
@@ -64,7 +71,7 @@ FacadeResult RendererFacade::LoadScene(std::string path, NormalizationParameters
 {
     try
     {
-        _scene = _file_reader->ReadScene(path, nparams);
+        this->_scene = _file_reader->ReadScene(path, nparams);
     } catch (std::exception& e)
     {
         return FacadeResult{e.what()};
@@ -74,5 +81,5 @@ FacadeResult RendererFacade::LoadScene(std::string path, NormalizationParameters
 
 void RendererFacade::UnloadScene()
 {
-    _scene = Scene(std::vector<Figure>());
+    _scene = Scene(std::vector<Figure>(), NormalizationParameters{});
 }

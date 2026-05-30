@@ -4,7 +4,7 @@
 class FacadeResult {
 public:
     FacadeResult() = default;
-    explicit FacadeResult(const char* errorMessage): _errorMessage(errorMessage) {};
+    FacadeResult(const char* errorMessage): _errorMessage(errorMessage) {};
     std::string GetErrorMessage();
     explicit operator bool();
     inline bool IsSucceed();

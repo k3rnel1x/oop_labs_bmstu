@@ -8,7 +8,7 @@ Figure::Figure(std::vector<Vertex>&& vertices, std::vector<Edge>&& edges)
     _calculateMetaInfo();
 }
 
-std::vector<Vertex> Figure::GetVertices()
+std::vector<Vertex> Figure::GetVertices() const
 {
     return this->_vertices;
 }
@@ -23,12 +23,12 @@ void Figure::SetEdges(const std::vector<Edge>& edges)
     this->_edges = std::vector(edges);
 }
 
-Figure::FigureMetaInfo Figure::GetMetaInfo()
+Figure::FigureMetaInfo Figure::GetMetaInfo() const
 {
     return this->_metaInfo;
 }
 
-std::vector<Edge> Figure::GetEdges()
+std::vector<Edge> Figure::GetEdges() const
 {
     return _edges;
 }

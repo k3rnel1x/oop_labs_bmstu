@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <qfileinfo.h>
 #include <QStateMachine>
 #include <QMainWindow>
 
@@ -21,19 +22,29 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
 
-    QState* idleState;
-    QState* configureRenderState;
+
 public slots:
     void on_loadDataButton_clicked();
     void onFileOpenFailed();
-    // void on_renderButton_clicked();
+    void onFileOpenSucceed(QString filename);
+    void on_stepSlider_valueChanged();
+    void on_spinboxes_valueChanged();
+    void on_renderButton_clicked();
 
 signals:
     void fileOpenFinished();
-    void fileOpenSucceed();
+    void fileOpenSucceed(QString filename);
     void fileOpenFailed();
+    void renderSucceed();
 
 private:
+
+    void keyPressEvent(QKeyEvent* event);
+
+    QFileInfo fileinfo;
+    QState* idleState;
+    QState* configureRenderState;
+    QState* renderingState;
     QStateMachine* machine;
     Ui::MainWindow* ui;
     QtDrawerWidget renderer;

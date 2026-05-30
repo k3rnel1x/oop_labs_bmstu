@@ -66,7 +66,7 @@ Scene ObjFileReader::ReadScene(std::string path, NormalizationParameters nparams
 
     Figure figure(std::move(vertices), std::move(edges));
     vector figures{figure};
-    Scene scene{std::move(figures)};
+    Scene scene{std::move(figures), std::move(nparams)};
     return scene;
 }
 

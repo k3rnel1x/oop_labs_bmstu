@@ -11,6 +11,11 @@ std::vector<Figure> Scene::GetFigures() const
     return _figures;
 }
 
+NormalizationParameters Scene::GetNormalizationParams() const
+{
+    return _nparams;
+}
+
 void Scene::SetFigures(const std::vector<Figure>& figures)
 {
     this->_figures = std::vector(figures);

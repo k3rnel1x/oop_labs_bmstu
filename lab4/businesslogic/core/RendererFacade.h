@@ -24,6 +24,8 @@ public:
     FacadeResult RotateScene(double alpha, double beta, double gamma);
     FacadeResult ScaleScene (double a, double b, double c);
 
+    NormalizationParameters GetNormalizationParameters() const;
+
 private:
     /* data */
     TransformMatrixBuilder matrixBuilder;

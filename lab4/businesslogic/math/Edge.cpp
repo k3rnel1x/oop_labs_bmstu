@@ -1,11 +1,11 @@
 #include "Edge.h"
 
-Vertex Edge::GetBegin()
+Vertex Edge::GetBegin() const
 {
     return _begin;
 }
 
-Vertex Edge::GetEnd()
+Vertex Edge::GetEnd() const
 {
     return _end;
 }
