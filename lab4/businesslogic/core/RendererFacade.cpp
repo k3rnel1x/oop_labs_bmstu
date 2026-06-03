@@ -8,10 +8,15 @@ FacadeResult RendererFacade::MoveScene(double x, double y, double z)
     {
         TransformMatrix matrix = matrixBuilder.CreateMoveMatrix(x, y, z);
         _scene.TransformFigures(matrix);
+
     } catch (std::exception& e)
     {
         return FacadeResult{e.what()};
+    } catch (std::runtime_error& e)
+    {
+        return FacadeResult{e.what()};
     }
+
     return FacadeResult{};
 }
 

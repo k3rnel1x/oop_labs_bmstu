@@ -156,57 +156,61 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
 
     // renderer.RotateScene(ROTATIONANGLE, ROTATIONANGLE,ROTATIONANGLE);
     // renderer.MoveScene(scaledStep, scaledStep, scaledStep);
-
-    switch (event->key())
+    try
     {
-        case Qt::Key_J:
-            renderer.RotateScene(0, ROTATIONANGLE,0);
-            break;
+        switch (event->key())
+        {
+            case Qt::Key_J:
+                renderer.RotateScene(0, ROTATIONANGLE,0);
+                break;
 
-        case Qt::Key_L:
-            renderer.RotateScene(0, -ROTATIONANGLE,0);
-            break;
+            case Qt::Key_L:
+                renderer.RotateScene(0, -ROTATIONANGLE,0);
+                break;
 
-        case Qt::Key_K:
-            renderer.RotateScene(-ROTATIONANGLE, 0,0);
-            break;
+            case Qt::Key_K:
+                renderer.RotateScene(-ROTATIONANGLE, 0,0);
+                break;
 
-        case Qt::Key_I:
-            renderer.RotateScene(ROTATIONANGLE, 0,0);
-            break;
+            case Qt::Key_I:
+                renderer.RotateScene(ROTATIONANGLE, 0,0);
+                break;
 
-        case Qt::Key_M:
-            renderer.RotateScene(0, 0,ROTATIONANGLE);
-            break;
+            case Qt::Key_M:
+                renderer.RotateScene(0, 0,ROTATIONANGLE);
+                break;
 
-        case Qt::Key_N:
-            renderer.RotateScene(0, 0,-ROTATIONANGLE);
-            break;
+            case Qt::Key_N:
+                renderer.RotateScene(0, 0,-ROTATIONANGLE);
+                break;
 
-        case Qt::Key_W:
-            renderer.MoveScene(0, -scaledStep,0);
-            break;
+            case Qt::Key_W:
+                renderer.MoveScene(0, -scaledStep,0);
+                break;
 
-        case Qt::Key_S:
-            renderer.MoveScene(0, scaledStep,0);
-            break;
+            case Qt::Key_S:
+                renderer.MoveScene(0, scaledStep,0);
+                break;
 
-        case Qt::Key_D:
-            renderer.MoveScene(-scaledStep, 0,0);
-            break;
+            case Qt::Key_D:
+                renderer.MoveScene(-scaledStep, 0,0);
+                break;
 
-        case Qt::Key_A:
-            renderer.MoveScene(scaledStep, 0,0);
-            break;
+            case Qt::Key_A:
+                renderer.MoveScene(scaledStep, 0,0);
+                break;
 
-        case Qt::Key_Z:
-            renderer.MoveScene(0, 0,scaledStep);
-            break;
+            case Qt::Key_Z:
+                renderer.MoveScene(0, 0,scaledStep);
+                break;
 
-        case Qt::Key_X:
-            renderer.MoveScene(0, 0, -scaledStep);
-            break;
+            case Qt::Key_X:
+                renderer.MoveScene(0, 0, -scaledStep);
+                break;
+        }
+    } catch(std::exception& e)
+    {
+        QMessageBox::critical(nullptr, "Error", e.what());
     }
-
     // emit renderSucceed();
 }

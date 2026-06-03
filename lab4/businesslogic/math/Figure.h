@@ -29,5 +29,5 @@ private:
     std::vector<Edge>   _edges;
 
     FigureMetaInfo _metaInfo;
-    void _calculateMetaInfo();
+    void _calculateMetaInfo(const std::vector<Vertex>& vertices);
 };

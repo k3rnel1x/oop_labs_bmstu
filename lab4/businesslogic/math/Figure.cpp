@@ -5,7 +5,7 @@
 Figure::Figure(std::vector<Vertex>&& vertices, std::vector<Edge>&& edges)
     : _vertices(vertices), _edges(edges)
 {
-    _calculateMetaInfo();
+    _calculateMetaInfo(_vertices);
 }
 
 std::vector<Vertex> Figure::GetVertices() const
@@ -39,17 +39,17 @@ void Figure::Transform(const TransformMatrix& transformMatrix)
         vertex.Transform(transformMatrix);
 }
 
-void Figure::_calculateMetaInfo()
+void Figure::_calculateMetaInfo(const std::vector<Vertex>& vertices)
 {
-    if (!_vertices.size())
+    if (!vertices.size())
         return;
 
     // Fill FigureMetaInfo
-    Point3D first = _vertices[0].GetPosition();
+    Point3D first = vertices[0].GetPosition();
     double yMax = first.y, yMin = first.y;
     double xMax = first.x, xMin = first.x;
     double zMax = first.z, zMin = first.z;
-    for (const auto& v : _vertices) {
+    for (const auto& v : vertices) {
         Point3D p = v.GetPosition();
         if (zMax < p.z) zMax = p.z;
         if (yMax < p.y) yMax = p.y;
