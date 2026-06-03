@@ -30,5 +30,5 @@ private:
     ControllerState _state = FREE;
     std::deque<size_t> _queue;
     size_t _targetFloor;
-    size_t _cabineFloor{};
+    size_t _cabineFloor{1};
 };

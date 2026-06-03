@@ -8,6 +8,7 @@ void Controller::start()
     {
         if (_cabineFloor == _queue.front())
         {
+            _queue.pop_front();
             cabineArrivedOnFloor(_cabineFloor);
             return;
         }
@@ -60,27 +61,21 @@ void Controller::setCabineFloor(size_t floor)
 
 void Controller::addTarget(size_t floor)
 {
-    std::cout << "Added target: " << floor << std::endl;
-    // std::stack<size_t> stack;
-    // while (!_queue.empty() && _queue.front() > floor)
-    // {
-    //     stack.push(_queue.front());
-    //     _queue.pop_front();
-    // }
+    bool isExist = std::find(_queue.begin(), _queue.end(), floor) != _queue.end();
+    if (isExist)
+        return;
 
     _queue.push_back(floor);
-    //
-    // while (!stack.empty())
-    // {
-    //     _queue.push_front(stack.top());
-    //     stack.pop();
-    // }
+
+    std::cout << "Added target: " << floor << std::endl;
 
     std::sort(_queue.begin(), _queue.end());
     std::cout << "Queue: ";
     for (auto uint : _queue)
         std::cout << uint << ' ';
     std::cout << std::endl;
+
+    emit start();
 }
 
 size_t Controller::_getClosestTarget()

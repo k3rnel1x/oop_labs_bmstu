@@ -13,7 +13,11 @@ Elevator::Elevator()
     connect(&_cabine, &Cabine::arrivedOnFloor, &_controller, &Controller::cabineArrivedOnFloor);
     connect(&_cabine, &Cabine::arrivedOnFloor, &_controller, &Controller::setCabineFloor);
 
-    connect(this, &Elevator::call, &_controller, &Controller::addTarget);
-    connect(this, &Elevator::call, &_controller, &Controller::start);
+    connect(this, &Elevator::_call, &_controller, &Controller::addTarget);
+    // connect(this, &Elevator::_call, &_controller, &Controller::start);
 }
 
+void Elevator::call(size_t floor)
+{
+    emit _call(floor);
+}
