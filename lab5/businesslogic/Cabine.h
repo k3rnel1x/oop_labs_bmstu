@@ -2,7 +2,7 @@
 #include <QObject>
 #include <QTimer>
 #include "Doors.h"
-#define INITFLOOR 0
+#define INITFLOOR 1
 #define MSECMOVING 2000
 
 class Cabine : public QObject {
@@ -32,16 +32,16 @@ signals:
     void closeDoor();
     void openDoor();
 
-    void arrivedOnFloor(size_t floor);
-    void cabineOnFloor(size_t floor);
+    void arrivedOnFloor(int floor);
+    void cabineOnFloor(int floor);
     void lockingDoors();
     void goMove();
-    void arrived(size_t floor);
+    void arrived(int floor);
 
 private:
     CabineState _state = ARRIVED;
     Doors _doors;
-    size_t _currentFloor = INITFLOOR;
-    size_t _targetFloor;
+    int _currentFloor = INITFLOOR;
+    int _targetFloor;
     int _direction;
 };

@@ -1,10 +1,12 @@
 #include "Cabine.h"
 
 #include <iostream>
+#include <QDebug>
 
 
 Cabine::Cabine()
 {
+    qDebug() << "Cabine arrived on floor 1";
     connect(this, &Cabine::closeDoor, &_doors, &Doors::closeDoors);
     connect(&_doors, &Doors::closed, this, &Cabine::doorsClosed);
 
@@ -36,6 +38,18 @@ void Cabine::goDown()
     if (_state == MOVING)
         return;
 
+    if (_currentFloor < 2)
+    {
+        emit cabineOnFloor(_currentFloor);
+        return;
+    }
+
+    if (_state == STATEONFLOOR)
+    {
+        cabineMoving();
+        return;
+    }
+
     _direction = -1;
     emit closeDoor();
 }
@@ -44,8 +58,8 @@ void Cabine::goDown()
 void Cabine::doorsClosed()
 {
     std::cout << "Doors closed" << std::endl;
-    emit goMove();
     _state = MOVING;
+    emit goMove();
 }
 
 // Cabine::goMove()

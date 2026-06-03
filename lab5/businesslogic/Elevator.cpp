@@ -17,7 +17,8 @@ Elevator::Elevator()
     // connect(this, &Elevator::_call, &_controller, &Controller::start);
 }
 
-void Elevator::call(size_t floor)
+void Elevator::call(int floor)
 {
-    emit _call(floor);
+    if (1 <= floor && floor <= FLOORSCOUNT)
+        emit _call(floor);
 }

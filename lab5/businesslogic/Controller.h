@@ -1,7 +1,6 @@
 #pragma once
 #include <QObject>
 #include <QDebug>
-#include <queue>
 
 class Controller : public QObject {
 Q_OBJECT
@@ -18,17 +17,17 @@ signals:
 
 public slots:
     void start();
-    void cabineArrivedOnFloor(size_t floor);
-    void cabineOnFloor(size_t floor);
-    void setCabineFloor(size_t floor);
+    void cabineArrivedOnFloor(int floor);
+    void cabineOnFloor(int floor);
+    void setCabineFloor(int floor);
 
-    void addTarget(size_t floor);
+    void addTarget(int floor);
 
 private:
-    size_t _getClosestTarget();
-    int _getDirection();
+    int _getClosestTarget();
+    int direction = 1;
     ControllerState _state = FREE;
-    std::deque<size_t> _queue;
-    size_t _targetFloor;
-    size_t _cabineFloor{1};
+    std::deque<int> _queue;
+    int _targetFloor{1};
+    int _cabineFloor{1};
 };

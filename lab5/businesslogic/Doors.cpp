@@ -5,7 +5,7 @@
 // Cabine::closeDoor()
 void Doors::closeDoors()
 {
-    QTimer::singleShot(1000, this, &Doors::doorsClosed);
+    QTimer::singleShot(DOORSTIME, this, &Doors::doorsClosed);
 }
 // QTimer
 void Doors::doorsClosed()
@@ -16,7 +16,7 @@ void Doors::doorsClosed()
 // Cabine::openDoor()
 void Doors::openDoors()
 {
-    QTimer::singleShot(1000, this, &Doors::doorsOpened);
+    QTimer::singleShot(DOORSTIME, this, &Doors::doorsOpened);
 }
 // QTimer
 void Doors::doorsOpened()

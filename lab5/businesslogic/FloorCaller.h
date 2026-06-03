@@ -5,5 +5,5 @@ class FloorCaller : public QObject {
 Q_OBJECT
 public:
 signals:
-    void call(size_t floor);
+    void call(int floor);
 };

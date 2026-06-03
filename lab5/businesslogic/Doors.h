@@ -1,6 +1,6 @@
 #pragma once
 #include <QObject>
-
+#define DOORSTIME 1000
 class Doors : public QObject {
 Q_OBJECT
 enum DoorsState {
