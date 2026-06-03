@@ -20,6 +20,12 @@ void Cabine::goUp()
     if (_state == MOVING)
         return;
 
+    if (_state == STATEONFLOOR)
+    {
+        cabineMoving();
+        return;
+    }
+
     _direction = 1;
     emit closeDoor();
 }
@@ -53,6 +59,7 @@ void Cabine::cabineMoving()
 // QTimer
 void Cabine::onFloor()
 {
+    _state = STATEONFLOOR;
     emit cabineOnFloor(_currentFloor);
 }
 
@@ -66,6 +73,6 @@ void Cabine::arriveCurr()
 void Cabine::doorsOpened()
 {
     std::cout << "Doors opened" << std::endl;
-    _state = IDLE;
+    _state = ARRIVED;
     emit arrivedOnFloor(_currentFloor);
 }

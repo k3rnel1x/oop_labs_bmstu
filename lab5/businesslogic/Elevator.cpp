@@ -11,7 +11,9 @@ Elevator::Elevator()
 
     connect(&_cabine, &Cabine::cabineOnFloor, &_controller, &Controller::cabineOnFloor);
     connect(&_cabine, &Cabine::arrivedOnFloor, &_controller, &Controller::cabineArrivedOnFloor);
+    connect(&_cabine, &Cabine::arrivedOnFloor, &_controller, &Controller::setCabineFloor);
 
     connect(this, &Elevator::call, &_controller, &Controller::addTarget);
+    connect(this, &Elevator::call, &_controller, &Controller::start);
 }
 

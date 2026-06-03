@@ -8,8 +8,9 @@
 class Cabine : public QObject {
     Q_OBJECT
 enum CabineState {
+    ARRIVED,
+    STATEONFLOOR,
     MOVING,
-    IDLE,
     // LOCKED,
     // UNLOCKED
 };
@@ -38,7 +39,7 @@ signals:
     void arrived(size_t floor);
 
 private:
-    CabineState _state = IDLE;
+    CabineState _state = ARRIVED;
     Doors _doors;
     size_t _currentFloor = INITFLOOR;
     size_t _targetFloor;
