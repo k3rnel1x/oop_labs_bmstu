@@ -22,8 +22,7 @@ MultiWindowElevator::MultiWindowElevator(int floors)
     this->floors = new FloorsWidgets(floors, floorStep, GAPP, width/10 + 200 );
 
     QButtonGroup* group = this->floors->getFloorsButtonsGroup();
-    connect(group, );
-
+    connect(group, &QButtonGroup::idClicked, this->elevator, &Elevator::callFloorSlot);
 }
 
 MultiWindowElevator::~MultiWindowElevator()

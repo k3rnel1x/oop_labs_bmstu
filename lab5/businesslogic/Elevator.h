@@ -14,6 +14,9 @@ public:
     void call(int floor);
     Cabine _cabine;
     Controller _controller;
+public slots:
+    void callFloorSlot(int floor);
+
 signals:
     void _call(int floor);
 

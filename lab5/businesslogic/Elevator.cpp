@@ -24,3 +24,8 @@ void Elevator::call(int floor)
     if (1 <= floor && floor <= floorsCount)
         emit _call(floor);
 }
+
+void Elevator::callFloorSlot(int floor)
+{
+    call (floor);
+}
