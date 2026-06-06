@@ -30,6 +30,6 @@ private:
     int direction = 1;
     ControllerState _state = FREE;
     std::deque<int> _queue;
-    int _targetFloor{1};
-    int _cabineFloor{1};
+    int _targetFloor { 1 };
+    int _cabineFloor { 1 };
 };
