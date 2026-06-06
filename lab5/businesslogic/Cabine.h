@@ -17,6 +17,9 @@ enum CabineState {
 
 public:
     Cabine();
+    Doors* getDoors() { return &_doors; }
+    int getDirection() { return _direction; }
+    int getCurrentFloor() { return _currentFloor; }
 
 public slots:
     void goUp();
@@ -37,6 +40,8 @@ signals:
     void lockingDoors();
     void goMove();
     void arrived(int floor);
+
+    void startMoving(int direction);
 
 private:
     CabineState _state = ARRIVED;

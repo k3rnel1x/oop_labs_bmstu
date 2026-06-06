@@ -67,6 +67,7 @@ void Cabine::cabineMoving()
 {
     std::cout << "Cabine moving" << std::endl;
     _currentFloor += _direction;
+    emit startMoving(_direction);
     QTimer::singleShot(MSECMOVING, this, &Cabine::onFloor);
 }
 

@@ -3,12 +3,13 @@
 
 #include "Cabine.h"
 #include "Controller.h"
-#define FLOORSCOUNT 5
 
 class Elevator : public QObject {
 Q_OBJECT
 public:
-    Elevator();
+    Elevator(int floors);
+    Cabine* getCabine() { return &_cabine; };
+    int getFloorsCount() { return floorsCount; };
 
     void call(int floor);
     Cabine _cabine;
@@ -16,6 +17,6 @@ public:
 signals:
     void _call(int floor);
 
+private:
+    int floorsCount;
 };
-
-

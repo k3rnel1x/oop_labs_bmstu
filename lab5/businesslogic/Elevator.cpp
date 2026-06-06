@@ -3,8 +3,10 @@
 //
 
 #include "Elevator.h"
-Elevator::Elevator()
+Elevator::Elevator(int floors)
 {
+    this->floorsCount = floors;
+
     connect(&_controller, &Controller::goUp, &_cabine, &Cabine::goUp);
     connect(&_controller, &Controller::goDown, &_cabine, &Cabine::goDown);
     connect(&_controller, &Controller::arrive, &_cabine, &Cabine::arriveCurr);
@@ -19,6 +21,6 @@ Elevator::Elevator()
 
 void Elevator::call(int floor)
 {
-    if (1 <= floor && floor <= FLOORSCOUNT)
+    if (1 <= floor && floor <= floorsCount)
         emit _call(floor);
 }
