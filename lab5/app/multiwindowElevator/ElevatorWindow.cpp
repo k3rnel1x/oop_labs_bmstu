@@ -18,11 +18,10 @@ ElevatorWindow::ElevatorWindow(Elevator& elevator) :
     floorIndicator = new QLabel { "1" };
     verticalLayout->addWidget(floorIndicator);
 
-    int buttonId = 0;
-    for (int n = 1; n <= elevator.getFloorsCount(); ++n)
+    for (int n = elevator.getFloorsCount(); n >= 1; --n)
     {
         QPushButton* button = new QPushButton { QString::number(n) };
-        floorsButtons->addButton(button, buttonId++);
+        floorsButtons->addButton(button, n-1);
         button->setSizePolicy(policy);
         verticalLayout->addWidget(button);
     }
@@ -42,11 +41,12 @@ ElevatorWindow::ElevatorWindow(Elevator& elevator) :
     this->screenWidth = screenGeometry.width();
     this->screenHeight = screenGeometry.height();
 
-    floorStep = screenHeight/(elevator.getFloorsCount()+1);
+    floorStep = screenHeight / (elevator.getFloorsCount()+1);
+    this->setFixedSize(200, floorStep + 50);
 
     x = screenWidth/10;
-    y = screenHeight/150;
-    this->move(x, floorStep);
+    y = screenHeight - floorStep - this->height() / 2;
+    this->move(x, y);
     speed = (MSECMOVING-DOORSTIME) / floorStep * 2;
 
     updateCabinePosTimer = new QTimer{};
@@ -59,8 +59,6 @@ ElevatorWindow::ElevatorWindow(Elevator& elevator) :
     // floors = new FloorsWidgets{elevator.getFloorsCount(), floorStep, 150, GAPP, 350};
     setWindowFlags(windowFlags() | Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint
                           | Qt::WindowTitleHint);
-
-    this->setFixedSize(200, floorStep + 50);
 
 }
 
@@ -108,7 +106,7 @@ void ElevatorWindow::processArrive(int floor)
 {
     updateCabinePosTimer->stop();
 
-    y = floorStep*(floor-1) + GAPP;
+    y = screenHeight - this->height()/2 - floorStep*(floor) - GAPP;
     this->move(x, y);
 
     QTimer::singleShot(DOORSTIME, this, [this]() {
@@ -134,6 +132,6 @@ void ElevatorWindow::startDoorsClosing()
 
 void ElevatorWindow::startMoving(int direction)
 {
-    this->direction = direction;
+    this->direction = -direction;
     updateCabinePosTimer->start(speed);
 }

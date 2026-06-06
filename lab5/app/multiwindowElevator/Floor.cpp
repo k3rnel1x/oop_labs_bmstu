@@ -6,6 +6,29 @@
 
 #include <QVBoxLayout>
 
+Floor::Floor(int floor, int step, int gapsY, int gapsX)
+{
+    this->resize(400, 20);
+    this->setFixedSize(400, 20);
+    QScreen* screen = QGuiApplication::primaryScreen();
+    QRect screenGeometry = screen->geometry();
+    int screenHeight = screenGeometry.height();
+
+    x = gapsX;
+    y = screenHeight - floor*step + gapsY + this->height();
+    QLabel* label = new QLabel { QString::number(floor)};
+
+    QLayout* layout = new QHBoxLayout{this};
+    layout->addWidget(label);
+    layout->setContentsMargins(10, 5, 10, 5);
+
+    setWindowFlags(windowFlags() | Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint
+                   | Qt::WindowTitleHint);
+
+    button = new FloorButton { floor, this->x, this->y - step + 50 };
+    button->show();
+}
+
 Floor::FloorButton::FloorButton(int floor, int x, int y)
 {
     this->setText(QString::number(floor));
@@ -27,26 +50,6 @@ void Floor::FloorButton::moveEvent(QMoveEvent *event)
     QPushButton::moveEvent(event);
     QWidget::moveEvent(event);
     this->move(x, y);
-}
-
-Floor::Floor(int floor, int step, int gapsY, int gapsX)
-{
-    this->resize(400, 20);
-    this->setFixedSize(400, 20);
-
-    x = gapsX;
-    y = floor*step + gapsY + this->height();
-    QLabel* label = new QLabel { QString::number(floor)};
-
-    QLayout* layout = new QHBoxLayout{this};
-    layout->addWidget(label);
-    layout->setContentsMargins(10, 5, 10, 5);
-
-    setWindowFlags(windowFlags() | Qt::CustomizeWindowHint | Qt::WindowCloseButtonHint
-                   | Qt::WindowTitleHint);
-
-    button = new FloorButton { floor, this->x, this->y - step + 50 };
-    button->show();
 }
 
 void Floor::closeEvent(QCloseEvent* event)

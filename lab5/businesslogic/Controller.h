@@ -2,6 +2,8 @@
 #include <QObject>
 #include <QDebug>
 
+#define CABINEWAITMSEC 2000
+
 class Controller : public QObject {
 Q_OBJECT
 

@@ -1,6 +1,7 @@
 #include "Controller.h"
 #include <iostream>
 #include <algorithm>
+#include <QTimer>
 
 void Controller::start()
 {
@@ -34,8 +35,9 @@ void Controller::start()
 // Cabine::arrivedOnFloor(int floor)
 void Controller::cabineArrivedOnFloor(int floor)
 {
-    std::erase(_queue, floor);
     qDebug("Cabine arrived on floor %i", floor);
+
+    std::erase(_queue, floor);
     qDebug("Queue: ");
     for (auto uint : _queue)
         qDebug("%i ", uint);
@@ -47,8 +49,16 @@ void Controller::cabineArrivedOnFloor(int floor)
         qDebug() << "Queue is empty";
 #endif
         _state = FREE;
+
+        if (_cabineFloor)
+        {
+            QTimer::singleShot(CABINEWAITMSEC, this, [&]() {
+                this->addTarget(1);
+            });
+        }
         return;
     }
+
 
     _targetFloor = _getClosestTarget();
 #ifdef LOGGER
@@ -61,10 +71,13 @@ void Controller::cabineArrivedOnFloor(int floor)
     }
 
     direction = int(_targetFloor) - int(_cabineFloor) > 0? 1 : -1;
-    if (direction > 0)
-        emit goUp();
-    else
-        emit goDown();
+
+    QTimer::singleShot(CABINEWAITMSEC, this, [&]() {
+        if (direction > 0)
+            emit goUp();
+        else
+            emit goDown();
+    });
 }
 
 // Cabine::cabineOnFloor(int floor)
@@ -82,6 +95,7 @@ void Controller::cabineOnFloor(int floor)
         std::cout << "Deleting from queue " << floor << std::endl;
 #endif
         // std::erase(_queue, floor);
+
         emit arrive();
         return;
     }
